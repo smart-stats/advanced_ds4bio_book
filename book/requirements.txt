@@ -1,0 +1,12 @@
+jupyter-book
+matplotlib
+numpy
+pandas
+sklearn
+seaborn
+scipy
+PIL
+urllib
+networkx
+torch
+torchvision
