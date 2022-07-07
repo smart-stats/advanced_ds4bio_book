@@ -1,0 +1,22 @@
+project:
+  type: book
+
+book:
+  title: "qbook"
+  author: "Brian Caffo"
+  date: "7/7/2022"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

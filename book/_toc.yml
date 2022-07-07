@@ -2,3 +2,9 @@ format: jb-book
 root: intro.md
 chapters: 
 - file: introduction.ipynb
+- file: graphics.ipynb
+- file: interactive.ipynb
+- file: webscraping.ipynb
+- file: hdf5.ipynb
+- file: sql.ipynb
+- file: data_structures.ipynb
