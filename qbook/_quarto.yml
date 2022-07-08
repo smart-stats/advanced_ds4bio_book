@@ -8,6 +8,10 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - graphics.qmd
+    - interactive.qmd
+    - webscraping.qmd
+    - databases.qmd
     - references.qmd
 
 bibliography: references.bib
