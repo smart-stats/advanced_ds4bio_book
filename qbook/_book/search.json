@@ -12,5 +12,19 @@
     "title": "1  Introduction",
     "section": "",
     "text": "This is a book for the Advanced Data Science for Bio/Public Health/medical classes.\n\n\nPrior programming experience, calculus, linear algebra, unix, python, R."
+  },
+  {
+    "objectID": "graphics.html",
+    "href": "graphics.html",
+    "title": "2  Theory of grahpical display",
+    "section": "",
+    "text": "Carswell, C Melody. 1992. “Choosing Specifiers: An Evaluation of the Basic Tasks Model of Graphical Perception.” Human Factors 34 (5): 535–54.\n\n\nCleveland, William S. 1987. “Research in Statistical Graphics.” Journal of the American Statistical Association 82 (398): 419–23.\n\n\nCleveland, William S, and Susan J Devlin. 1980. “Calendar Effects in Monthly Time Series: Detection by Spectrum Analysis and Graphical Methods.” Journal of the American Statistical Association 75 (371): 487–96.\n\n\nCleveland, William S, and Robert McGill. 1984. “The Many Faces of a Scatterplot.” Journal of the American Statistical Association 79 (388): 807–22.\n\n\n———. 1986. “An Experiment in Graphical Perception.” International Journal of Man-Machine Studies 25 (5): 491–500."
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Carswell, C Melody. 1992. “Choosing Specifiers: An Evaluation of\nthe Basic Tasks Model of Graphical Perception.” Human\nFactors 34 (5): 535–54.\n\n\nCleveland, William S. 1987. “Research in Statistical\nGraphics.” Journal of the American Statistical\nAssociation 82 (398): 419–23.\n\n\nCleveland, William S, and Susan J Devlin. 1980. “Calendar Effects\nin Monthly Time Series: Detection by Spectrum Analysis and Graphical\nMethods.” Journal of the American Statistical\nAssociation 75 (371): 487–96.\n\n\nCleveland, William S, and Robert McGill. 1984. “The Many Faces of\na Scatterplot.” Journal of the American Statistical\nAssociation 79 (388): 807–22.\n\n\n———. 1986. “An Experiment in Graphical Perception.”\nInternational Journal of Man-Machine Studies 25 (5): 491–500."
   }
 ]
