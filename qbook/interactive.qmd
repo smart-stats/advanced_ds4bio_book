@@ -96,15 +96,31 @@ The output looks like this. Hoover over a bar to test.
 ```{=html}
 <iframe width="780" height="200" src="d3/roi1.html" title="Output"></iframe>
 ```
-Observerable is a notebook for working with d3. It's quite neat since mixing javascript coding in a web notebook, which itself is written in javascript, makes for an interesting setup. Typically, one would do the data preprocessing in R, python, julia ... then do the advanced graphing in d3. Quarto allows us to mix different plotting libraries including both d3 and observable. So, let's read in the ROI data and plot it in d3.   
-```{python}
-import pandas as pd
-dat = pd.read_csv("assets/kirby21.csv")
-avgdat = dat.groupby(['roi'])['volume'].mean().reset_index()
-avgdat.write_csv("assets/kirby_avg.csv")
-ojs_define(data = avgdat)
-```
+
+
+## Observable and Observable Plot
+Observerable is a notebook for working with d3. It's quite neat since mixing javascript coding in a web notebook, which itself is written in javascript, makes for an interesting setup. Typically, one would do the data preprocessing in R, python, julia ... then do the advanced graphing in d3.  In addition to accepting d3 as inputs, observable has a slightly higher set of utility functions called observable plot. We'll use observerable from here on out so we don't have to keep creating a web page. (Quarto, which this document is in, allows for observable cells.)
+
+So, let's read in some ROI data and plot it in d3. Note this is the average of the Type I Level I ROIs. 
 
 ```{ojs}
+data = FileAttachment("assets/kirby_avg.csv").csv();
+Plot.plot({
+marks: [Plot.barY(data, {x: "roi", y: "volume", fill : 'roi'})],
+    x: {tickRotate: 45},
+    color: {scheme: "spectral"},    
+    height: 400,
+    width: 400,
+    marginBottom: 100
 
+})
 ```
+
+Now let's do some more raw d3 coding. Let's do a scatterplot of the left and right brain hemispheric data.
+
+```{ojs}
+```
+
+
+## Links
++ [Observable is not javascript](https://observablehq.com/@observablehq/observables-not-javascript)

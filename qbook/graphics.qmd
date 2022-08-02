@@ -3,11 +3,28 @@ title: "Theory of grahpical display"
 format: html
 ---
 
+## Graphical design arguments 
++ Data/ink maximalization @tufte1990data
++ @bertin1983semiology
+
 ## Theory of graphics
 
-+ Cleveland article 1 @cleveland1987research
-+ Cleveland article 2 @cleveland1984many
-+ Cleveland article 3 @cleveland1980calendar
-+ Cleveland article 4 @carswell1992choosing
-+ Cleveland article 5 @cleveland1986experiment
++ @cleveland1987research
++ @cleveland1984many
++ @cleveland1980calendar
++ @carswell1992choosing
++ @cleveland1986experiment
++ Magical thinking @diaconis2006theories
+
+## Grammar of graphics
++ @wilkinson2012grammar
++ @wilkinson2013grammar
++ @wickham2010layered
+
+## Graphical critique
++ @wickham2010graphical
+
+## Historical graphics
+
+## Graph galleries
 
