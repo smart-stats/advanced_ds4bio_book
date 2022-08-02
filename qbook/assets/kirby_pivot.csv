@@ -1,6 +1,4 @@
-,volume,volume,volume,volume,volume,volume,volume,volume
-roi,CSF,Diencephalon_L,Diencephalon_R,Mesencephalon,Metencephalon,Myelencephalon,Telencephalon_L,Telencephalon_R
-id,,,,,,,,
+id,CSF,Diencephalon_L,Diencephalon_R,Mesencephalon,Metencephalon,Myelencephalon,Telencephalon_L,Telencephalon_R
 127,109776,9683,9678,10268,159402,4973,531111,543404
 142,107334,9156,9071,10516,165803,4912,545603,552216
 239,94254,8937,9004,9070,124504,4023,483107,490805
