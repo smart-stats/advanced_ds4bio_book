@@ -3,8 +3,11 @@ title: "Theory of grahpical display"
 format: html
 ---
 
+## Theory of graphics
+
 + Cleveland article 1 @cleveland1987research
 + Cleveland article 2 @cleveland1984many
 + Cleveland article 3 @cleveland1980calendar
 + Cleveland article 4 @carswell1992choosing
 + Cleveland article 5 @cleveland1986experiment
+

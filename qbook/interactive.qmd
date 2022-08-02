@@ -2,4 +2,109 @@
 title: "Interactive graphics"
 format: html
 ---
+In your other DS courses, you've learned how to create static graphics uses R, ggplot, matplotlib, seaborn ... You've probably also learned how to create client side interactive graphics using libraries like plotly and maybe also learned client-server interactivity with shiny, dash ... 
 
+In this section we're going to dig deeper into client side graphics, which are almost always done via html, css, javascript and a javascript plotting library. We're going to focus on d3.js, a well known javascript library for creating interactive data visulalizations. A great D3 tutorial can be found [here](https://www.tutorialsteacher.com/d3js/select-dom-element-using-d3js).
+
+## Introduction to D3
+Let's get started. I'm going to assume that you have a basic knowledge of html, css and a little bit of javascript. D3 works by manipulating html elements. Let's select every paragraph element in a document.
+
+```{.html}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <p> Advanced </p>
+    <p> Data science </p> 
+        <script>
+            let pselect = d3.selectAll("p")
+            //let pselect = d3.select("p").style("color", "green");
+            //let pselect = d3.selectAll("p").style("color", "green");
+        </script>
+    </body>
+</html>
+```
+Going forward, we'll omit most of the html commands.
+
+
++ The command `<script src="https://d3js.org/d3.v5.min.js"></script>` loads d3 from a CDN. You could also download it locally if you'd like.
++ The script `let pselect = d3.selectAll("p").style("color", "green");` creates a variable `pselect` that is all of the html paragraph elements
++ Try doing this, loading the web page, then try uncommenting each other script line in turn and refreshing
++ In chrome do Ctrl-shift-i to get the developer console and inspect the variable pselect.
++ Nesting `select` or `selectAll` will select elements within the selected elements.
++ You can also select by id or class. 
+
+## A simple example
+
+Let's go through an example where we plot brain volumetric ROI data on the log scale using
+D3. 
+```{.html}
+<style>
+    .bar {
+        background: #f5b634;
+        border: 4px solid #0769ad;
+        height: 20px;
+    }
+</style>
+<body>
+        <script>
+            let roiData = [
+                {"roi": "Telencephalon_L", "volume" : 531111},
+                {"roi": "Telencephalon_R", "volume" : 543404},
+                {"roi": "Diencephalon_L",  "volume" : 9683  },
+                {"roi": "Diencephalon_R",  "volume" : 9678  },
+                {"roi": "Mesencephalon",   "volume" : 10268 },
+                {"roi": "Metencephalon",   "volume" : 159402},
+                {"roi": "Myelencephalon",  "volume" : 4973  },
+                {"roi": "CSF",             "volume" : 109776}
+            ];
+    
+            let divSelection = d3.select("body") 
+                    .selectAll("div")
+                    .data(roiData)
+                    .enter()
+                    .append('div')
+                    .attr("class", "bar")
+                    .style("width", (d) => {return Math.log(d.volume) * 20 + "px"; })
+                    .text(d => d.roi)
+                    .on("mouseover", function(){
+                        d3.select(this)
+                        .style("background-color", "orange");
+                    })
+                    .on("mouseout", function(){
+                        d3.select(this)
+                        .style("background-color","#33A2FF" )
+                    })        </script>
+    </body>
+```
++ The `data(roiDat)` selects our dataset
++ The `enter()` and `append('div')` commands add `div` elements to the html document, one per data element.
++ The `attr` method considers our `bar` stylesheet style
++ The `style` method changes the style so that the bars have the width of our data.
+The notation `(d) => {return d.volume * .001 + "px"}` is a function that selects the
+ROI element of the data, multiplies it by .001 then converts it to text with  `px` at the end.
++ The `text` method at the end appends the text to our plot
++ The `on` methods say what to do when one mouses over and off the bars. You can see now that
+they turn orange then back. Remove the mouseout `.on` call and see what happens.
+
+The output looks like this. Hoover over a bar to test.
+
+```{=html}
+<iframe width="780" height="200" src="d3/roi1.html" title="Output"></iframe>
+```
+Observerable is a notebook for working with d3. It's quite neat since mixing javascript coding in a web notebook, which itself is written in javascript, makes for an interesting setup. Typically, one would do the data preprocessing in R, python, julia ... then do the advanced graphing in d3. Quarto allows us to mix different plotting libraries including both d3 and observable. So, let's read in the ROI data and plot it in d3.   
+```{python}
+import pandas as pd
+dat = pd.read_csv("assets/kirby21.csv")
+avgdat = dat.groupby(['roi'])['volume'].mean().reset_index()
+avgdat.write_csv("assets/kirby_avg.csv")
+ojs_define(data = avgdat)
+```
+
+```{ojs}
+
+```

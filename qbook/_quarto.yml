@@ -2,7 +2,7 @@ project:
   type: book
 
 book:
-  title: "qbook"
+  title: "Advanced Data Science for Public Health"
   author: "Brian Caffo"
   date: "7/7/2022"
   chapters:

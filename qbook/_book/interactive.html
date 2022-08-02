@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qbook - 3&nbsp; Interactive graphics</title>
+<title>Advanced Data Science for Public Health - 3&nbsp; Interactive graphics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -15,6 +15,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -54,6 +117,9 @@ ul.task-list{list-style: none;}
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -77,7 +143,7 @@ ul.task-list{list-style: none;}
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">qbook</a> 
+      <a href="./">Advanced Data Science for Public Health</a> 
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -127,7 +193,14 @@ ul.task-list{list-style: none;}
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-d3" id="toc-introduction-to-d3" class="nav-link active" data-scroll-target="#introduction-to-d3"> <span class="header-section-number">3.1</span> Introduction to D3</a></li>
+  <li><a href="#a-simple-example" id="toc-a-simple-example" class="nav-link" data-scroll-target="#a-simple-example"> <span class="header-section-number">3.2</span> A simple example</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -150,8 +223,105 @@ ul.task-list{list-style: none;}
 
 </header>
 
+<p>In your other DS courses, you’ve learned how to create static graphics uses R, ggplot, matplotlib, seaborn … You’ve probably also learned how to create client side interactive graphics using libraries like plotly and maybe also learned client-server interactivity with shiny, dash …</p>
+<p>In this section we’re going to dig deeper into client side graphics, which are almost always done via html, css, javascript and a javascript plotting library. We’re going to focus on d3.js, a well known javascript library for creating interactive data visulalizations. A great D3 tutorial can be found <a href="https://www.tutorialsteacher.com/d3js/select-dom-element-using-d3js">here</a>.</p>
+<section id="introduction-to-d3" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction-to-d3"><span class="header-section-number">3.1</span> Introduction to D3</h2>
+<p>Let’s get started. I’m going to assume that you have a basic knowledge of html, css and a little bit of javascript. D3 works by manipulating html elements. Let’s select every paragraph element in a document.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">"en"</span><span class="kw">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">"https://d3js.org/d3.v5.min.js"</span><span class="kw">&gt;&lt;/script&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;p&gt;</span> Advanced <span class="kw">&lt;/p&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;p&gt;</span> Data science <span class="kw">&lt;/p&gt;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;script&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="kw">let</span> pselect <span class="op">=</span> d3<span class="op">.</span><span class="fu">selectAll</span>(<span class="st">"p"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="co">//let pselect = d3.select("p").style("color", "green");</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            <span class="co">//let pselect = d3.selectAll("p").style("color", "green");</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Going forward, we’ll omit most of the html commands.</p>
+<ul>
+<li>The command <code>&lt;script src="https://d3js.org/d3.v5.min.js"&gt;&lt;/script&gt;</code> loads d3 from a CDN. You could also download it locally if you’d like.</li>
+<li>The script <code>let pselect = d3.selectAll("p").style("color", "green");</code> creates a variable <code>pselect</code> that is all of the html paragraph elements</li>
+<li>Try doing this, loading the web page, then try uncommenting each other script line in turn and refreshing</li>
+<li>In chrome do Ctrl-shift-i to get the developer console and inspect the variable pselect.</li>
+<li>Nesting <code>select</code> or <code>selectAll</code> will select elements within the selected elements.</li>
+<li>You can also select by id or class.</li>
+</ul>
+</section>
+<section id="a-simple-example" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="a-simple-example"><span class="header-section-number">3.2</span> A simple example</h2>
+<p>Let’s go through an example where we plot brain volumetric ROI data on the log scale using D3.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;style&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">.bar</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">background</span>: <span class="cn">#f5b634</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">border</span>: <span class="dv">4</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#0769ad</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">height</span>: <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/style&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;script&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">let</span> roiData <span class="op">=</span> [</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Telencephalon_L"</span><span class="op">,</span> <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">531111</span>}<span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Telencephalon_R"</span><span class="op">,</span> <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">543404</span>}<span class="op">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Diencephalon_L"</span><span class="op">,</span>  <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">9683</span>  }<span class="op">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Diencephalon_R"</span><span class="op">,</span>  <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">9678</span>  }<span class="op">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Mesencephalon"</span><span class="op">,</span>   <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">10268</span> }<span class="op">,</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Metencephalon"</span><span class="op">,</span>   <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">159402</span>}<span class="op">,</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"Myelencephalon"</span><span class="op">,</span>  <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">4973</span>  }<span class="op">,</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"roi"</span><span class="op">:</span> <span class="st">"CSF"</span><span class="op">,</span>             <span class="st">"volume"</span> <span class="op">:</span> <span class="dv">109776</span>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            ]<span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="kw">let</span> divSelection <span class="op">=</span> d3<span class="op">.</span><span class="fu">select</span>(<span class="st">"body"</span>) </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">selectAll</span>(<span class="st">"div"</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">data</span>(roiData)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">enter</span>()</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">append</span>(<span class="st">'div'</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"class"</span><span class="op">,</span> <span class="st">"bar"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">style</span>(<span class="st">"width"</span><span class="op">,</span> (d) <span class="kw">=&gt;</span> {<span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(d<span class="op">.</span><span class="at">volume</span>) <span class="op">*</span> <span class="dv">20</span> <span class="op">+</span> <span class="st">"px"</span><span class="op">;</span> })</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">text</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">roi</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">on</span>(<span class="st">"mouseover"</span><span class="op">,</span> <span class="kw">function</span>(){</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                        d3<span class="op">.</span><span class="fu">select</span>(<span class="kw">this</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                        <span class="op">.</span><span class="fu">style</span>(<span class="st">"background-color"</span><span class="op">,</span> <span class="st">"orange"</span>)<span class="op">;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                    })</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>                    <span class="op">.</span><span class="fu">on</span>(<span class="st">"mouseout"</span><span class="op">,</span> <span class="kw">function</span>(){</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                        d3<span class="op">.</span><span class="fu">select</span>(<span class="kw">this</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                        <span class="op">.</span><span class="fu">style</span>(<span class="st">"background-color"</span><span class="op">,</span><span class="st">"#33A2FF"</span> )</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                    })        <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/body&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The <code>data(roiDat)</code> selects our dataset</li>
+<li>The <code>enter()</code> and <code>append('div')</code> commands add <code>div</code> elements to the html document, one per data element.</li>
+<li>The <code>attr</code> method considers our <code>bar</code> stylesheet style</li>
+<li>The <code>style</code> method changes the style so that the bars have the width of our data. The notation <code>(d) =&gt; {return d.volume * .001 + "px"}</code> is a function that selects the ROI element of the data, multiplies it by .001 then converts it to text with <code>px</code> at the end.</li>
+<li>The <code>text</code> method at the end appends the text to our plot</li>
+<li>The <code>on</code> methods say what to do when one mouses over and off the bars. You can see now that they turn orange then back. Remove the mouseout <code>.on</code> call and see what happens.</li>
+</ul>
+<p>The output looks like this. Hoover over a bar to test.</p>
+<iframe width="780" height="200" src="d3/roi1.html" title="Output"></iframe>
+<p>Observerable is a notebook for working with d3. It’s quite neat since mixing javascript coding in a web notebook, which itself is written in javascript, makes for an interesting setup. Typically, one would do the data preprocessing in R, python, julia … then do the advanced graphing in d3. Quarto allows us to mix different plotting libraries including both d3 and observable. So, let’s read in the ROI data and plot it in d3.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dat <span class="op">=</span> pd.read_csv(<span class="st">"assetts/kirby21.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>avgdat <span class="op">=</span> dat.groupby([<span class="st">'roi'</span>])[<span class="st">'volume'</span>].mean().reset_index()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ojs_define(data <span class="op">=</span> avgdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_28225/7722008.py:69: DeprecationWarning: Importing display from IPython.core.display is deprecated since IPython 7.14, please import from IPython display
+  from IPython.core.display import display, HTML</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="ojs-define">{"contents": [{"name": "data", "value": {"roi": ["CSF", "Diencephalon_L", "Diencephalon_R", "Mesencephalon", "Metencephalon", "Myelencephalon", "Telencephalon_L", "Telencephalon_R"], "volume": [88080.7, 9005.9, 9086.15, 10322.85, 148998.4, 4516.95, 501399.7, 509706.45]}}]}</script>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script type="application/javascript">
