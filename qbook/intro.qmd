@@ -2,9 +2,9 @@
 
 # Welcome!
 
-This is a book for the Advanced Data Science for Bio/Public Health/medical classes. 
+This is a book for the Advanced Data Science for Bio/Public Health/medical classes. Since data science isn't super well defined, advanced data science is even less so. My opinion is that we needed the umbrella term data science because there was a lot in the processes of analyzing data that got ignored in traditional disciplines and training programs. (Of course, what gets ignored is different depeneding on which discipline or program.)  I'm mostly going to focus on concepts and implementation that were historically ignored in our (JHU Biostat) program, which is heavily focused on biostatistical inference, probability modeling, public health/bio/medical data analyses and ML.
 
 ## Requirements
-Prior programming experience, calculus, linear algebra, unix, python, R.
+I'm going to assume that you have a lot of basic data science tools down already. If not, [here's some notes](https://smart-stats.github.io/ds4bio_book/book/_build/html/intro.html). For this book you'll need: prior programming experience, calculus, linear algebra, unix, python, R and some basic statistics.
 
 
