@@ -12,6 +12,10 @@ book:
     - interactive.qmd
     - webscraping.qmd
     - databases.qmd
+    - pipelines.qmd
+    - data_structures.qmd
+    - diymlai.qmd
+    - nlp.qmd
     - references.qmd
 
 bibliography: references.bib
