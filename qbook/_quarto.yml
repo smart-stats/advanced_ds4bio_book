@@ -11,7 +11,7 @@ book:
     - graphics.qmd
     - interactive.qmd
     - webscraping.qmd
-    - databases.ipynb
+    - databases.qmd
     - pipelines.qmd
     - data_structures.qmd
     - diymlai.qmd
