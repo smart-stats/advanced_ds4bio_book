@@ -31,10 +31,10 @@ The workflow as as follows:
 + We parsed the webpage with `BeautifulSoup` then used the method `findAll` on that to search for every table
 + Pandas has a utility that converts a html tables into a dataframe. In this case it creates a list of tables, where the 12th one is the heatwaves. Note it needs the data to be converted to a string before proceeding.
 
-This variation of web scraping couldn't be easier. However, what if the content we're interested in only exists after interacting with the page? Then we need better utilities.
+This variation of web scraping couldn't be easier. However, what if the content we're interested in only exists after interacting with the page? Then we need a more sophisticated solution.
 
 ## Form filling
-Web scraping can require posting to forms, such as logins. This can be done directly with python / R without elaborate programming using the `requests` package. However, make sure you aren't violating a web site's TOS and also make sure you're not posting your password to github as you commit scraping code. In general, don't create a security hole for your account by web scraping it. Again, also check to make sure that the site doesn't have an API with an authentication solution already before writing the code to post authentication. Many websites that want you to programmatically grab the data build an API.
+Web scraping can require posting to forms, such as logins. This can be done directly with python / R without elaborate programming, for example using the `requests` library. However, make sure you aren't violating a web site's TOS and also make sure you're not posting your password to github as you commit scraping code. In general, don't create a security hole for your account by web scraping it. Again, also check to make sure that the site doesn't have an API with an authentication solution already before writing the code to post authentication. Many websites that want you to programmatically grab the data build an API.
 
 ## Programmatically web browsing
 

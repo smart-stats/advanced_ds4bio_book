@@ -93,7 +93,7 @@ ROI element of the data, multiplies it by .001 then converts it to text with  `p
 + The `on` methods say what to do when one mouses over and off the bars. You can see now that
 they turn orange then back. Remove the mouseout `.on` call and see what happens.
 
-The output looks like this. Hoover over a bar to test. (Look at the file in `d3/roi1.html`)
+The output looks like this. Hover over a bar to test. (Look at the file in `d3/roi1.html`)
 
 ```{=html}
 <iframe width="780" height="200" src="d3/roi1.html" title="Output"></iframe>
@@ -103,7 +103,7 @@ The output looks like this. Hoover over a bar to test. (Look at the file in `d3/
 
 Under `assets/kirby_pivot.csv` is a dataset with the kirby 21 data pivoted to have regions as columns. Let's work through a d3 example of ploting right versus left asymmetry in the telencephalon (the largest area of the brain including the cortex and central white matter).
 
-Here's the scatterplot that I've got so far. For HW, add axis labels and make it so that it displays the subject ID when you hoover over a point! 
+Here's the scatterplot that I've got so far. For HW, add axis labels and make it so that it displays the subject ID when you hover over a point! 
 
 
 ```{=html}

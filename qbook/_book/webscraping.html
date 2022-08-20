@@ -185,6 +185,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -283,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>3</th>
       <td>4.0</td>
-      <td>11968</td>
+      <td>12125</td>
       <td>2022 European heat waves</td>
       <td>Europe</td>
       <td>2022</td>
@@ -348,11 +368,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We parsed the webpage with <code>BeautifulSoup</code> then used the method <code>findAll</code> on that to search for every table</li>
 <li>Pandas has a utility that converts a html tables into a dataframe. In this case it creates a list of tables, where the 12th one is the heatwaves. Note it needs the data to be converted to a string before proceeding.</li>
 </ul>
-<p>This variation of web scraping couldn’t be easier. However, what if the content we’re interested in only exists after interacting with the page? Then we need better utilities.</p>
+<p>This variation of web scraping couldn’t be easier. However, what if the content we’re interested in only exists after interacting with the page? Then we need a more sophisticated solution.</p>
 </section>
 <section id="form-filling" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="form-filling"><span class="header-section-number">4.3</span> Form filling</h2>
-<p>Web scraping can require posting to forms, such as logins. This can be done directly with python / R without elaborate programming using the <code>requests</code> package. However, make sure you aren’t violating a web site’s TOS and also make sure you’re not posting your password to github as you commit scraping code. In general, don’t create a security hole for your account by web scraping it. Again, also check to make sure that the site doesn’t have an API with an authentication solution already before writing the code to post authentication. Many websites that want you to programmatically grab the data build an API.</p>
+<p>Web scraping can require posting to forms, such as logins. This can be done directly with python / R without elaborate programming, for example using the <code>requests</code> library. However, make sure you aren’t violating a web site’s TOS and also make sure you’re not posting your password to github as you commit scraping code. In general, don’t create a security hole for your account by web scraping it. Again, also check to make sure that the site doesn’t have an API with an authentication solution already before writing the code to post authentication. Many websites that want you to programmatically grab the data build an API.</p>
 </section>
 <section id="programmatically-web-browsing" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="programmatically-web-browsing"><span class="header-section-number">4.4</span> Programmatically web browsing</h2>

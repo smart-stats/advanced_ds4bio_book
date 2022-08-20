@@ -326,13 +326,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The <code>text</code> method at the end appends the text to our plot</li>
 <li>The <code>on</code> methods say what to do when one mouses over and off the bars. You can see now that they turn orange then back. Remove the mouseout <code>.on</code> call and see what happens.</li>
 </ul>
-<p>The output looks like this. Hoover over a bar to test. (Look at the file in <code>d3/roi1.html</code>)</p>
+<p>The output looks like this. Hover over a bar to test. (Look at the file in <code>d3/roi1.html</code>)</p>
 <iframe width="780" height="200" src="d3/roi1.html" title="Output"></iframe>
 </section>
 <section id="working-through-a-realistic-example" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="working-through-a-realistic-example"><span class="header-section-number">3.3</span> Working through a realistic example</h2>
 <p>Under <code>assets/kirby_pivot.csv</code> is a dataset with the kirby 21 data pivoted to have regions as columns. Let’s work through a d3 example of ploting right versus left asymmetry in the telencephalon (the largest area of the brain including the cortex and central white matter).</p>
-<p>Here’s the scatterplot that I’ve got so far. For HW, add axis labels and make it so that it displays the subject ID when you hoover over a point!</p>
+<p>Here’s the scatterplot that I’ve got so far. For HW, add axis labels and make it so that it displays the subject ID when you hover over a point!</p>
 <iframe width="500" height="500" src="d3/roi2.html" title="Output"></iframe>
 <p>The code for the plot is in <code>d3/roi2.html</code>. Let’s go over some of the main parts of the d3 code here. First, we set up the graphic</p>
 <pre class="{js}"><code>const h = 500
