@@ -8,7 +8,6 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - graphics.qmd
     - interactive.qmd
     - webscraping.qmd
     - databases.qmd
@@ -16,6 +15,9 @@ book:
     - data_structures.qmd
     - diymlai.qmd
     - nlp.qmd
+    - data_analysis_theory.qmd
+    - data_science_as_a_science.qmd
+    - graphics.qmd
     - references.qmd
 
 bibliography: references.bib

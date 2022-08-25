@@ -1,0 +1,28 @@
+---
+title: "Data science, conceptually"
+format: html
+---
+
+## Introduction 
+
+In this chapter, we'll focus on data science theory, thinking and philosophy. We're going to omit any standard treatment of statistical theory and inference, like maximum likelihood optimality and asymptotics, since those are well covered elsewhere. However, it's worth mentioning that those topics are obviously part of data science theory. 
+
+Instead, we'll focus on meta-inferential and meta-empirical science questions, as well as some of the conceptual and theoretical language that's worth knowing.
+
+## All models are wrong
+
+### Wrong means wrong
+"All models are wrong, but some are useful", or some variant, is a quote from statistician George Box that is so well known and used that it has a lengthy [wikipedia page](https://en.wikipedia.org/wiki/All_models_are_wrong). Restricting our attention to probabilistic models, it is interesting to note that this quote, which is near universally agreed upon, has implications that are often not. For example, the quote suggests that there is not, and never has been: an IID sample, normally distributed data (as in having been generated from a normal distribution), a true population stochastic model ... In other words, there is no correct probabilistic model, ever, ever, ever (according to the quote). 
+
+One way to interpret this is that there are correct probability models, we just haven't found them yet, or maybe can't find them via some incompleteness law. If we ever find one, I guess we'd have to change the quote to "All models were wrong ...". But, I don't think the quote is implying the existence of true probabilistic models that we don't, or can't, know. I tend to think it is suggesting that, by in large, randomness doesn't exist and hence probabilitity models are, like Newtonian mechanics, just models, not truth.
+
+This is a well discussed topic in philosophy. On some meaningful level, the quote is obviously true. Most things we're interested in are clearly purely functionally caused by antecedent variables, some of which we know and can measure and some of which we can't. This is obviously true of of things like die rolls or casino games and (especially) random number generators, where we know the actual deterministic formula. [REFERENCES].
+
+But does ranomness exist for some weird quantum setting, or is it just a useful model? The best answer for this question came from an experiment in quantum physics ...
+
+
+## Some models are useful
+
+Do we even care if models are ultimately correct? The quote ends with, "some models are useful". How are they useful? 
+
+

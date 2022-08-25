@@ -8,3 +8,6 @@ This is a book for the Advanced Data Science for Bio/Public Health/medical class
 I'm going to assume that you have a lot of basic data science tools down already. If not, [here's some notes](https://smart-stats.github.io/ds4bio_book/book/_build/html/intro.html). For this book you'll need: prior programming experience, calculus, linear algebra, unix, python, R and some basic statistics.
 
 
+## Organization
+
+This is a two quarter course. The first quater is devoted to tools and the second is deveoted to theory. So the book is divided in half that way.

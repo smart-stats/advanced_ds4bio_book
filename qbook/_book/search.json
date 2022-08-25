@@ -11,12 +11,12 @@
     "href": "intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "This is a book for the Advanced Data Science for Bio/Public Health/medical classes. Since data science isn’t super well defined, advanced data science is even less so. My opinion is that we needed the umbrella term data science because there was a lot in the processes of analyzing data that got ignored in traditional disciplines and training programs. (Of course, what gets ignored is different depeneding on which discipline or program.) I’m mostly going to focus on concepts and implementation that were historically ignored in our (JHU Biostat) program, which is heavily focused on biostatistical inference, probability modeling, public health/bio/medical data analyses and ML.\n\n\nI’m going to assume that you have a lot of basic data science tools down already. If not, here’s some notes. For this book you’ll need: prior programming experience, calculus, linear algebra, unix, python, R and some basic statistics."
+    "text": "This is a book for the Advanced Data Science for Bio/Public Health/medical classes. Since data science isn’t super well defined, advanced data science is even less so. My opinion is that we needed the umbrella term data science because there was a lot in the processes of analyzing data that got ignored in traditional disciplines and training programs. (Of course, what gets ignored is different depeneding on which discipline or program.) I’m mostly going to focus on concepts and implementation that were historically ignored in our (JHU Biostat) program, which is heavily focused on biostatistical inference, probability modeling, public health/bio/medical data analyses and ML.\n\n\nI’m going to assume that you have a lot of basic data science tools down already. If not, here’s some notes. For this book you’ll need: prior programming experience, calculus, linear algebra, unix, python, R and some basic statistics.\n\n\n\nThis is a two quarter course. The first quater is devoted to tools and the second is deveoted to theory. So the book is divided in half that way."
   },
   {
     "objectID": "graphics.html",
     "href": "graphics.html",
-    "title": "2  Theory of grahpical display",
+    "title": "2  Theory of graphical display",
     "section": "",
     "text": "Data/ink maximalization Tufte (1990)\nBertin (1983)"
   },
@@ -72,35 +72,35 @@
   {
     "objectID": "graphics.html#grammar-of-graphics",
     "href": "graphics.html#grammar-of-graphics",
-    "title": "2  Theory of grahpical display",
+    "title": "2  Theory of graphical display",
     "section": "2.3 Grammar of graphics",
     "text": "2.3 Grammar of graphics\n\nWilkinson (2012)\nWilkinson (2013)\nWickham (2010)"
   },
   {
     "objectID": "graphics.html#theory-of-graphics",
     "href": "graphics.html#theory-of-graphics",
-    "title": "2  Theory of grahpical display",
+    "title": "2  Theory of graphical display",
     "section": "2.2 Theory of graphics",
     "text": "2.2 Theory of graphics\n\nCleveland (1987)\nCleveland and McGill (1984)\nCleveland and Devlin (1980)\nCarswell (1992)\nCleveland and McGill (1986)\nMagical thinking Diaconis (2006)"
   },
   {
     "objectID": "graphics.html#graphical-critique",
     "href": "graphics.html#graphical-critique",
-    "title": "2  Theory of grahpical display",
+    "title": "2  Theory of graphical display",
     "section": "2.4 Graphical critique",
     "text": "2.4 Graphical critique\n\nWickham et al. (2010)"
   },
   {
     "objectID": "graphics.html#graph-galleries",
     "href": "graphics.html#graph-galleries",
-    "title": "2  Theory of grahpical display",
+    "title": "2  Theory of graphical display",
     "section": "2.6 Graph galleries",
     "text": "2.6 Graph galleries\n\n\n\n\nBertin, Jacques. 1983. Semiology of Graphics. University of Wisconsin press.\n\n\nCarswell, C Melody. 1992. “Choosing Specifiers: An Evaluation of the Basic Tasks Model of Graphical Perception.” Human Factors 34 (5): 535–54.\n\n\nCleveland, William S. 1987. “Research in Statistical Graphics.” Journal of the American Statistical Association 82 (398): 419–23.\n\n\nCleveland, William S, and Susan J Devlin. 1980. “Calendar Effects in Monthly Time Series: Detection by Spectrum Analysis and Graphical Methods.” Journal of the American Statistical Association 75 (371): 487–96.\n\n\nCleveland, William S, and Robert McGill. 1984. “The Many Faces of a Scatterplot.” Journal of the American Statistical Association 79 (388): 807–22.\n\n\n———. 1986. “An Experiment in Graphical Perception.” International Journal of Man-Machine Studies 25 (5): 491–500.\n\n\nDiaconis, Persi. 2006. “Theories of Data Analysis: From Magical Thinking Through Classical Statistics.” Exploring Data Tables, Trends, and Shapes, 1–36.\n\n\nTufte, ER. 1990. “Data-Ink Maximization and Graphical Design.” Oikos, 130–44.\n\n\nWickham, Hadley. 2010. “A Layered Grammar of Graphics.” Journal of Computational and Graphical Statistics 19 (1): 3–28.\n\n\nWickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2010. “Graphical Inference for Infovis.” IEEE Transactions on Visualization and Computer Graphics 16 (6): 973–79.\n\n\nWilkinson, Leland. 2012. “The Grammar of Graphics.” In Handbook of Computational Statistics, 375–414. Springer.\n\n\n———. 2013. The Grammar of Graphics. Springer Science & Business Media."
   },
   {
     "objectID": "graphics.html#historical-graphics",
     "href": "graphics.html#historical-graphics",
-    "title": "2  Theory of grahpical display",
+    "title": "2  Theory of graphical display",
     "section": "2.5 Historical graphics",
     "text": "2.5 Historical graphics"
   },
@@ -152,5 +152,40 @@
     "title": "5  Databases",
     "section": "5.1 Blockwise basic statistical calculations",
     "text": "5.1 Blockwise basic statistical calculations\nNow, consider taking the mean of both variables. Imagine that the time series is so long it’s not feasible to load into memory. So, we want to read it in blocks. You want your blocks to be as big as possible, since that’s fastest. In our case, of course, none of this is necessary.\nOur goal in this section is to do the following: calculate the empirical mean and variance for each sensor, center and scale each sensor, and write those changes to those variables, calculate the sample correlation then calculate the residual for sensor1 given sensor2. (I think typically you wouldn’t want to overwrite the original data; but, this is for pedagogical purposes.) We want our data organized so sensors are stored in a hierarchical “folder” called sensors and processed data is in a different folder.\nWe’re just simulating iid standard normals. So, we have a rough idea of the answers we should get, since the the data are theoretically mean 0, variance 1 and uncorrelated. After our calculations, they will have empirical mean 0 and variance 1 and the empirical correlation between the residual and sensor 2 will be 0.\nLet’s consider a block variation of the inner product. \\[\n<a, b> = \\sum_{i=0}^{n-1} a_i b_i = \\sum_{i=0}^{n/B} \\sum_{j=0}^{B-1} a_{j + i B} b_{j + i B}\n\\] (if \\(n\\) is divisible by \\(B\\). Otherwise you have to figure out what to do with the final block, which isn’t hard but makes the notation messier.) So, for example, the (sample) mean is then \\(<x, J>/n\\) where \\(J\\) is a vector of ones.\nLet’s calculate the mean using blockwise calculations.\n\nn = s1.shape[0]\nB = 32\n## mean center the blocks\nmean1 = 0\nmean2 = 0\nfor i in range(int(n/B)):\n    block_indices = np.array(range(B)) + i * B\n    mean1 += s1[block_indices].sum() / n \n    mean2 += s2[block_indices].sum() / n\n\n[mean1, mean2]\n\n[-0.029336767896487384, 0.11088612842452382]\n\n\nLet’s now center our time series.\n\nfor i in range(int(n/B)):\n    block_indices = np.array(range(B)) + i * B\n    s1[block_indices] -= mean1  \n    s2[block_indices] -= mean2\n\nNow the (unbiased, sample) variance of centered vector \\(a\\) is simply \\(<a, a>/(n-1)\\).\n\nv1, v2 = 0, 0\nfor i in range(int(n/B)):\n    block_indices = np.array(range(B)) + i * B\n    v1 += np.sum(s1[block_indices] ** 2) / (n - 1)\n    v2 += np.sum(s2[block_indices] ** 2) / (n - 1)\n[v1, v2]\n\n[0.9918155842643334, 0.9972038462746611]\n\n\nNow let’s scale our vectors as\n\nsd1 = np.sqrt(v1)\nsd2 = np.sqrt(v2)\nfor i in range(int(n/B)):\n    block_indices = np.array(range(B)) + i * B\n    s1[block_indices] /= v1  \n    s2[block_indices] /= v2\n\nNow that our vectors are centered and scaled, the empirical correlation is simply \\(<a, b>/(n-1)\\). Let’s do that\n\ncor = 0\nfor i in range(int(n/B)):\n    block_indices = np.array(range(B)) + i * B\n    cor += np.sum(s1[block_indices] * s2[block_indices]) / (n-1) \ncor\n\n0.015293368245594446\n\n\nFinally, we want to “regress out” s2 from s1. Since we normalized our series, the correlation is slope coefficient from linear regression (regardless of the outcome and dependent variable) and the intercept is zero (since we centered). Thus, the residual we want is \\(e_{12} = s_1 - \\rho s_2\\) where \\(\\rho\\) is the correlation.\n\nf['processed/resid_s1_s2'] = np.empty(n)\ne12 = f['processed/resid_s1_s2']\nfor i in range(int(n/B)):\n    block_indices = np.array(range(B)) + i * B\n    e12[block_indices] += s1[block_indices] - cor * s2[block_indices] \n\nNow we have our new processed data stored in a vector. To close our database simply do:\n\nf.close()\n\nNow our processed data is stored on disk.\n\nf = h5py.File('sensor.hdf5', 'r')\nf['processed/resid_s1_s2']\n\n<HDF5 dataset \"resid_s1_s2\": shape (1024,), type \"<f8\">\n\n\n\nf.close()"
+  },
+  {
+    "objectID": "data_analysis_theory.html#wrong-means-wrong",
+    "href": "data_analysis_theory.html#wrong-means-wrong",
+    "title": "8  Data science philosophy",
+    "section": "10.1 Wrong means wrong",
+    "text": "10.1 Wrong means wrong\n“All models are wrong, but some are useful”, or some variant, is a quote from statistician George Box that is so well known and used that it has a rather lengthy wikipedia page. Restricting our attention to probabilistic models, it is interesting to note that this quote, which is near universally agreed upon, has implications that are often not. For example, the quote suggests that there is not, and never has been, an IID sample, normally distributed data (as in having been generated from a normal distribution), a true population stochastic model … In other words, there is no correct probabilistic model, ever, ever, ever (according to the quote).\nOne way to interpret this is that there are correct probability models, we just haven’t found them yet. If we find one, I guess we’d have to change the quote to “All models were wrong …”. But, I don’t think the quote is implying the existence of true probabilistic models that we don’t, or can’t, know. I tend to think it is suggesting that, by in large, randomness doesn’t exist and hence probabilitity models are, like Newtonian mechanics and many other scientific models, just models, not truth.\nThis is a well discussed topic in philosophy. On some meaningful level, the quote is obviously true. Most things we’re interested in are clearly purely functionally caused by antecedent variables, some of which we know and can measure and some of which we can’t. This is obviously true of of things like die rolls or casino games and (especially) random number generators, where we know the actual deterministic formula. [REFERENCES].\nBut does ranomness exist for some weird quantum setting, or is it just a useful model? The best answer for this question came from an experiment in quantum physics …"
+  },
+  {
+    "objectID": "data_analysis_theory.html#some-models-are-useful",
+    "href": "data_analysis_theory.html#some-models-are-useful",
+    "title": "9  Data science, conceptually",
+    "section": "9.3 Some models are useful",
+    "text": "9.3 Some models are useful\nDo we even care if models are ultimately correct? The quote ends with, “some models are useful”. How are they useful?"
+  },
+  {
+    "objectID": "data_analysis_theory.html#all-models-are-wrong",
+    "href": "data_analysis_theory.html#all-models-are-wrong",
+    "title": "9  Data science, conceptually",
+    "section": "9.2 All models are wrong",
+    "text": "9.2 All models are wrong\n\n9.2.1 Wrong means wrong\n“All models are wrong, but some are useful”, or some variant, is a quote from statistician George Box that is so well known and used that it has a lengthy wikipedia page. Restricting our attention to probabilistic models, it is interesting to note that this quote, which is near universally agreed upon, has implications that are often not. For example, the quote suggests that there is not, and never has been: an IID sample, normally distributed data (as in having been generated from a normal distribution), a true population stochastic model … In other words, there is no correct probabilistic model, ever, ever, ever (according to the quote).\nOne way to interpret this is that there are correct probability models, we just haven’t found them yet, or maybe can’t find them via some incompleteness law. If we ever find one, I guess we’d have to change the quote to “All models were wrong …”. But, I don’t think the quote is implying the existence of true probabilistic models that we don’t, or can’t, know. I tend to think it is suggesting that, by in large, randomness doesn’t exist and hence probabilitity models are, like Newtonian mechanics, just models, not truth.\nThis is a well discussed topic in philosophy. On some meaningful level, the quote is obviously true. Most things we’re interested in are clearly purely functionally caused by antecedent variables, some of which we know and can measure and some of which we can’t. This is obviously true of of things like die rolls or casino games and (especially) random number generators, where we know the actual deterministic formula. [REFERENCES].\nBut does ranomness exist for some weird quantum setting, or is it just a useful model? The best answer for this question came from an experiment in quantum physics …"
+  },
+  {
+    "objectID": "data_science_as_a_science.html",
+    "href": "data_science_as_a_science.html",
+    "title": "10  Data science as an applied science",
+    "section": "",
+    "text": "The term “Data science” is typically used to refer to a set of tools, techniques and thought processes used to perform scientific inquiries using data. But is that a scientific topic worthy of study in its own right? It is, and, from a practical, theoretical and philosophical level, it’s already extremely well studied in statistics, computer science, engineering and philosophy departments.\nDespite these fields, at the Data Science Lab at JHU, we’ve had lengthy discussions about data science as an inductive, empirical applied science, like biology or medicine, rather than an deductive discipline, like mathematics or statistical theory, or rather than a set of heuristics, like rules of thumb and agreed upon best practices. An inductive, empirical, applied science itself needs data science, since it’s empirical and thus depends on data. So, maybe there’s an infinite regress of some sort making this an ultimately doomed endeavor. But, nevertheless, we persist.\nThere are some fields of data analysis that are well covered, let’s talk about them first.\n\n\nGeneral EDA and visualization is covered in the next chapter. There is a vast literature of experiments to understand perception of visual data. This is a more neatly circumscribed area of data science as a science. This is possibly because the general field of visual perception, from a variety of angles, is well developed. Let’s cover a specific example, observer studies in radiology."
+  },
+  {
+    "objectID": "data_analysis_theory.html",
+    "href": "data_analysis_theory.html",
+    "title": "9  Data science, conceptually",
+    "section": "",
+    "text": "In this chapter, we’ll focus on data science theory, thinking and philosophy. We’re going to omit any standard treatment of statistical theory and inference, like maximum likelihood optimality and asymptotics, since those are well covered elsewhere. However, it’s worth mentioning that those topics are obviously part of data science theory.\nInstead, we’ll focus on meta-inferential and meta-empirical science questions, as well as some of the conceptual and theoretical language that’s worth knowing."
   }
 ]
