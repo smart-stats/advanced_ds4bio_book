@@ -1,5 +1,6 @@
 project:
   type: book
+  browser: false
 
 book:
   title: "Advanced Data Science for Public Health"

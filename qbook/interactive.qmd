@@ -237,3 +237,20 @@ marks: [Plot.barY(data, {x: "roi", y: "volume", fill : 'roi'})],
 ## Links
 + [Observable is not javascript](https://observablehq.com/@observablehq/observables-not-javascript)
 + [d3 tutorial](https://www.tutorialsteacher.com/d3js/select-dom-element-using-d3js).
+
+## Project
++ Create a D3 graphic web page that displays a scatterplot of your chosing. Show point information on hover.
++ On the same web page, create a D3 graphic web page that displays a stacked bar chart for the Kirby 21 data. Hover data should show subject information and increase the size of the bar. Here's a plotly version to get a sense.
+
+```{python}
+import pandas as pd
+import plotly.express as px
+import numpy as np
+dat = pd.read_csv("https://raw.githubusercontent.com/smart-stats/ds4bio_book/main/book/assetts/kirby21.csv").drop(['Unnamed: 0'], axis = 1)
+dat = dat.assign(id_char = dat.id.astype(str))
+fig = px.bar(dat, x = "id_char", y = "volume", color = "roi")
+fig.show()
+```
++ Submit your webpages and all supporting code to your assignment repo
+
+
