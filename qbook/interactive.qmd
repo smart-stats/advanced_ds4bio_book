@@ -103,7 +103,7 @@ The output looks like this. Hover over a bar to test. (Look at the file in `d3/r
 
 Under `assets/kirby_pivot.csv` is a dataset with the kirby 21 data pivoted to have regions as columns. Let's work through a d3 example of ploting right versus left asymmetry in the telencephalon (the largest area of the brain including the cortex and central white matter).
 
-Here's the scatterplot that I've got so far. For HW, add axis labels and make it so that it displays the subject ID when you hover over a point! 
+Here's the scatterplot that I've got so far. For HW, add text labels to the point, or a tooltip that gives point information when you hover over it.  
 
 
 ```{=html}
@@ -237,6 +237,7 @@ marks: [Plot.barY(data, {x: "roi", y: "volume", fill : 'roi'})],
 ## Links
 + [Observable is not javascript](https://observablehq.com/@observablehq/observables-not-javascript)
 + [d3 tutorial](https://www.tutorialsteacher.com/d3js/select-dom-element-using-d3js).
++ [d3 gallery](https://observablehq.com/@d3/gallery)
 
 ## Project
 + Create a D3 graphic web page that displays a scatterplot of your chosing. Show point information on hover.

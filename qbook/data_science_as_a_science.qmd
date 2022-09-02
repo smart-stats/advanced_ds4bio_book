@@ -5,7 +5,7 @@ format: html
 
 ## Introduction
 
-The term "Data science" is typically used to refer to a set of tools, techniques and thought processes used to perform scientific inquiries using data. But is that a scientific topic worthy of study in its own right? It is, and, from a practical, theoretical and philosophical level, it's already extremely well studied in statistics, computer science, engineering and philosophy departments. 
+The term "Data science" is typically used to refer to a set of tools, techniques and thought processes used to perform scientific inquiries using data. But is that a scientific topic worthy of study in its own right? It is. And, from a practical, theoretical and philosophical level, it's already extremely well studied in statistics, computer science, engineering and philosophy departments. 
 
 Despite these fields, at the Data Science Lab at JHU, we've had lengthy discussions about data science as an inductive, empirical applied science, like biology or medicine, rather than an deductive discipline, like mathematics or statistical theory, or rather than a set of heuristics, like rules of thumb and agreed upon best practices. An inductive, empirical, applied science itself needs data science, since it's empirical and thus depends on data. So, maybe there's an infinite regress of some sort making this an ultimately doomed endeavor. But, nevertheless, we persist. 
 
