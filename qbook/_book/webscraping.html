@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 4&nbsp; Advanced web scrapping</title>
+<title>Advanced Data Science for Public Health - 3&nbsp; Advanced web scrapping</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -165,47 +165,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./interactive.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interactive graphics</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./interactive.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Interactive graphics</span></a>
+  <a href="./webscraping.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./webscraping.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></a>
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Databases</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data structures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data science philosophy</span></a>
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">NLP</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -222,10 +227,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#before-you-begin" id="toc-before-you-begin" class="nav-link active" data-scroll-target="#before-you-begin"> <span class="header-section-number">4.1</span> Before you begin</a></li>
-  <li><a href="#basic-web-scraping" id="toc-basic-web-scraping" class="nav-link" data-scroll-target="#basic-web-scraping"> <span class="header-section-number">4.2</span> Basic web scraping</a></li>
-  <li><a href="#form-filling" id="toc-form-filling" class="nav-link" data-scroll-target="#form-filling"> <span class="header-section-number">4.3</span> Form filling</a></li>
-  <li><a href="#programmatically-web-browsing" id="toc-programmatically-web-browsing" class="nav-link" data-scroll-target="#programmatically-web-browsing"> <span class="header-section-number">4.4</span> Programmatically web browsing</a></li>
+  <li><a href="#before-you-begin" id="toc-before-you-begin" class="nav-link active" data-scroll-target="#before-you-begin"> <span class="header-section-number">3.1</span> Before you begin</a></li>
+  <li><a href="#basic-web-scraping" id="toc-basic-web-scraping" class="nav-link" data-scroll-target="#basic-web-scraping"> <span class="header-section-number">3.2</span> Basic web scraping</a></li>
+  <li><a href="#form-filling" id="toc-form-filling" class="nav-link" data-scroll-target="#form-filling"> <span class="header-section-number">3.3</span> Form filling</a></li>
+  <li><a href="#programmatically-web-browsing" id="toc-programmatically-web-browsing" class="nav-link" data-scroll-target="#programmatically-web-browsing"> <span class="header-section-number">3.4</span> Programmatically web browsing</a></li>
   </ul>
 </nav>
     </div>
@@ -234,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></h1>
 </div>
 
 
@@ -250,13 +255,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="before-you-begin" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="before-you-begin"><span class="header-section-number">4.1</span> Before you begin</h2>
+<section id="before-you-begin" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="before-you-begin"><span class="header-section-number">3.1</span> Before you begin</h2>
 <p>Before you start webscraping make sure to consider what you’re doing. Does your scraping violate TOS? Will it inconvenience the site, other users? Per Uncle Ben: WGPCGR.</p>
 <p>Also, before you begin web scraping, look for a download data option or existing solution. Probably someone has run up against the same problem and worked it out. For example, we’re going to scrape some wikipedia tables, which there’s a million other solutions for, including a wikipedia <a href="https://www.mediawiki.org/wiki/API:Main_page">api</a>.</p>
 </section>
-<section id="basic-web-scraping" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="basic-web-scraping"><span class="header-section-number">4.2</span> Basic web scraping</h2>
+<section id="basic-web-scraping" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="basic-web-scraping"><span class="header-section-number">3.2</span> Basic web scraping</h2>
 <p>Let’s show an example of static page parsing. Consider scraping the table of top 10 heat waves from <a href="https://en.wikipedia.org/wiki/List_of_natural_disasters_by_death_toll">wikipedia</a>. First, we open the url, then parse it using BeautifulSoup, then load it into a pandas dataframe.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.request <span class="im">import</span> urlopen</span>
@@ -375,12 +380,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>This variation of web scraping couldn’t be easier. However, what if the content we’re interested in only exists after interacting with the page? Then we need a more sophisticated solution.</p>
 </section>
-<section id="form-filling" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="form-filling"><span class="header-section-number">4.3</span> Form filling</h2>
+<section id="form-filling" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="form-filling"><span class="header-section-number">3.3</span> Form filling</h2>
 <p>Web scraping can require posting to forms, such as logins. This can be done directly with python / R without elaborate programming, for example using the <code>requests</code> library. However, make sure you aren’t violating a web site’s TOS and also make sure you’re not posting your password to github as you commit scraping code. In general, don’t create a security hole for your account by web scraping it. Again, also check to make sure that the site doesn’t have an API with an authentication solution already before writing the code to post authentication. Many websites that want you to programmatically grab the data build an API.</p>
 </section>
-<section id="programmatically-web-browsing" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="programmatically-web-browsing"><span class="header-section-number">4.4</span> Programmatically web browsing</h2>
+<section id="programmatically-web-browsing" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="programmatically-web-browsing"><span class="header-section-number">3.4</span> Programmatically web browsing</h2>
 <p>Some web scraping requires us to interact with the webpage. This requires a much more advanced solution where we programmatically use a web browser to interact with the page. I’m using selenium and chromedriver. To do this, I had to download <a href="https://chromedriver.chromium.org/downloads">chromedriver</a> and set it so that it was in my unix <code>PATH</code>.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
@@ -511,12 +516,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./interactive.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Interactive graphics</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interactive graphics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./databases.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Databases</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Databases</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

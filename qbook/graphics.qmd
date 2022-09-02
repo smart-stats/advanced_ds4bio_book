@@ -3,11 +3,19 @@ title: "Theory of graphical display"
 format: html
 ---
 
-## Graphical design arguments 
-+ Data/ink maximalization @tufte1990data
+## Design arguments 
+One of the main design arguments for the graphical display of information is data / ink maximization @tufte1990data. This is the idea that idea that as much of the "ink" (non-background pixels) of the plot as possible should be displaying data. 
+
+Data/ink maximalization has been criticized empirically. For example, @inbar2007minimalism conducted a study with 87 undergraduates and found a clear preference for the non-maximized variations. Another line of argument discusses the "paradox of simplicity" @norman2007simplicity, @eytam2017paradox, whereby we have a strong aesthetic preference for simplicity, but also want flexibility and maximum utility.
+
 + @bertin1983semiology
 
-## Theory of graphics
+### Graphical critique
++ @wickham2010graphical
+
+### Theory of graphics
+
+
 
 + @cleveland1987research
 + @cleveland1984many
@@ -16,13 +24,16 @@ format: html
 + @cleveland1986experiment
 + Magical thinking @diaconis2006theories
 
-## Grammar of graphics
+## Implementation 
+### Grammar of graphics
 + @wilkinson2012grammar
 + @wilkinson2013grammar
 + @wickham2010layered
 
-## Graphical critique
-+ @wickham2010graphical
+### Narative storytelling
+Edward and Jeffrey (@segel2010narrative) argue regarding the use of modern interactive tools in data narrative storytelling. They give seven canonical genres of narrative visulation.
+
+
 
 ## Historical graphics
 
