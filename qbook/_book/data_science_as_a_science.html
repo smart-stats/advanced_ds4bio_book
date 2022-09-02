@@ -15,6 +15,25 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -201,12 +220,21 @@ ul.task-list{list-style: none;}
 <section id="observer-studies" class="level4" data-number="10.1.1.1">
 <h4 data-number="10.1.1.1" class="anchored" data-anchor-id="observer-studies"><span class="header-section-number">10.1.1.1</span> Observer studies</h4>
 <p>In diagnostic radiology, new technology in the form of new machines for imaging or new ways of processing images, are being invented constantly. To evaluate these new technologies, a gold standard is to have randomized studies where the underlying truth is known. The images from the new technology and images from a control technology are then randomized to observers. Several issues come about in observer studies. First, establishing truth can be hard. This is often done by digital or physical phantoms or in instances where patients are longitudinally followed up and the disease status is made apparent. A second issue is in the cost associated with observers. Often, instead of attending radiologists, the studies are done with residents or fellows, or students who have received specific training to qualify as reasonable proxies. An interesting alternative approach is to have digital observers.</p>
+<p>My friends at the JHU Division of Medical Imaging Physics do this quite well. In one process, they first create highly accurate models of the human/non-human animal being studied (<a href="https://www.hopkinsmedicine.org/radiology/research/divisions/radiological-physics/research/projects/imaging-simulation-computer-phantoms.html">so called pantoms, see here</a>). Next they create accurate models of the imaging system, say X-Ray CT or positron imaging. Suppose that they want to study two different ways of performing tomography, say a Bayes algorithm or an EM algorithm. They take generated images from their digital phantom and process them using the two candidate algorithms. Then they use human or mathematical observers to try to diagnose the disease using the processed images. Here’s some examples <span class="citation" data-cites="gilland2006comparison">He et al. (<a href="references.html#ref-he2004mathematical" role="doc-biblioref">2004</a>)</span>.</p>
 </section>
 </section>
 <section id="psychology" class="level3" data-number="10.1.2">
 <h3 data-number="10.1.2" class="anchored" data-anchor-id="psychology"><span class="header-section-number">10.1.2</span> Psychology</h3>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-gilland2006comparison" class="csl-entry" role="doc-biblioentry">
+Gilland, Karen L, Benjamin MW Tsui, Yujin Qi, and Grant T Gullberg. 2006. <span>“Comparison of Channelized Hotelling and Human Observers in Determining Optimum OS-EM Reconstruction Parameters for Myocardial SPECT.”</span> <em>IEEE Transactions on Nuclear Science</em> 53 (3): 1200–1204.
+</div>
+<div id="ref-he2004mathematical" class="csl-entry" role="doc-biblioentry">
+He, Xin, Eric C Frey, Jonathan M Links, Karen L Gilland, William P Segars, and Benjamin MW Tsui. 2004. <span>“A Mathematical Observer Study for the Evaluation and Optimization of Compensation Methods for Myocardial SPECT Using a Phantom Population That Realistically Models Patient Variability.”</span> <em>IEEE Transactions on Nuclear Science</em> 51 (1): 218–24.
+</div>
+</div>
 </section>
 </section>
 
