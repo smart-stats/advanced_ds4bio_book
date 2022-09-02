@@ -3,6 +3,7 @@ project:
   browser: false
 
 book:
+  repo-url: https://github.com/smart-stats/advanced_ds4bio_book
   title: "Advanced Data Science for Public Health"
   author: "Brian Caffo"
   date: "7/7/2022"

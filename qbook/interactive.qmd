@@ -93,7 +93,7 @@ ROI element of the data, multiplies it by .001 then converts it to text with  `p
 + The `on` methods say what to do when one mouses over and off the bars. You can see now that
 they turn orange then back. Remove the mouseout `.on` call and see what happens.
 
-The output looks like this. Hover over a bar to test. (Look at the file in `d3/roi1.html`)
+The output looks like this. Hover over a bar to test. (Look at the file in [d3/roi1.html](https://github.com/smart-stats/advanced_ds4bio_book/blob/main/qbook/d3/roi1.html))
 
 ```{=html}
 <iframe width="780" height="200" src="d3/roi1.html" title="Output"></iframe>
@@ -110,7 +110,7 @@ Here's the scatterplot that I've got so far. For HW, add text labels to the poin
 <iframe width="500" height="500" src="d3/roi2.html" title="Output"></iframe>
 ```
 
-The code for the plot is in `d3/roi2.html`. Let's go over some of the main parts of the d3 code here. First, we set up the graphic
+The code for the plot is in [d3/roi2.html](https://github.com/smart-stats/advanced_ds4bio_book/blob/main/qbook/d3/roi2.html). Let's go over some of the main parts of the d3 code here. First, we set up the graphic
 
 ```{js}
 const h = 500
@@ -239,7 +239,7 @@ marks: [Plot.barY(data, {x: "roi", y: "volume", fill : 'roi'})],
 + [d3 tutorial](https://www.tutorialsteacher.com/d3js/select-dom-element-using-d3js).
 + [d3 gallery](https://observablehq.com/@d3/gallery)
 
-## Project
+## Homework
 + Create a D3 graphic web page that displays a scatterplot of your chosing. Show point information on hover.
 + On the same web page, create a D3 graphic web page that displays a stacked bar chart for the Kirby 21 data. Hover data should show subject information and increase the size of the bar. Here's a plotly version to get a sense.
 
@@ -253,5 +253,10 @@ fig = px.bar(dat, x = "id_char", y = "volume", color = "roi")
 fig.show()
 ```
 + Submit your webpages and all supporting code to your assignment repo
++ Here's a hint to the HW in [d3/hwHint.html](https://github.com/smart-stats/advanced_ds4bio_book/blob/main/qbook/d3/hwHint.html)
+
+```{=html}
+<iframe width="500" height="500" src="d3/hwHint.html" title="hwHit"></iframe>
+```
 
 
