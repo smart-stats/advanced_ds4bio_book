@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+</head>
+    <body>
+        <script>
+            var current_location = "s"
+            var win_move = "slrrl"
+            var check = function(move){
+                if (move === "restart"){
+                    current_location = "s"
+                    document.getElementById("prompt").innerHTML = "Which way do you choose to go?"
+                }
+                else {
+                    current_location = current_location+move
+                    if (current_location === win_move){
+                        document.getElementById("cl").innerHTML = "Current Location: "+current_location
+                        document.getElementById("prompt").innerHTML = "You WIN!!!"
+                    }
+                    else if (current_location.length === win_move.length ){
+                        document.getElementById("prompt").innerHTML = "You LOSE!!"
+                        current_location = "s"
+                        document.getElementById("cl").innerHTML = "Current Location: "+current_location
+                    }
+                    else {
+                        document.getElementById("cl").innerHTML = "Current Location: "+current_location
+                    }
+                }
+            }
+
+        </script>
+
+        <h1>Find the right leaf of a binary tree</h1>
+        <h1>You have 4 moves, good luck</h1>
+        <h2 id="cl">Current location: s</h2>
+        <H2 id="prompt">Which way do you choose to go?</H2>
+        <button type="button" onclick="check('l')">Go Left</button>
+        <button type="button" onclick="check('r')">Go Right</button>
+        <button type="button" onclick="check('restart')">Start over</button>
+    </body>
+</html>

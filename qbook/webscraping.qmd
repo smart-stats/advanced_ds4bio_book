@@ -103,3 +103,7 @@ Here, we saved the page_source as a variable that then can be parsed with other 
 
 ![Screenshot of webscraping](assets/images/webscraping.png)
 
+
+## Homework
++ Write a function that takes a search term, enters it into Duck Duck Go and then returns the top n links
++ Write 
