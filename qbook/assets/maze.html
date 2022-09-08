@@ -21,12 +21,13 @@
                         document.getElementById("prompt").innerHTML = "You WIN!!!"
                     }
                     else if (current_location.length === win_move.length ){
-                        document.getElementById("prompt").innerHTML = "You LOSE!!"
+                        document.getElementById("prompt").innerHTML = "You LOSE! Try again"
                         current_location = "s"
                         document.getElementById("cl").innerHTML = "Current Location: "+current_location
                     }
                     else {
                         document.getElementById("cl").innerHTML = "Current Location: "+current_location
+                        document.getElementById("prompt").innerHTML = "Which way do you choose to go?"
                     }
                 }
             }

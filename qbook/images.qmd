@@ -1,0 +1,60 @@
+---
+title: "Working with images"
+format: html
+---
+
+## Basics
+
+Images broadly come in two types, vector and raster. Vector graphics are in formats like pdf, eps, svg and raster graphics are like jpeg, gif, png. Vector graphics store the image constructs and shapes. So, a vector graphics renderer can zoom in indefinitely on a shape and its edges will appear sharp. Vector fonts work this way. Raster graphics basically store a matrix and the pixels on the screen show the values of that matrix. Bitmapped fonts work this way. Of course, vector graphics have to be converted to raster to be actually displayed by the computer. Finally, some rater graphics formats have compression, which we won't really discuss.
+
+## Working with raster graphics
+Raster images are typically stored as an array. Grayscale images are matrices with the image intensity as the value and color pictures are stored as 3D arrays with the two main dimensions and color channels. A library for working with regular images in python is called PIL. 
+
+There are different raster specifications. RGB has 3 color channels, red, green and blue. CMYK has four: cyan, magenta, yellow and black. It's interesting to note that the use of color channels existed before color cameras, when photographers would use different filters and additive and subtractive processes. The photograph below was created in 1877 by Louis Ducos du Hauron. 
+
+![Color image](assets/images/Duhauron1877.jpg)
+
+Reading and working with images in python is quite easy because of the Python Image Library (PIL).
+
+```{python}
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+```{python}
+img = Image.open("assets/images/Duhauron1877.jpg")
+## You can see it with this, or img.show()
+img
+```
+
+PIL objects come with a ton of methods. For example, if we want to know whether we have an RGB or CMYK image, just print its mode.
+```{python}
+print(img.mode)
+```
+
+
+
+```{python}
+r, g, b = img.split()
+
+plt.figure(figsize=(10,4));
+plt.subplot(1, 3, 1);
+plt.axis('off');
+plt.imshow(r);
+
+plt.subplot(1, 3, 2);
+plt.axis('off');
+plt.imshow(g);
+
+plt.subplot(1, 3, 3);
+plt.axis('off');
+plt.imshow(b);
+```
+
+If you're tired of working with the image as a PIL object, it's easy to convert to a np array.
+
+```{python}
+img_array = np.array(img)
+img_array.shape
+```
