@@ -133,3 +133,13 @@ f['processed/resid_s1_s2']
 ```{python}
 f.close()
 ```
+
+
+## Homework
+
+1. Perform lots of regressions. Suppose that you have a setting where you would like to perform the operation
+$$
+(X'X)^{-1} X' Y
+$$
+where $X$ is $n\times p$ and $Y$ is $n\times v$. Consider the case where $Y$ is very large (so $V$ is large). Simulate some data where you perform this linear model in block calculations.
+2. Write a block matrix multiplication program that takes in two matrices with agreeable dimensions stored as HDF5 and multiplies them in block sizes specified by the user.
