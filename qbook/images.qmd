@@ -433,7 +433,7 @@ Now, let's discuss some specific vocabulary used in CNNs.
 
 Medical images offer unique challenges for imaging. A common format for medical images is dicom. Most medical images are 3D or 4D grayscale images. 
 
-To get a sense of working with medical images, let's consider a set of 2D images.
+To get a sense of working with medical images, let's consider a set of 2D images from the medical mnist library [@medmnistv2].
 
 ```{python}
 from tqdm import tqdm
