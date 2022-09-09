@@ -105,5 +105,5 @@ Here, we saved the page_source as a variable that then can be parsed with other 
 
 
 ## Homework
-+ Write a function that takes a search term, enters it into Duck Duck Go and then returns the top n links
++ Write a function that takes a search term, enters it into [this link](https://smart-stats.github.io/advanced_ds4bio_book/qbook/assets/searchbox..html) and returns the number of characters from the output.
 + Write a function that solves [THE MAZE](https://smart-stats.github.io/advanced_ds4bio_book/qbook/assets/maze.html) and returns your current location at its solution
