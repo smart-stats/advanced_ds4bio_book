@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    
+</head>
+    <body>
+        <script>
+            const rval = function() {
+                var qualifier = ["great!", "fantastic!", "a delight!"]
+                var input = document.getElementById('searchbar').value
+                var index = Math.floor(Math.random() * 3)
+                var output = input + " is " + qualifier[index]
+                document.getElementById("out").innerHTML = output
+                return(output)
+            }
+
+        </script>
+         <input id="searchbar" onkeyup="rval()" type="text" name="search" placeholder="type a name"></input>
+         <p id = "out">Output</p>
+     </body>
+</html>
