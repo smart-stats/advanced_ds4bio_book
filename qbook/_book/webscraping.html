@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.312">
+<meta name="generator" content="quarto-1.1.245">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,10 +11,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -53,7 +58,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -66,7 +71,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -80,13 +85,14 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
 <link href="./images.html" rel="next">
 <link href="./interactive.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -94,10 +100,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -124,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </head>
 
-<body class="floating">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -231,15 +237,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#before-you-begin" id="toc-before-you-begin" class="nav-link active" data-scroll-target="#before-you-begin"> <span class="header-section-number">3.1</span> Before you begin</a></li>
-  <li><a href="#basic-web-scraping" id="toc-basic-web-scraping" class="nav-link" data-scroll-target="#basic-web-scraping"> <span class="header-section-number">3.2</span> Basic web scraping</a></li>
-  <li><a href="#form-filling" id="toc-form-filling" class="nav-link" data-scroll-target="#form-filling"> <span class="header-section-number">3.3</span> Form filling</a></li>
-  <li><a href="#programmatically-web-browsing" id="toc-programmatically-web-browsing" class="nav-link" data-scroll-target="#programmatically-web-browsing"> <span class="header-section-number">3.4</span> Programmatically web browsing</a></li>
-  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"> <span class="header-section-number">3.5</span> Homework</a></li>
+  <li><a href="#before-you-begin" id="toc-before-you-begin" class="nav-link active" data-scroll-target="#before-you-begin"><span class="toc-section-number">3.1</span>  Before you begin</a></li>
+  <li><a href="#basic-web-scraping" id="toc-basic-web-scraping" class="nav-link" data-scroll-target="#basic-web-scraping"><span class="toc-section-number">3.2</span>  Basic web scraping</a></li>
+  <li><a href="#form-filling" id="toc-form-filling" class="nav-link" data-scroll-target="#form-filling"><span class="toc-section-number">3.3</span>  Form filling</a></li>
+  <li><a href="#programmatically-web-browsing" id="toc-programmatically-web-browsing" class="nav-link" data-scroll-target="#programmatically-web-browsing"><span class="toc-section-number">3.4</span>  Programmatically web browsing</a></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="toc-section-number">3.5</span>  Homework</a></li>
   </ul>
 </nav>
     </div>
@@ -250,8 +256,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-title">
 <h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></h1>
 </div>
-
-
 
 
 
@@ -281,6 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>parsed <span class="op">=</span> bs(html, <span class="st">'html.parser'</span>).findAll(<span class="st">"table"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pd.read_html(<span class="bu">str</span>(parsed))[<span class="dv">11</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
+
 <div>
 
 <table class="dataframe table table-sm table-striped">
@@ -314,7 +319,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>2</th>
       <td>3.0</td>
-      <td>41,072[39]</td>
+      <td>41,072[41]</td>
       <td>1911 French heat wave</td>
       <td>France</td>
       <td>1911</td>
@@ -322,7 +327,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>3</th>
       <td>4.0</td>
-      <td>12125</td>
+      <td>23125</td>
       <td>2022 European heat waves</td>
       <td>Europe</td>
       <td>2022</td>
@@ -354,7 +359,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>7</th>
       <td>8.0</td>
-      <td>3,418[40]</td>
+      <td>3,418[42]</td>
       <td>2006 European heat wave</td>
       <td>Europe</td>
       <td>2006</td>
@@ -362,7 +367,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th>8</th>
       <td>9.0</td>
-      <td>2,541[40]</td>
+      <td>2,541[42]</td>
       <td>1998 Indian heat wave</td>
       <td>India</td>
       <td>1998</td>
@@ -435,14 +440,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="assets/images/webscraping.png" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Screenshot of webscraping</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Screenshot of webscraping</figcaption><p></p>
 </figure>
 </div>
 </section>
 <section id="homework" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="homework"><span class="header-section-number">3.5</span> Homework</h2>
 <ul>
-<li>Write a function that takes a search term, enters it into Duck Duck Go and then returns the top n links</li>
+<li>Write a function that takes a search term, enters it into <a href="https://smart-stats.github.io/advanced_ds4bio_book/qbook/assets/searchbox..html">this link</a> and returns the number of characters from the output.</li>
 <li>Write a function that solves <a href="https://smart-stats.github.io/advanced_ds4bio_book/qbook/assets/maze.html">THE MAZE</a> and returns your current location at its solution</li>
 </ul>
 
@@ -450,8 +455,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 
 </main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -501,7 +524,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

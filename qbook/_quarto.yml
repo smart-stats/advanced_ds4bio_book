@@ -1,6 +1,5 @@
 project:
   type: book
-  browser: false
 
 book:
   repo-url: https://github.com/smart-stats/advanced_ds4bio_book

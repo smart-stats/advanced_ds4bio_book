@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.312">
+<meta name="generator" content="quarto-1.1.245">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,10 +11,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -53,7 +58,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -66,7 +71,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -99,13 +104,14 @@ div.csl-indent {
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
-<meta name="quarto:offset" content="./">
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
 <link href="./nlp.html" rel="next">
 <link href="./webscraping.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -113,10 +119,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -141,7 +147,7 @@ div.csl-indent {
 
 </head>
 
-<body class="floating">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -248,17 +254,17 @@ div.csl-indent {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"> <span class="header-section-number">4.1</span> Basics</a></li>
-  <li><a href="#working-with-raster-graphics" id="toc-working-with-raster-graphics" class="nav-link" data-scroll-target="#working-with-raster-graphics"> <span class="header-section-number">4.2</span> Working with raster graphics</a></li>
-  <li><a href="#image-mathematics" id="toc-image-mathematics" class="nav-link" data-scroll-target="#image-mathematics"> <span class="header-section-number">4.3</span> Image mathematics</a>
+  <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"><span class="toc-section-number">4.1</span>  Basics</a></li>
+  <li><a href="#working-with-raster-graphics" id="toc-working-with-raster-graphics" class="nav-link" data-scroll-target="#working-with-raster-graphics"><span class="toc-section-number">4.2</span>  Working with raster graphics</a></li>
+  <li><a href="#image-mathematics" id="toc-image-mathematics" class="nav-link" data-scroll-target="#image-mathematics"><span class="toc-section-number">4.3</span>  Image mathematics</a>
   <ul class="collapse">
-  <li><a href="#convolutions" id="toc-convolutions" class="nav-link" data-scroll-target="#convolutions"> <span class="header-section-number">4.3.1</span> Convolutions</a></li>
+  <li><a href="#convolutions" id="toc-convolutions" class="nav-link" data-scroll-target="#convolutions"><span class="toc-section-number">4.3.1</span>  Convolutions</a></li>
   </ul></li>
-  <li><a href="#medical-images" id="toc-medical-images" class="nav-link" data-scroll-target="#medical-images"> <span class="header-section-number">4.4</span> Medical images</a></li>
+  <li><a href="#medical-images" id="toc-medical-images" class="nav-link" data-scroll-target="#medical-images"><span class="toc-section-number">4.4</span>  Medical images</a></li>
   </ul>
 </nav>
     </div>
@@ -269,8 +275,6 @@ div.csl-indent {
 <div class="quarto-title">
 <h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with images</span></h1>
 </div>
-
-
 
 
 
@@ -294,7 +298,7 @@ div.csl-indent {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="assets/images/Duhauron1877.jpg" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Color image</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Color image</figcaption><p></p>
 </figure>
 </div>
 <p>Reading and working with images in python is quite easy because of the Python Image Library (PIL).</p>
@@ -334,7 +338,7 @@ div.csl-indent {
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">'off'</span>)<span class="op">;</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.imshow(b)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-5-output-1.png" width="763" height="179"></p>
 </div>
 </div>
 <p>If you’re tired of working with the image as a PIL object, it’s easy to convert to a np array.</p>
@@ -417,7 +421,7 @@ div.csl-indent {
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span>  X[np.<span class="bu">min</span>(np.where(X <span class="op">!=</span>  <span class="dv">0</span>)) : X.size]</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>plt.plot(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-10-output-1.png" width="622" height="416"></p>
 </div>
 </div>
 <p>Now let’s plot the convolutions with different options in <code>np.convolve</code>.</p>
@@ -481,10 +485,10 @@ div.csl-indent {
 <span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">2</span>].plot(XCshifted)</span>
 <span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">2</span>].plot(X <span class="op">-</span> XCshifted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-11-output-1.png" width="1029" height="963"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-11-output-2.png" width="1029" height="963"></p>
 </div>
 </div>
 <p>Let’s show that the first point and end point of the convolution are the averages of <span class="math inline">\((M-1)/2\)</span> points and and <span class="math inline">\((M-1)/2+1\)</span> zeros at the beginning or end of the original signal just to show that our intuition is correct.</p>
@@ -501,7 +505,7 @@ div.csl-indent {
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>[[0.07317073170731708, 0.07317073170731707],
- [10552.90243902439, 10552.90243902439]]</code></pre>
+ [8644.317073170732, 8644.317073170732]]</code></pre>
 </div>
 </div>
 <p>Also, I averaged a lot (41 days) in order to make the shift very apparent. Let’s look at the performance for less wide of a kernel.</p>
@@ -516,7 +520,7 @@ div.csl-indent {
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(XC)</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(X <span class="op">-</span> XC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-13-output-1.png" width="1025" height="506"></p>
 </div>
 </div>
 <p>It should be stated that the convolution operation is multiplication in Fourier space. So, functions like np.convolve are performing FFTs in the background. However, if you’re going to do this yourself, make sure to keep track of indices and zero padding. (I.e. the bookkeeping.) Otherwise, the FFT wraps around and you get a little of the end averaged in with the beginning and vice versa. I work out getting the same answer as mode = “same” below.</p>
@@ -546,7 +550,7 @@ div.csl-indent {
 <span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Show they're the same by plotting the subtraction</span></span>
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(convolution <span class="op">-</span> XC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-14-output-1.png" width="1025" height="520"></p>
 </div>
 </div>
 </section>
@@ -583,10 +587,10 @@ X(u, v) / (M_1 M_2)
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(img, cmap<span class="op">=</span><span class="st">'gray'</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">255</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>&lt;matplotlib.image.AxesImage at 0x7f5f96248f70&gt;</code></pre>
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7d3f13637580&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-15-output-2.png" width="389" height="389"></p>
 </div>
 </div>
 <p>Now let’s take this image and convolve it with different kernels of different window lengths.</p>
@@ -627,7 +631,7 @@ X(u, v) / (M_1 M_2)
 <pre><code>Text(0.5, 1.0, '32x32')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-16-output-2.png" width="939" height="956"></p>
 </div>
 </div>
 </section>
@@ -683,7 +687,7 @@ lrelu(x, c) = \left\{
 <pre><code>Text(0.5, 1.0, 'LRELU of convolution + bias')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-17-output-2.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-17-output-2.png" width="942" height="297"></p>
 </div>
 </div>
 <p>Because of how convolutions work, this will find this eye anywhere in the image. Here we just add another eye somewhere else and repeat the convolution.</p>
@@ -716,7 +720,7 @@ lrelu(x, c) = \left\{
 <pre><code>Text(0.5, 1.0, 'LRELU of convolution + bias')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-18-output-2.png" class="img-fluid"></p>
+<p><img src="images_files/figure-html/cell-18-output-2.png" width="942" height="448"></p>
 </div>
 </div>
 <p>So, we found a custom kernel that highlights this specific feature in images. Convnets layers learn the kernel. That is, CNNs learn the image that gets convolved with the previous layer to produce the next one. <a href="https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53">Here’s</a> a really great pictorial guide by Sumit Saha.</p>
@@ -772,14 +776,32 @@ lrelu(x, c) = \left\{
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
 <div id="ref-medmnistv2" class="csl-entry" role="doc-biblioentry">
-Yang, Jiancheng, Rui Shi, Donglai Wei, Zequan Liu, Lin Zhao, Bilian Ke, Hanspeter Pfister, and Bingbing Ni. 2021. <span>“MedMNIST V2: A Large-Scale Lightweight Benchmark for 2d and 3d Biomedical Image Classification.”</span> <em>arXiv Preprint arXiv:2110.14795</em>.
+Yang, Jiancheng, Rui Shi, Donglai Wei, Zequan Liu, Lin Zhao, Bilian Ke, Hanspeter Pfister, and Bingbing Ni. 2021. <span>“MedMNIST V2: A Large-Scale Lightweight Benchmark for 2D and 3D Biomedical Image Classification.”</span> <em>arXiv Preprint arXiv:2110.14795</em>.
 </div>
 </div>
 </section>
 
 </main> <!-- /main -->
-<script type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -829,7 +851,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);

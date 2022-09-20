@@ -4,3 +4,25 @@ format: html
 ---
 
 
+Pipelining software enacts a directed acyclic graph on the tasks in order to build a project. There are so many pipeline and workflow examples out there, you probably want to pick the one that is most commonly used in your area. For example, snakemake seems to be very common in computational biology while nypipe is used a lot in neuroimaging.
+
+We'll cover make here, which is less commonly used for data science, but is ubiquitously used for software development. A makefile simply says what tasks needs to be done to construct a project. Then, it only runs those tasks that need to be updated. Imagine something like the folowing. I have R code that creates a figure, that figure is required by a latex file. 
+
+```
+project.pdf : rplots.pdf project.tex
+	    pdflatex project.tex
+
+rplots.pdf : gen_rplots.R
+	   R --no-save < gen_rplots.R
+
+clean :
+	rm rplots.pdf
+	rm project.pdf
+	rm project.log
+```
+
+Typing `make` at the command like will make my file `project.pdf`. I can type `make clean` to remove my build files. I can also type `make rplots.pdf` to make just that file. Make uses timestamps to only update what is needed to be updated. So if I only change `project.tex` it won't regenerate my `rplots.pdf`.
+
+Why use something like `make` when we have rmarkdown, quarto ...? The main reason is that make is completely general. You can have any command used in building and any type of output. This is why these kind of build utilities are so ubiquitously used in pipelining. 
+
+

@@ -3,3 +3,56 @@ title: "Data structures"
 format: html
 ---
 
+## Hash tables
+
+The topic of data structures focuses on how we represent, access and store data, ideally in ways efficient for our purpose. The common starting point is a hash table. Suppose we want to store a set of `values` associated with a set of `keys`. Consider a list of some students and their PhD theses. 
+
+| key | value | 
+|:----|:------|
+| Leena    | Modelling biomedical data and the foundations of bioequivalence|
+| Xianbin  | Modeling composite outcomes and their component parts |
+| Shu-Chih | Structure/function relationships in the analysis of anatomical and functional neuroimaging data|
+| Haley | Statistical methods for inter-subject analysis of neuroscience data |
+| Bruce | From individuals to populations: application and insights concerning the generalized linear mixed model|
+
+If we stored these in an text array, say, and we wanted to look up Bruce's thesis title, we'd have to check each key in turn until we arived at Bruce and then looked up his thesis. This has a worst case scenario of n operations. (Question, if we looked in the order of a random permutation, what is the expected number of lookups?)
+
+Hash tables map the keys to a specific lookup number. Thus, when trying to find Bruce's value, the has function would perform `hash("Bruce")` to get the hash value, then to straight to that point in the array. Sounds great!
+
+There are some details, of course. Most (all) programming languages have hash tables, or libraries that add on hash tables. For example, the `dict` structure in python. Since that exists, let's work in R and create our own hash table. 
+
+We need a hash function. Let's create one as the sum of its utf8 values
+
+```{r}
+hash = function(string, mod) sum(utf8ToInt(string)) %% mod
+hash("Bruce", 10)
+```
+
+Here the mod is used to truncate our integer value so that our it fits in our list. In our case, let's assume the list is of length no larger than 10. Ideally, you want you hash functions to have as few `collisions`, instances where different key texts give the same hash value, as possible. For our simple example, we're not going to stress out over this much. Let's create an empty hash table
+
+```{r}
+hash_table = rep(NA, 10)
+```
+
+Now, let's add an element
+```{r}
+##Note this operates on hash_table outside of the function
+add_pair = function(key, value){
+    n = length(hash_table)
+    new_entry = list(c(key, value))
+    hash_value = hash(key, n)
+    hash_entry = hash_table[hash_value]
+    if (is.na(hash_entry)){
+        hash_table[hash_value] = list(c(key, value))
+    }
+    else {
+        hash_table[hash_value] = c(hash_entry, new_entry)
+    }
+    return(hash_table)
+}
+add_pair("Bruce", "From individuals to populations")
+add_pair("Bruce2", "From individuals to populations2")
+hash_table
+```
+
+
