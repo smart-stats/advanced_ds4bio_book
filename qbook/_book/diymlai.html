@@ -205,13 +205,13 @@ ul.task-list li input[type="checkbox"] {
 H_{11} = &amp; g_1(W_{011} + W_{111} X_1 + W_{211} X_2) \\
 H_{12} = &amp; g_1(W_{012} + W_{112} X_1 + W_{212} X_2) \\
 H_{21} = &amp; g_2(W_{021} + W_{121} H_{11} + W_{221} H_{12}) \\
-H_{22} = &amp; g_2(W_{022} + W_{122} H_{12} + W_{222} H_{12}) \\
+H_{22} = &amp; g_2(W_{022} + W_{122} H_{11} + W_{222} H_{12}) \\
 \hat Y = &amp; g_3(W_{031} + W_{131} H_{21} + W_{231} H_{22})
 \end{align}
 \]</span></p>
 <p>where <span class="math inline">\(g_k\)</span> are specified activation functions. Typically, we would have a different activation function for the output layer than the others, and the other would have the same activation function. So, for example, if <span class="math inline">\(Y\)</span> was binary, like hypertension diagnosis, then <span class="math inline">\(g_1=g_2\)</span> and <span class="math inline">\(g_3\)</span> would be a sigmoid.</p>
 <p>A typical activation function is a rectified linear unit (RELU), defined as <span class="math inline">\(g(x) = x I(x &gt; 0)\)</span>. The neural network is typically fit via a gradient based method, such as gradient descent, assuming a loss function. The loss function is usually based on maximum likelihood.</p>
-<p>Let’s consider fitting the network above using the chain rule. Consider the contribution of a row of data to a SE loss function, <span class="math inline">\({\cal L_i}(w) = (y_i - \eta_i)^2\)</span>, where <span class="math inline">\(\eta_i\)</span> is the feed forward of our neural network for row <span class="math inline">\(i\)</span>. Let’s look at the derivative with respect to <span class="math inline">\(w_{111}\)</span> where we drop the subscript <span class="math inline">\(i\)</span>. First note that only these arrows involve <span class="math inline">\(w_{111}\)</span></p>
+<p>Let’s consider fitting the network above using gradient descent and obtaining the derivative via the chain rule. Consider the contribution of a row of data to a SE loss function, <span class="math inline">\({\cal L_i}(w) = (y_i - \eta_i)^2\)</span>, where <span class="math inline">\(\eta_i\)</span> is the feed forward of our neural network for row <span class="math inline">\(i\)</span>. Let’s look at the derivative with respect to <span class="math inline">\(w_{111}\)</span> where we drop the subscript <span class="math inline">\(i\)</span>. First note that only these arrows involve <span class="math inline">\(w_{111}\)</span></p>
 <div class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <p><img src="diymlai_files/figure-html/cell-3-output-1.png" width="691" height="499"></p>
@@ -219,19 +219,20 @@ H_{22} = &amp; g_2(W_{022} + W_{122} H_{12} + W_{222} H_{12}) \\
 </div>
 <p><span class="math display">\[
 \frac{\partial {\cal L} }{\partial w_{111}} =
-\frac{\partial {\cal L} }{\partial \eta}  \frac{\partial \eta}{\partial H_{2}}
+\frac{\partial {\cal L} }{\partial \eta} \frac{\partial \eta}{\partial H_{2}}
 \frac{\partial H_2 }{\partial H_{11}}\frac{\partial H_{11} }{\partial w_{111}}
 \]</span></p>
 <p>where <span class="math inline">\(H_2 = (H_{21}, H_{22})^t\)</span>. These parts are:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \frac{\partial {\cal L} }{\partial \eta} &amp; =  -2 (Y - \eta) \\
-\frac{\partial \eta}{\partial H_{2}} &amp; = g_3'(W_{031} + W_{131} H_{21} + W_{231} H_{22}) (w_{131} + w_{231}) \\
-\frac{\partial H_2 }{\partial H_{11}} &amp;= g_2'(W_{021} + W_{121} H_{11} + W_{221} H_{12}) w_{121} \\
+\frac{\partial \eta}{\partial H_{2}} &amp; = g_3'(W_{031} + W_{131} H_{21} + W_{231} H_{22}) (w_{131},  w_{231}) \\
+\frac{\partial H_2 }{\partial H_{11}} &amp;= [g_2'(W_{021} + W_{121} H_{11} + W_{221} H_{12}) w_{121},
+                                          g_2'(W_{022} + W_{122} H_{11} + W_{222} H_{12}) w_{122}]^t\\
 \frac{\partial H_{11} }{\partial w_{111}} &amp;= g_1'(W_{011} + W_{111} X_1 + W_{211} X_2) x_1
 \end{aligned}
 \]</span></p>
-<p>These get multiplied together to form the first derivative for <span class="math inline">\(W_{111}\)</span>. This is repeated for all of the weight parameters. Notice this requires keeping track of which nodes have <span class="math inline">\(w_{111}\)</span> in its parent chain and that it travels backwards through the network. For this reason, it is called backpropagation</p>
+<p>These get multiplied together, using matrix multiplication when required, to form the first derivative for <span class="math inline">\(W_{111}\)</span>. This is repeated for all of the weight parameters. Notice this requires keeping track of which nodes have <span class="math inline">\(w_{111}\)</span> in its parent chain and that it travels backwards through the network. For this reason, it is called backpropagation</p>
 
 
 

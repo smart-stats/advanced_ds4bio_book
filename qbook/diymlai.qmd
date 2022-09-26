@@ -46,7 +46,7 @@ $$
 H_{11} = & g_1(W_{011} + W_{111} X_1 + W_{211} X_2) \\
 H_{12} = & g_1(W_{012} + W_{112} X_1 + W_{212} X_2) \\
 H_{21} = & g_2(W_{021} + W_{121} H_{11} + W_{221} H_{12}) \\
-H_{22} = & g_2(W_{022} + W_{122} H_{12} + W_{222} H_{12}) \\
+H_{22} = & g_2(W_{022} + W_{122} H_{11} + W_{222} H_{12}) \\
 \hat Y = & g_3(W_{031} + W_{131} H_{21} + W_{231} H_{22})
 \end{align}
 $$
@@ -56,7 +56,7 @@ where $g_k$ are specified activation functions. Typically, we would have a diffe
 A typical activation function is a rectified linear unit (RELU), defined as $g(x) = x I(x > 0)$.
 The neural network is typically fit via a gradient based method, such as gradient descent, assuming a loss function. The loss function is usually based on maximum likelihood. 
 
-Let's consider fitting the network above using the chain rule. Consider the contribution of a row of data to a SE loss function, ${\cal L_i}(w) = (y_i - \eta_i)^2$, where $\eta_i$ is the feed forward of our neural network for row $i$. Let's  look at the derivative with respect to $w_{111}$ where we drop the subscript $i$. First note that only these arrows involve $w_{111}$
+Let's consider fitting the network above using gradient descent and obtaining the derivative via the chain rule. Consider the contribution of a row of data to a SE loss function, ${\cal L_i}(w) = (y_i - \eta_i)^2$, where $\eta_i$ is the feed forward of our neural network for row $i$. Let's  look at the derivative with respect to $w_{111}$ where we drop the subscript $i$. First note that only these arrows involve $w_{111}$
 
 ```{python}
 #| echo: false
@@ -93,7 +93,7 @@ plt.show()
 
 $$
 \frac{\partial {\cal L} }{\partial w_{111}} = 
-\frac{\partial {\cal L} }{\partial \eta}  \frac{\partial \eta}{\partial H_{2}} 
+\frac{\partial {\cal L} }{\partial \eta} \frac{\partial \eta}{\partial H_{2}} 
 \frac{\partial H_2 }{\partial H_{11}}\frac{\partial H_{11} }{\partial w_{111}}
 $$
 
@@ -102,10 +102,11 @@ where $H_2 = (H_{21}, H_{22})^t$. These parts are:
 $$
 \begin{aligned}
 \frac{\partial {\cal L} }{\partial \eta} & =  -2 (Y - \eta) \\
-\frac{\partial \eta}{\partial H_{2}} & = g_3'(W_{031} + W_{131} H_{21} + W_{231} H_{22}) (w_{131} + w_{231}) \\
-\frac{\partial H_2 }{\partial H_{11}} &= g_2'(W_{021} + W_{121} H_{11} + W_{221} H_{12}) w_{121} \\
+\frac{\partial \eta}{\partial H_{2}} & = g_3'(W_{031} + W_{131} H_{21} + W_{231} H_{22}) (w_{131},  w_{231}) \\
+\frac{\partial H_2 }{\partial H_{11}} &= [g_2'(W_{021} + W_{121} H_{11} + W_{221} H_{12}) w_{121},
+                                          g_2'(W_{022} + W_{122} H_{11} + W_{222} H_{12}) w_{122}]^t\\
 \frac{\partial H_{11} }{\partial w_{111}} &= g_1'(W_{011} + W_{111} X_1 + W_{211} X_2) x_1 
 \end{aligned}
 $$
 
-These get multiplied together to form the first derivative for $W_{111}$. This is repeated for all of the weight parameters. Notice this requires keeping track of which nodes have $w_{111}$ in its parent chain and that it travels backwards through the network. For this reason, it is  called backpropagation
+These get multiplied together, using matrix multiplication when required, to form the first derivative for $W_{111}$. This is repeated for all of the weight parameters. Notice this requires keeping track of which nodes have $w_{111}$ in its parent chain and that it travels backwards through the network. For this reason, it is  called backpropagation
