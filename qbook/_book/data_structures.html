@@ -238,7 +238,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#hash-tables" id="toc-hash-tables" class="nav-link active" data-scroll-target="#hash-tables"><span class="toc-section-number">8.1</span>  Hash tables</a></li>
+  <li><a href="#data-structures" id="toc-data-structures" class="nav-link active" data-scroll-target="#data-structures"><span class="toc-section-number">8.1</span>  Data structures</a></li>
+  <li><a href="#hash-tables" id="toc-hash-tables" class="nav-link" data-scroll-target="#hash-tables"><span class="toc-section-number">8.2</span>  Hash tables</a></li>
   </ul>
 </nav>
     </div>
@@ -261,9 +262,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="hash-tables" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="hash-tables"><span class="header-section-number">8.1</span> Hash tables</h2>
-<p>The topic of data structures focuses on how we represent, access and store data, ideally in ways efficient for our purpose. The common starting point is a hash table. Suppose we want to store a set of <code>values</code> associated with a set of <code>keys</code>. Consider a list of some students and their PhD theses.</p>
+<section id="data-structures" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="data-structures"><span class="header-section-number">8.1</span> Data structures</h2>
+<p>The topic of data structures focuses on how we represent, access and store data, ideally in ways efficient for our purpose. This chapter is a low level teaser of data structures geared towards students who haven’t been exposed to the ideas much at all.</p>
+</section>
+<section id="hash-tables" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="hash-tables"><span class="header-section-number">8.2</span> Hash tables</h2>
+<p>A common starting point for data structures is a hash table. Suppose we want to store a set of <code>values</code> associated with a set of <code>keys</code>. Consider a list of some students and their PhD theses.</p>
 <table class="table">
 <colgroup>
 <col style="width: 41%">
@@ -304,98 +309,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We need a hash function. Let’s create one as the sum of its utf8 values</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>hash <span class="ot">=</span> <span class="cf">function</span>(string, mod) <span class="fu">sum</span>(<span class="fu">utf8ToInt</span>(string)) <span class="sc">%%</span> mod</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hash</span>(<span class="st">"Bruce"</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hash</span>(<span class="st">"Bruce"</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7</code></pre>
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hash</span>(<span class="st">"Bruce2"</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hash</span>(<span class="st">"Haley"</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
 </div>
 </div>
-<p>Here the mod is used to truncate our integer value so that our it fits in our list. In our case, let’s assume the list is of length no larger than 10. Ideally, you want you hash functions to have as few <code>collisions</code>, instances where different key texts give the same hash value, as possible. For our simple example, we’re not going to stress out over this much. Let’s create an empty hash table</p>
+<p>Here the mod is used to truncate our integer value so that our it fits in our list. In our case, let’s assume the list is of length no larger than 5. Ideally, you want you hash functions to have as few <code>collisions</code>, instances where different key texts give the same hash value, as possible. For our simple example, we’re not going to stress out over this much and our hash function is going to give lots of collisions. Let’s create an empty hash table</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>hash_table <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hash_table <span class="ot">=</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, let’s add an element</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Note this operates on hash_table outside of the function</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>add_pair <span class="ot">=</span> <span class="cf">function</span>(key, value){</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">=</span> <span class="fu">length</span>(hash_table)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    new_entry <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">c</span>(key, value))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    hash_value <span class="ot">=</span> <span class="fu">hash</span>(key, n)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    hash_entry <span class="ot">=</span> hash_table[hash_value]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(hash_entry)){</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        hash_table[hash_value] <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">c</span>(key, value))</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        hash_table[hash_value] <span class="ot">=</span> <span class="fu">c</span>(hash_entry, new_entry)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(hash_table)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">add_pair</span>(<span class="st">"Bruce"</span>, <span class="st">"From individuals to populations"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Note this operates on hash_table outside of the function</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>add_pair <span class="ot">=</span> <span class="cf">function</span>(key, value, hash_table){</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">=</span> <span class="fu">length</span>(hash_table)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    new_entry <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">c</span>(key, value))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    hash_value <span class="ot">=</span> <span class="fu">hash</span>(key, n)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    hash_entry <span class="ot">=</span> hash_table[[hash_value]]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(hash_entry)){</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        hash_table[[hash_value]] <span class="ot">=</span> new_entry</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        hash_table[[hash_value]] <span class="ot">=</span> <span class="fu">c</span>(hash_entry, new_entry)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(hash_table)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>hash_table <span class="ot">=</span> <span class="fu">add_pair</span>(<span class="st">"Bruce"</span>, <span class="st">"From individuals to populations"</span>, hash_table)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>hash_table <span class="ot">=</span> <span class="fu">add_pair</span>(<span class="st">"Bruce2"</span>, <span class="st">"From individuals to populations2"</span>, hash_table)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>hash_table <span class="ot">=</span> <span class="fu">add_pair</span>(<span class="st">"Haley"</span>, <span class="st">"Statistical methods"</span>, hash_table)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>hash_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-[1] NA
+NULL
 
 [[2]]
-[1] NA
-
-[[3]]
-[1] NA
-
-[[4]]
-[1] NA
-
-[[5]]
-[1] NA
-
-[[6]]
-[1] NA
-
-[[7]]
+[[2]][[1]]
 [1] "Bruce"                           "From individuals to populations"
 
-[[8]]
-[1] NA
-
-[[9]]
-[1] NA
-
-[[10]]
-[1] NA</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_pair</span>(<span class="st">"Bruce2"</span>, <span class="st">"From individuals to populations2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-[1] NA
-
-[[2]]
-[1] NA
-
-[[3]]
-[1] NA
-
-[[4]]
-[1] NA
-
-[[5]]
-[1] NA
-
-[[6]]
-[1] NA
-
-[[7]]
+[[2]][[2]]
 [1] "Bruce2"                           "From individuals to populations2"
 
-[[8]]
-[1] NA
 
-[[9]]
-[1] NA
+[[3]]
+NULL
 
-[[10]]
-[1] NA</code></pre>
+[[4]]
+[[4]][[1]]
+[1] "Haley"               "Statistical methods"
+
+
+[[5]]
+NULL</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hash_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A nefarious character named <code>Bruce2</code> submitted an incremental thesis. But, alas, must go into the hash table. The keys <code>Bruce</code> and <code>Bruce2</code> result in collisions from our hash function, keys that have the same hash value. We’re adopting a collision strategy where we just add collision keys in turn. We should also write some code that prevents us from adding the same exact key twice. As it stands we could add Bruce twice when keys need to be unique.</p>
+<p>Let’s write a retrieval function. It needs to find the appropriate hash value, then search within that list for the appropriate key.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>retrieve <span class="ot">=</span> <span class="cf">function</span>(key, hash_table){</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">=</span> <span class="fu">length</span>(hash_table)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    hash_value <span class="ot">=</span> <span class="fu">hash</span>(key, n)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    hash_entry <span class="ot">=</span> hash_table[[hash_value]]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## If there's nothing there return null</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.null</span>(hash_entry)){</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        keys <span class="ot">=</span> <span class="fu">sapply</span>(hash_entry, <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        key_test <span class="ot">=</span> key <span class="sc">==</span> keys</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">any</span>(key_test)){</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            key_index <span class="ot">=</span> <span class="fu">which</span>(key_test) </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(hash_entry[[key_index]][<span class="dv">2</span>])</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="do">## If the key isn't there return null</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="fu">retrieve</span>(<span class="st">"Bruce"</span>, hash_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] NA NA NA NA NA NA NA NA NA NA</code></pre>
+<pre><code>[1] "From individuals to populations"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">retrieve</span>(<span class="st">"Bruce2"</span>, hash_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "From individuals to populations2"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">retrieve</span>(<span class="st">"bruce"</span>, hash_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
 </div>
 </div>
 

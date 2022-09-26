@@ -3,3 +3,109 @@ title: "DIY ML/AI"
 format: html
 ---
 
+We assume a background similar to that found in 
+[here](https://smart-stats.github.io/ds4bio_book/book/_build/html/nns.html). A neural network is a series of composed functions whereby parent nodes of the design graph are linearly combined via weights, then acted on by an activation function to obtain child nodes. Take the example below.
+
+```{python}
+#| echo: false
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+import sklearn as skl
+#plt.figure(figsize=[2, 2])
+G = nx.DiGraph()
+G.add_node("X1",  pos = (0, 3) )
+G.add_node("X2",  pos = (1, 3) )
+G.add_node("H11", pos = (0, 2) )
+G.add_node("H12", pos = (1, 2) )
+G.add_node("H21", pos = (0, 1) )
+G.add_node("H22", pos = (1, 1) )
+G.add_node("Y", pos = (.5, 0))
+G.add_edges_from([ ("X1", "H11"),  ("X1", "H12"),  ("X2", "H11"),  ("X2", "H12")])
+G.add_edges_from([("H11", "H21"), ("H11", "H22"), ("H12", "H21"), ("H12", "H22")])
+G.add_edges_from([("H21", "Y"), ("H22", "Y")])
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 3.3])
+ax.set_ylim([-.3, 3.3])
+plt.show()
+```
+
+Usually, the nodes are added in so called layers. $(X_1, X_2)$ is the input layer, $(H_{11}, H_{12})$ is the first hidden layer, $(H_{21}, H_{22})$ is the second hidden layer and $Y$ is the output layer. Imagine plugging an $X_1$ and $X_2$ into this network. It would feed forward through the network as
+
+$$
+\begin{align}
+H_{11} = & g_1(W_{011} + W_{111} X_1 + W_{211} X_2) \\
+H_{12} = & g_1(W_{012} + W_{112} X_1 + W_{212} X_2) \\
+H_{21} = & g_2(W_{021} + W_{121} H_{11} + W_{221} H_{12}) \\
+H_{22} = & g_2(W_{022} + W_{122} H_{12} + W_{222} H_{12}) \\
+\hat Y = & g_3(W_{031} + W_{131} H_{21} + W_{231} H_{22})
+\end{align}
+$$
+
+where $g_k$ are specified activation functions. Typically, we would have a different activation function for the output layer than the others, and the other would have the same activation function. So, for example, if $Y$ was binary, like hypertension diagnosis, then $g_1=g_2$ and $g_3$ would be a sigmoid.
+
+A typical activation function is a rectified linear unit (RELU), defined as $g(x) = x I(x > 0)$.
+The neural network is typically fit via a gradient based method, such as gradient descent, assuming a loss function. The loss function is usually based on maximum likelihood. 
+
+Let's consider fitting the network above using the chain rule. Consider the contribution of a row of data to a SE loss function, ${\cal L_i}(w) = (y_i - \eta_i)^2$, where $\eta_i$ is the feed forward of our neural network for row $i$. Let's  look at the derivative with respect to $w_{111}$ where we drop the subscript $i$. First note that only these arrows involve $w_{111}$
+
+```{python}
+#| echo: false
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+import sklearn as skl
+#plt.figure(figsize=[2, 2])
+G = nx.DiGraph()
+G.add_node("X1",  pos = (0, 3) )
+G.add_node("X2",  pos = (1, 3) )
+G.add_node("H11", pos = (0, 2) )
+G.add_node("H12", pos = (1, 2) )
+G.add_node("H21", pos = (0, 1) )
+G.add_node("H22", pos = (1, 1) )
+G.add_node("Y", pos = (.5, 0))
+G.add_edges_from([ ("X1", "H11") ])
+G.add_edges_from([ ("H11", "H21"), ("H11", "H22")])
+G.add_edges_from([ ("H21", "Y"), ("H22", "Y")])
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 3.3])
+ax.set_ylim([-.3, 3.3])
+plt.show()
+```
+
+$$
+\frac{\partial {\cal L} }{\partial w_{111}} = 
+\frac{\partial {\cal L} }{\partial \eta}  \frac{\partial \eta}{\partial H_{2}} 
+\frac{\partial H_2 }{\partial H_{11}}\frac{\partial H_{11} }{\partial w_{111}}
+$$
+
+where $H_2 = (H_{21}, H_{22})^t$. These parts are:
+
+$$
+\begin{aligned}
+\frac{\partial {\cal L} }{\partial \eta} & =  -2 (Y - \eta) \\
+\frac{\partial \eta}{\partial H_{2}} & = g_3'(W_{031} + W_{131} H_{21} + W_{231} H_{22}) (w_{131} + w_{231}) \\
+\frac{\partial H_2 }{\partial H_{11}} &= g_2'(W_{021} + W_{121} H_{11} + W_{221} H_{12}) w_{121} \\
+\frac{\partial H_{11} }{\partial w_{111}} &= g_1'(W_{011} + W_{111} X_1 + W_{211} X_2) x_1 
+\end{aligned}
+$$
+
+These get multiplied together to form the first derivative for $W_{111}$. This is repeated for all of the weight parameters. Notice this requires keeping track of which nodes have $w_{111}$ in its parent chain and that it travels backwards through the network. For this reason, it is  called backpropagation

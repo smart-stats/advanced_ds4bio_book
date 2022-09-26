@@ -2,10 +2,13 @@
 title: "Data structures"
 format: html
 ---
+## Data structures
+
+The topic of data structures focuses on how we represent, access and store data, ideally in ways efficient for our purpose. This chapter is a low level teaser of data structures geared towards students who haven't been exposed to the ideas much at all. 
 
 ## Hash tables
 
-The topic of data structures focuses on how we represent, access and store data, ideally in ways efficient for our purpose. The common starting point is a hash table. Suppose we want to store a set of `values` associated with a set of `keys`. Consider a list of some students and their PhD theses. 
+A common starting point for data structures is a hash table. Suppose we want to store a set of `values` associated with a set of `keys`. Consider a list of some students and their PhD theses. 
 
 | key | value | 
 |:----|:------|
@@ -25,34 +28,67 @@ We need a hash function. Let's create one as the sum of its utf8 values
 
 ```{r}
 hash = function(string, mod) sum(utf8ToInt(string)) %% mod
-hash("Bruce", 10)
+hash("Bruce", 5)
+hash("Bruce2", 5)
+hash("Haley", 5)
 ```
 
-Here the mod is used to truncate our integer value so that our it fits in our list. In our case, let's assume the list is of length no larger than 10. Ideally, you want you hash functions to have as few `collisions`, instances where different key texts give the same hash value, as possible. For our simple example, we're not going to stress out over this much. Let's create an empty hash table
+Here the mod is used to truncate our integer value so that our it fits in our list. In our case, let's assume the list is of length no larger than 5. Ideally, you want you hash functions to have as few `collisions`, instances where different key texts give the same hash value, as possible. For our simple example, we're not going to stress out over this much and our hash function is going to give lots of collisions. Let's create an empty hash table
 
 ```{r}
-hash_table = rep(NA, 10)
+hash_table = vector(mode = "list", length = 5)
 ```
 
 Now, let's add an element
 ```{r}
 ##Note this operates on hash_table outside of the function
-add_pair = function(key, value){
+add_pair = function(key, value, hash_table){
     n = length(hash_table)
     new_entry = list(c(key, value))
     hash_value = hash(key, n)
-    hash_entry = hash_table[hash_value]
-    if (is.na(hash_entry)){
-        hash_table[hash_value] = list(c(key, value))
+    hash_entry = hash_table[[hash_value]]
+    if (is.null(hash_entry)){
+        hash_table[[hash_value]] = new_entry
     }
     else {
-        hash_table[hash_value] = c(hash_entry, new_entry)
+        hash_table[[hash_value]] = c(hash_entry, new_entry)
     }
     return(hash_table)
 }
-add_pair("Bruce", "From individuals to populations")
-add_pair("Bruce2", "From individuals to populations2")
+hash_table = add_pair("Bruce", "From individuals to populations", hash_table)
+hash_table = add_pair("Bruce2", "From individuals to populations2", hash_table)
+hash_table = add_pair("Haley", "Statistical methods", hash_table)
 hash_table
 ```
+
+A nefarious character named `Bruce2` submitted an incremental thesis. But, alas, must go into the hash table. The keys `Bruce` and `Bruce2` result in collisions from our hash function, keys that have the same hash value. We're adopting a collision strategy where we just add collision keys in turn. We should also write some code that prevents us from adding the same exact key twice. As it stands we could add Bruce twice when keys need to be unique.
+
+Let's write a retrieval function. It needs to find the appropriate hash value, then search within that list for the appropriate key.
+
+```{r}
+retrieve = function(key, hash_table){
+    n = length(hash_table)
+    hash_value = hash(key, n)
+    hash_entry = hash_table[[hash_value]]
+    ## If there's nothing there return null
+    if (is.null(hash_entry)){
+        return(NULL)
+    }
+    else {
+        keys = sapply(hash_entry, function(x) x[1])
+        key_test = key == keys
+        if (any(key_test)){
+            key_index = which(key_test) 
+            return(hash_entry[[key_index]][2])
+        }
+        ## If the key isn't there return null
+        else return(NULL)
+    }
+}
+retrieve("Bruce", hash_table)
+retrieve("Bruce2", hash_table)
+retrieve("bruce", hash_table)
+```
+
 
 
