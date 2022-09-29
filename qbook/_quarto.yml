@@ -12,6 +12,7 @@ book:
     - interactive.qmd
     - webscraping.qmd
     - images.qmd
+    - convnet_example.qmd
     - nlp.qmd
     - databases.qmd
     - pipelines.qmd

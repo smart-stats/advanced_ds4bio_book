@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 6&nbsp; Databases</title>
+<title>Advanced Data Science for Public Health - 7&nbsp; Databases</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Databases</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -187,42 +187,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NLP</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  <a href="./databases.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Databases</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data structures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -239,8 +244,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#blockwise-basic-statistical-calculations" id="toc-blockwise-basic-statistical-calculations" class="nav-link active" data-scroll-target="#blockwise-basic-statistical-calculations"><span class="toc-section-number">6.1</span>  Blockwise basic statistical calculations</a></li>
-  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="toc-section-number">6.2</span>  Homework</a></li>
+  <li><a href="#blockwise-basic-statistical-calculations" id="toc-blockwise-basic-statistical-calculations" class="nav-link active" data-scroll-target="#blockwise-basic-statistical-calculations"><span class="toc-section-number">7.1</span>  Blockwise basic statistical calculations</a></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework"><span class="toc-section-number">7.2</span>  Homework</a></li>
   </ul>
 </nav>
     </div>
@@ -249,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Databases</span></h1>
 </div>
 
 
@@ -287,8 +292,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> f[<span class="st">'sensors/sensor1'</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>s2 <span class="op">=</span> f[<span class="st">'sensors/sensor2'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="blockwise-basic-statistical-calculations" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="blockwise-basic-statistical-calculations"><span class="header-section-number">6.1</span> Blockwise basic statistical calculations</h2>
+<section id="blockwise-basic-statistical-calculations" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="blockwise-basic-statistical-calculations"><span class="header-section-number">7.1</span> Blockwise basic statistical calculations</h2>
 <p>Now, consider taking the mean of both variables. Imagine that the time series is so long it’s not feasible to load into memory. So, we want to read it in blocks. You want your blocks to be as big as possible, since that’s fastest. In our case, of course, none of this is necessary.</p>
 <p>Our goal in this section is to do the following: calculate the empirical mean and variance for each sensor, center and scale each sensor, and write those changes to those variables, calculate the sample correlation then calculate the residual for sensor1 given sensor2. (I think typically you wouldn’t want to overwrite the original data; but, this is for pedagogical purposes.) We want our data organized so sensors are stored in a hierarchical “folder” called sensors and processed data is in a different folder.</p>
 <p>We’re just simulating iid standard normals. So, we have a rough idea of the answers we should get, since the the data are theoretically mean 0, variance 1 and uncorrelated. After our calculations, they will have empirical mean 0 and variance 1 and the empirical correlation between the residual and sensor 2 will be 0.</p>
@@ -309,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>[mean1, mean2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>[0.011582313820613905, -0.013320194733027027]</code></pre>
+<pre><code>[-0.02810402058009799, 0.011336419927507892]</code></pre>
 </div>
 </div>
 <p>Let’s now center our time series.</p>
@@ -328,7 +333,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">+=</span> np.<span class="bu">sum</span>(s2[block_indices] <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>[v1, v2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>[0.9932476736091461, 0.9706825090260557]</code></pre>
+<pre><code>[0.9542478080155163, 0.9669012667096477]</code></pre>
 </div>
 </div>
 <p>Now let’s scale our vectors as</p>
@@ -348,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    cor <span class="op">+=</span> np.<span class="bu">sum</span>(s1[block_indices] <span class="op">*</span> s2[block_indices]) <span class="op">/</span> (n<span class="op">-</span><span class="dv">1</span>) </span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>cor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>0.05973979068932521</code></pre>
+<pre><code>0.025597705802309537</code></pre>
 </div>
 </div>
 <p>Finally, we want to “regress out” s2 from s1. Since we normalized our series, the correlation is slope coefficient from linear regression (regardless of the outcome and dependent variable) and the intercept is zero (since we centered). Thus, the residual we want is <span class="math inline">\(e_{12} = s_1 - \rho s_2\)</span> where <span class="math inline">\(\rho\)</span> is the correlation.</p>
@@ -375,8 +380,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>f.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="homework" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="homework"><span class="header-section-number">6.2</span> Homework</h2>
+<section id="homework" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="homework"><span class="header-section-number">7.2</span> Homework</h2>
 <ol type="1">
 <li>Perform lots of regressions. Suppose that you have a setting where you would like to perform the operation <span class="math display">\[
 (X'X)^{-1} X' Y
@@ -489,12 +494,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./nlp.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NLP</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NLP</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./pipelines.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pipelines</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Pipelines</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

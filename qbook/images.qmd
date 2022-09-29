@@ -429,34 +429,3 @@ Now, let's discuss some specific vocabulary used in CNNs.
 * **Pooling** pooling, often max pooling, is a dimension reduction technique, taking the max in little blocks. 
 * **stride length** instead of sliding the kernel by moving it one pixel at a time, move it more to increase computational efficiency and reduce the size of the output convolution.
 
-## Medical images
-
-Medical images offer unique challenges for imaging. A common format for medical images is dicom. Most medical images are 3D or 4D grayscale images. 
-
-To get a sense of working with medical images, let's consider a set of 2D images from the medical mnist library [@medmnistv2].
-
-```{python}
-from tqdm import tqdm
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.utils.data as data
-import torchvision.transforms as transforms
-import medmnist
-from medmnist import INFO, Evaluator
-```
-
-```{python}
-data_flag = 'dermamnist'
-info = INFO[data_flag]
-task = info['task']
-n_channels = info['n_channels']
-n_classes = len(info['label'])
-DataClass = getattr(medmnist, info['python_class'])
-train_dataset = DataClass(split='train', download = True)
-```
-
-```{python}
-train_dataset.montage(length=20)
-```

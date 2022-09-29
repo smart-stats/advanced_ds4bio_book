@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 10&nbsp; Data science, conceptually</title>
+<title>Advanced Data Science for Public Health - 11&nbsp; Data science, conceptually</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -123,42 +123,47 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NLP</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Databases</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data structures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -175,12 +180,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">10.1</span>  Introduction</a></li>
-  <li><a href="#all-models-are-wrong" id="toc-all-models-are-wrong" class="nav-link" data-scroll-target="#all-models-are-wrong"><span class="toc-section-number">10.2</span>  All models are wrong</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">11.1</span>  Introduction</a></li>
+  <li><a href="#all-models-are-wrong" id="toc-all-models-are-wrong" class="nav-link" data-scroll-target="#all-models-are-wrong"><span class="toc-section-number">11.2</span>  All models are wrong</a>
   <ul class="collapse">
-  <li><a href="#wrong-means-wrong" id="toc-wrong-means-wrong" class="nav-link" data-scroll-target="#wrong-means-wrong"><span class="toc-section-number">10.2.1</span>  Wrong means wrong</a></li>
+  <li><a href="#wrong-means-wrong" id="toc-wrong-means-wrong" class="nav-link" data-scroll-target="#wrong-means-wrong"><span class="toc-section-number">11.2.1</span>  Wrong means wrong</a></li>
   </ul></li>
-  <li><a href="#some-models-are-useful" id="toc-some-models-are-useful" class="nav-link" data-scroll-target="#some-models-are-useful"><span class="toc-section-number">10.3</span>  Some models are useful</a></li>
+  <li><a href="#some-models-are-useful" id="toc-some-models-are-useful" class="nav-link" data-scroll-target="#some-models-are-useful"><span class="toc-section-number">11.3</span>  Some models are useful</a></li>
   </ul>
 </nav>
     </div>
@@ -189,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
 </div>
 
 
@@ -203,15 +208,15 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introduction" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">11.1</span> Introduction</h2>
 <p>In this chapter, we’ll focus on data science theory, thinking and philosophy. We’re going to omit any standard treatment of statistical theory and inference, like maximum likelihood optimality and asymptotics, since those are well covered elsewhere. However, it’s worth mentioning that those topics are obviously part of data science theory.</p>
 <p>Instead, we’ll focus on meta-inferential and meta-empirical science questions, as well as some of the conceptual and theoretical language that’s worth knowing.</p>
 </section>
-<section id="all-models-are-wrong" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="all-models-are-wrong"><span class="header-section-number">10.2</span> All models are wrong</h2>
-<section id="wrong-means-wrong" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="wrong-means-wrong"><span class="header-section-number">10.2.1</span> Wrong means wrong</h3>
+<section id="all-models-are-wrong" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="all-models-are-wrong"><span class="header-section-number">11.2</span> All models are wrong</h2>
+<section id="wrong-means-wrong" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="wrong-means-wrong"><span class="header-section-number">11.2.1</span> Wrong means wrong</h3>
 <p>“All models are wrong, but some are useful”, or some variant, is a quote from statistician George Box that is so well known and used that it has a lengthy <a href="https://en.wikipedia.org/wiki/All_models_are_wrong">wikipedia page</a>. Restricting our attention to probabilistic models, it is interesting to note that this quote, which is near universally agreed upon, has implications that are often not. For example, the quote suggests that there is not, and never has been: an IID sample, normally distributed data (as in having been generated from a normal distribution), a true population stochastic model … In other words, there is no correct probabilistic model, ever, ever, ever (according to the quote).</p>
 <p>One way to interpret this is that there are correct probability models, we just haven’t found them yet, or maybe can’t find them via some incompleteness law. If we ever find one, I guess we’d have to change the quote to “All models were wrong …”. But, I don’t think the quote is implying the existence of true probabilistic models that we don’t, or can’t, know. I tend to think it is suggesting that, by in large, randomness doesn’t exist and hence probabilitity models are, like Newtonian mechanics, just models, not truth.</p>
 <p>This is a well discussed topic in philosophy. On some meaningful level, the quote is obviously true. Most things we’re interested in are clearly purely functionally caused by antecedent variables, some of which we know and can measure and some of which we can’t. This is obviously true of of things like die rolls or casino games and, especially, random number generators, where we know the actual deterministic formula generating the numbers.0</p>
@@ -219,8 +224,8 @@ ul.task-list li input[type="checkbox"] {
 <p>For our purposes, this seems irrelevant. Even if randomness did exist at the scale of the extremely small, our data generally references systems where we believe that determinism holds. There is no Bell’s theorem of disease. Typically, we think observed and hidden variables explain the relevant majority of an individual or population’s state of health. Moreover, regardless if some models are right or it’s just true that all stochastic models are wrong, many models are extremely useful. It is more important to be able to accurately represent one’s assumptions and how they connect to the experimental setting than it is to argue that one’s assumptions are true on some bizarre abstract level. So, my recommendation is to ignore this line of thinking entirely, and instead focus on being able to articulate your assumptions and describe what it is you’re treating as random, regardless of whether or not it actually is.</p>
 </section>
 </section>
-<section id="some-models-are-useful" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="some-models-are-useful"><span class="header-section-number">10.3</span> Some models are useful</h2>
+<section id="some-models-are-useful" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="some-models-are-useful"><span class="header-section-number">11.3</span> Some models are useful</h2>
 <p>Do we even care if models are ultimately correct? The quote ends with, “some models are useful”. How are they useful?</p>
 
 
@@ -328,12 +333,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./diymlai.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./data_science_as_a_science.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
