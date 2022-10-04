@@ -11,13 +11,13 @@ book:
     - intro.qmd
     - interactive.qmd
     - webscraping.qmd
-    - images.qmd
-    - convnet_example.qmd
     - nlp.qmd
+    - images.qmd
     - databases.qmd
     - pipelines.qmd
     - data_structures.qmd
     - diymlai.qmd
+    - convnet_example.qmd
     - data_analysis_theory.qmd
     - data_science_as_a_science.qmd
     - graphics.qmd

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 4&nbsp; Working with images</title>
+<title>Advanced Data Science for Public Health - 5&nbsp; Working with images</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./convnet_example.html" rel="next">
-<link href="./webscraping.html" rel="prev">
+<link href="./databases.html" rel="next">
+<link href="./nlp.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with images</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with images</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -182,37 +182,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./images.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with images</span></a>
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NLP</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
+  <a href="./images.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with images</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data structures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -244,11 +244,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"><span class="toc-section-number">4.1</span>  Basics</a></li>
-  <li><a href="#working-with-raster-graphics" id="toc-working-with-raster-graphics" class="nav-link" data-scroll-target="#working-with-raster-graphics"><span class="toc-section-number">4.2</span>  Working with raster graphics</a></li>
-  <li><a href="#image-mathematics" id="toc-image-mathematics" class="nav-link" data-scroll-target="#image-mathematics"><span class="toc-section-number">4.3</span>  Image mathematics</a>
+  <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"><span class="toc-section-number">5.1</span>  Basics</a></li>
+  <li><a href="#working-with-raster-graphics" id="toc-working-with-raster-graphics" class="nav-link" data-scroll-target="#working-with-raster-graphics"><span class="toc-section-number">5.2</span>  Working with raster graphics</a></li>
+  <li><a href="#image-mathematics" id="toc-image-mathematics" class="nav-link" data-scroll-target="#image-mathematics"><span class="toc-section-number">5.3</span>  Image mathematics</a>
   <ul class="collapse">
-  <li><a href="#convolutions" id="toc-convolutions" class="nav-link" data-scroll-target="#convolutions"><span class="toc-section-number">4.3.1</span>  Convolutions</a></li>
+  <li><a href="#convolutions" id="toc-convolutions" class="nav-link" data-scroll-target="#convolutions"><span class="toc-section-number">5.3.1</span>  Convolutions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -258,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with images</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with images</span></h1>
 </div>
 
 
@@ -272,12 +272,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="basics" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="basics"><span class="header-section-number">4.1</span> Basics</h2>
+<section id="basics" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="basics"><span class="header-section-number">5.1</span> Basics</h2>
 <p>Images broadly come in two types, vector and raster. Vector graphics are in formats like pdf, eps, svg and raster graphics are like jpeg, gif, png. Vector graphics store the image constructs and shapes. So, a vector graphics renderer can zoom in indefinitely on a shape and its edges will appear sharp. Vector fonts work this way. Raster graphics basically store a matrix and the pixels on the screen show the values of that matrix. Bitmapped fonts work this way. Of course, vector graphics have to be converted to raster to be actually displayed by the computer. Finally, some rater graphics formats have compression, which we won’t really discuss.</p>
 </section>
-<section id="working-with-raster-graphics" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="working-with-raster-graphics"><span class="header-section-number">4.2</span> Working with raster graphics</h2>
+<section id="working-with-raster-graphics" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="working-with-raster-graphics"><span class="header-section-number">5.2</span> Working with raster graphics</h2>
 <p>Raster images are typically stored as an array. Grayscale images are matrices with the image intensity as the value and color pictures are stored as 3D arrays with the two main dimensions and color channels. A library for working with regular images in python is called PIL.</p>
 <p>There are different raster specifications. RGB has 3 color channels, red, green and blue. CMYK has four: cyan, magenta, yellow and black. It’s interesting to note that the use of color channels existed before color cameras, when photographers would use different filters and additive and subtractive processes. The photograph below was created in 1877 by Louis Ducos du Hauron.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -360,12 +360,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="image-mathematics" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="image-mathematics"><span class="header-section-number">4.3</span> Image mathematics</h2>
-<section id="convolutions" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="convolutions"><span class="header-section-number">4.3.1</span> Convolutions</h3>
-<section id="d-transforms" class="level4" data-number="4.3.1.1">
-<h4 data-number="4.3.1.1" class="anchored" data-anchor-id="d-transforms"><span class="header-section-number">4.3.1.1</span> 1D transforms</h4>
+<section id="image-mathematics" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="image-mathematics"><span class="header-section-number">5.3</span> Image mathematics</h2>
+<section id="convolutions" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="convolutions"><span class="header-section-number">5.3.1</span> Convolutions</h3>
+<section id="d-transforms" class="level4" data-number="5.3.1.1">
+<h4 data-number="5.3.1.1" class="anchored" data-anchor-id="d-transforms"><span class="header-section-number">5.3.1.1</span> 1D transforms</h4>
 <p>Convolutions are an important topic in mathematics, statistics, signal processing … Let’s discuss 1D convolutions first. A real valued convolution of two continuous signals, <span class="math inline">\(X(t)\)</span> and <span class="math inline">\(K(t)\)</span> is defined as <span class="math inline">\(X* K\)</span></p>
 <p><span class="math display">\[
 (X* K)(t) = \int_{-\infty}^{\infty} X(u) K(t-u) du
@@ -539,8 +539,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="d-transforms-1" class="level4" data-number="4.3.1.2">
-<h4 data-number="4.3.1.2" class="anchored" data-anchor-id="d-transforms-1"><span class="header-section-number">4.3.1.2</span> 2D transforms</h4>
+<section id="d-transforms-1" class="level4" data-number="5.3.1.2">
+<h4 data-number="5.3.1.2" class="anchored" data-anchor-id="d-transforms-1"><span class="header-section-number">5.3.1.2</span> 2D transforms</h4>
 <p>For two dimensions, the convolution is similar</p>
 <p><span class="math display">\[
 (X ** K)(i,j) = \sum_{u=-\infty}^{\infty} \sum_{v=-\infty}^{\infty}
@@ -620,8 +620,8 @@ X(u, v) / (M_1 M_2)
 </div>
 </div>
 </section>
-<section id="convolutional-neural-networks" class="level4" data-number="4.3.1.3">
-<h4 data-number="4.3.1.3" class="anchored" data-anchor-id="convolutional-neural-networks"><span class="header-section-number">4.3.1.3</span> Convolutional neural networks</h4>
+<section id="convolutional-neural-networks" class="level4" data-number="5.3.1.3">
+<h4 data-number="5.3.1.3" class="anchored" data-anchor-id="convolutional-neural-networks"><span class="header-section-number">5.3.1.3</span> Convolutional neural networks</h4>
 <p>Of course, your kernel doesn’t have to be a box, or a truncated, discretized bivariate Gaussian density or even be non-negative. It’s helpful for smoothers to have non-negative kernels, since they’re just taking a generalized variation of a moving average that way. But, we want to use convolutions</p>
 <p>more generally. Here, let’s take a kernel that is part of the image (left eye) and convolve it. I’ll make the kernel super peaked at eye features by extracting the eye and raising it to the 4th power.</p>
 <p>So a relu activation function plus a bias term would then be able to highlight different thresheld variations of this convolution image. For example, here I add a bias term to the convolution then apply a leaky relu. You can see it just highlights the one area where the eye is. A leaky relu is</p>
@@ -822,13 +822,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./webscraping.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></span>
+      <a href="./nlp.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NLP</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./convnet_example.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example convnet</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./databases.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
