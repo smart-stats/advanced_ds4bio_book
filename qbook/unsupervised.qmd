@@ -1,0 +1,178 @@
+---
+title: "Unsupervised learning"
+format: html
+---
+
+## PCA
+
+Let $\{X_i\}$ for $i=1,\ldots,n$ be $p$ random vectors with means $(0,\ldots,0)^t$ and variance matrix $\Sigma$. Consider finding $v_1$, a $p$ dimensional vector with $||v_1|| = 1$ so that
+$v_1^t \Sigma v_1$ is maximized. Notice this is equivalent to saying we want to maximize 
+$\mathrm{Var}( X_i^t V_1)$. The well known solution to this equation is that
+$v_1$ is the first eigenvector of $\Sigma$ and $\lambda_1 = \mathrm{Var}( X_i^t V_1)$ is the associated eigenvalue. If $\Sigma = V^t \Lambda V$ is the eigenvalue decomposition of 
+where $V$ are the eigenvectors and $\Lambda$ is a diagonal matrix of the eigenvalues ordered from greatest to least, then $v_1$ corresponds to the first column of $V$ and $\lambda_1$ corresponds to the first element of $\Lambda$. If one then finds $v_k$ as the vector maximizing
+$v_k^t \Sigma v_k$ so that $v_k^t v_{k'} = I(k=k')$, then the $v_k$ are the columns of $V$ and
+$v_k^t \Sigma v_k = \lambda_k$ are the eigenvalues. 
+
+Notice:
+
+1. $V \Sigma V^t = \Lambda$ (i.e. $V$ diagonalizess $\Sigma$)
+2. $\mbox{Trace}(\Sigma) = \mbox{Trace}(\Sigma V^t V) = \mbox{Trace}(V \Sigma V^t) = \sum \lambda_k$ (i.e. the total variability is the sum of the eigenvalues)
+3. Since $V^t V = I$, $V$ is a rotation matrix. Thus, $V$ rotates $X_i$ in such a way that to maximize variability in the first dimension, then the second dimensions ...
+4. $\mbox{Cov}(X_i^t v_k, x_i^t v_{k'} )= \mbox{Cov}(X_i^t v_k, x_i^t v_{k'} )
+v_k^t \mbox{Cov}(x_i, x_i^t) v_{k'} =  v_k^t V v_{k'} = 0$ if $k\neq k'$
+5. Another representation of $\Sigma$ is $\sum_{k=1}^p \lambda_i v_k v_k^t$ by simply rewriting the matrix algebra of $V \Lambda V^t$.
+6. The variables $U_i = V X_i$ then: have uncorrelated elements ($\mbox{Cov}(U_{ik}, U_{ik'}) = 0$ for $k\neq k'$ by property 5), have the same total variability as the elements of $X_i$ ($\sum_k \mbox{Var}(U_{ik}) = \sum_k \lambda_k = \sum_k \mbox{Var}(X_{ik})$ by property 2), are a rotation of the $X_i$, are ordered so that $U_{i1}$ has the greatest amount of variability and so on.  
+
+Notation:
+
+1. The $\lambda_k$ are simply called the eigenvalues or principal components variation.
+2. $U_{ik} = X_i^t v_k$ is called the **principal component scores**.
+3. The $v_k$ are called the **principal component loadings** or **weights**, with $v_1$ being called the first principal component and so on.
+
+Statistical properties
+
+1. $E[U_{ik}]=0$
+2. $\mbox{Var}(U_{ik}) = \lambda_k$
+3. $\mbox{Cov}(U_{ik}, U_{ik'}) = 0$ if $k\neq k'$
+4. $\sum_{k=1}^p \mbox{Var}(U_{ik}) = \mbox{Trace}(\Sigma)$.
+5. $\prod_{k=1}^p \mbox{Var}(U_{ik}) = \mbox{Det}(\Sigma)$
+
+### Sample PCA
+
+Of course, we're describing PCA as a conceptual process. We realize $n$ $p$ dimensional vectors $x_1$ to $x_n$, typically organized in $X$ a $n\times p$ matrix. If $X$ is not mean 0, we typically demean it by calculating $(I- J(J^t J)^{-1} J') X$ where $J$ is a vector of ones. Assume this is done. Then $\frac{1}{n-1} X^t X = \hat \Sigma$. Thus,
+our sample PCA is obtained via the eigenvalue decomposition $\hat \Sigma = \hat V \hat \Lambda \hat V^t$ and our principal components obtained as $ X V$. 
+
+We can relate PCA to the SVD as follows. Let $\frac{1}{\sqrt{n-1}} X = \hat U \sqrt{\hat \Lambda} \hat V^t$ be the SVD of the scaled version of $X$. Then note that
+$$
+\hat \Sigma = \frac{1}{n-1} X^t X = \hat V \hat \Lambda \hat V^t
+$$
+yields the sample covariance matrix eigenvalue decomposition. 
+
+
+### PCA with a large dimension
+
+Consider the case where one of $n$ or $p$ is large. Let's assume $n$ is large. Then
+$$
+\frac{1}{n-1} X^t X = \frac{1}{n-1} \sum_i x_i x_i^t
+$$
+As we learned in the chapter on HDF5, we can do sums like these without loading the entirety of $X$ into memory. Thus, in this case, we can calculate the eigenvectors using only the small dimension. If, on the other hand, $p$ is large and $n$ is smaller, then we can calculate the
+eigenvalue decomposition of
+$$
+\frac{1}{n-1} X X^t = \hat U \hat \Lambda \hat U^t.
+$$
+In either case, whether $U$ or $V$ is easier to get, we can then obtain the other via vectorized multiplication.
+
+
+### Simple example
+
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy.linalg as la
+
+n = 1000
+mu = (0, 0)
+Sigma = np.matrix([[1, .5], [.5, 1]])
+X = np.random.multivariate_normal( mean = mu, cov = Sigma, size = n)
+
+plt.scatter(X[:,0], X[:,1])
+```
+
+
+```{python}
+X = X - X.mean(0)
+print(X.mean(0))
+Sigma_hat = np.matmul(np.transpose(X), X) / (n-1) 
+Sigma_hat
+```
+
+
+```{python}
+evd = la.eig(Sigma_hat)
+lambda_ = evd[0]
+v_hat = evd[1]
+u_hat = np.matmul(X, np.transpose(v_hat))
+plt.scatter(u_hat[:,0], u_hat[:,1])
+```
+
+Fit using scikitlearn's function
+
+```{python}
+from sklearn.decomposition import PCA
+pca = PCA(n_components = 2).fit(X)
+print(pca.explained_variance_)
+print(lambda_ )
+```
+
+```{python}
+u_hat2 = pca.transform(X)
+plt.subplot(2, 2, 1)
+plt.scatter(u_hat2[:,0], u_hat2[:,1])
+plt.subplot(2, 2, 2)
+plt.scatter(u_hat2[:,0], u_hat[:,0])
+plt.subplot(2, 2, 3)
+plt.scatter(u_hat2[:,1], u_hat[:,1])
+```
+
+### Example
+
+```{python}
+import urllib.request
+import PIL
+import matplotlib.pyplot as plt
+import numpy as np
+import torch 
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import TensorDataset, DataLoader
+import torchvision
+import torchvision.transforms as transforms
+imgURL = "https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png"
+urllib.request.urlretrieve(imgURL, "cryptoPunksAll.jpg")
+img = PIL.Image.open("cryptoPunksAll.jpg").convert("RGB")
+imgArray = np.asarray(img)
+finalArray = np.empty((10000, 3, 24, 24))
+for i in range(100):
+  for j in range(100):
+    a, b = 24 * i, 24 * (i + 1)  
+    c, d = 24 * j, 24 * (j + 1) 
+    idx = j + i * (100)
+    finalArray[idx,0,:,:] = imgArray[a:b,c:d,0]
+    finalArray[idx,1,:,:] = imgArray[a:b,c:d,1]
+    finalArray[idx,2,:,:] = imgArray[a:b,c:d,2]
+
+n = finalArray.shape[0]
+trainFraction = .75
+sample = np.random.uniform(size = n) < trainFraction
+x_train = finalArray[ sample, :, :, :] / 255
+x_test =  finalArray[~sample, :, :, :] / 255
+print([x_train.shape, x_test.shape])
+```
+
+```{python}
+n_train = x_train.shape[0]
+dim = (3, 24, 24)
+x_reshaped = x_train.reshape(n_train, np.prod(dim))
+#x_mean = x_reshaped.mean(0)
+#x_reshaped_demeaned =  x_reshaped - x_mean
+
+n_comp = 100
+pca = PCA(n_components = n_comp).fit(x_reshaped_demeaned)
+
+plt.plot(pca.explained_variance_ratio_[1 : 70])
+```
+
+Fit the testing data with the training data
+```{python}
+n_test = x_test.shape[0]
+x_test_reshaped = x_test.reshape(n_test, np.prod(dim))
+
+x_test_reshaped_fit = pca.inverse_transform(pca.fit_transform(x_test_reshaped))
+np.mean(np.abs(x_test_reshaped - x_test_reshaped_fit))
+```
+
+```{python}
+img = np.transpose(x_test_reshaped_fit[0,:].reshape(3, 24, 24), (1, 2, 0))
+plt.imshow(img)
+```

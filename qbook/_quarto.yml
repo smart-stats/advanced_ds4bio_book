@@ -18,6 +18,7 @@ book:
     - data_structures.qmd
     - diymlai.qmd
     - convnet_example.qmd
+    - unsupervised.qmd
     - data_analysis_theory.qmd
     - data_science_as_a_science.qmd
     - graphics.qmd

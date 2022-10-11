@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 1&nbsp; Introduction</title>
+<title>Advanced Data Science for Public Health - 11&nbsp; Unsupervised learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./interactive.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./data_analysis_theory.html" rel="next">
+<link href="./convnet_example.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -61,6 +61,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -70,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -103,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -153,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
+  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -185,10 +186,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome"><span class="toc-section-number">2</span>  Welcome!</a>
+  <li><a href="#pca" id="toc-pca" class="nav-link active" data-scroll-target="#pca"><span class="toc-section-number">11.1</span>  PCA</a>
   <ul class="collapse">
-  <li><a href="#requirements" id="toc-requirements" class="nav-link" data-scroll-target="#requirements"><span class="toc-section-number">2.1</span>  Requirements</a></li>
-  <li><a href="#organization" id="toc-organization" class="nav-link" data-scroll-target="#organization"><span class="toc-section-number">2.2</span>  Organization</a></li>
+  <li><a href="#sample-pca" id="toc-sample-pca" class="nav-link" data-scroll-target="#sample-pca"><span class="toc-section-number">11.1.1</span>  Sample PCA</a></li>
+  <li><a href="#pca-with-a-large-dimension" id="toc-pca-with-a-large-dimension" class="nav-link" data-scroll-target="#pca-with-a-large-dimension"><span class="toc-section-number">11.1.2</span>  PCA with a large dimension</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -198,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></h1>
 </div>
 
 
@@ -212,16 +213,44 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="welcome" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Welcome!</h1>
-<p>This is a book for the Advanced Data Science for Bio/Public Health/medical classes. Since data science isn’t super well defined, advanced data science is even less so. My opinion is that we needed the umbrella term data science because there was a lot in the processes of analyzing data that got ignored in traditional disciplines and training programs. (Of course, what gets ignored is different depeneding on which discipline or program.) I’m mostly going to focus on concepts and implementation that were historically ignored in our (JHU Biostat) program, which is heavily focused on biostatistical inference, probability modeling, public health/bio/medical data analyses and ML.</p>
-<section id="requirements" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="requirements"><span class="header-section-number">2.1</span> Requirements</h2>
-<p>I’m going to assume that you have a lot of basic data science tools down already. If not, <a href="https://smart-stats.github.io/ds4bio_book/book/_build/html/intro.html">here’s some notes</a>. For this book you’ll need: prior programming experience, calculus, linear algebra, unix, python, R and some basic statistics.</p>
+<section id="pca" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="pca"><span class="header-section-number">11.1</span> PCA</h2>
+<p>Let <span class="math inline">\(\{X_i\}\)</span> for <span class="math inline">\(i=1,\ldots,n\)</span> be <span class="math inline">\(p\)</span> random vectors with means <span class="math inline">\((0,\ldots,0)^t\)</span> and variance matrix <span class="math inline">\(\Sigma\)</span>. Consider finding <span class="math inline">\(v_1\)</span>, a <span class="math inline">\(p\)</span> dimensional vector with <span class="math inline">\(||v_1|| = 1\)</span> so that <span class="math inline">\(v_1^t \Sigma v_1\)</span> is maximized. Notice this is equivalent to saying we want to maximize <span class="math inline">\(\mathrm{Var}( X_i^t V_1)\)</span>. The well known solution to this equation is that <span class="math inline">\(v_1\)</span> is the first eigenvector of <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(\lambda_1 = \mathrm{Var}( X_i^t V_1)\)</span> is the associated eigenvalue. If <span class="math inline">\(\Sigma = V^t \Lambda V\)</span> is the eigenvalue decomposition of where <span class="math inline">\(V\)</span> are the eigenvectors and <span class="math inline">\(\Lambda\)</span> is a diagonal matrix of the eigenvalues ordered from greatest to least, then <span class="math inline">\(v_1\)</span> corresponds to the first column of <span class="math inline">\(V\)</span> and <span class="math inline">\(\lambda_1\)</span> corresponds to the first element of <span class="math inline">\(\Lambda\)</span>. If one then finds <span class="math inline">\(v_k\)</span> as the vector maximizing <span class="math inline">\(v_k^t \Sigma v_k\)</span> so that <span class="math inline">\(v_k^t v_{k'} = I(k=k')\)</span>, then the <span class="math inline">\(v_k\)</span> are the columns of <span class="math inline">\(V\)</span> and <span class="math inline">\(v_k^t \Sigma v_k = \lambda_k\)</span> are the eigenvalues.</p>
+<p>Notice:</p>
+<ol type="1">
+<li><span class="math inline">\(V \Sigma V^t = \Lambda\)</span> (i.e.&nbsp;<span class="math inline">\(V\)</span> diagonalizess <span class="math inline">\(\Sigma\)</span>)</li>
+<li><span class="math inline">\(\mbox{Trace}(\Sigma) = \mbox{Trace}(\Sigma V^t V) = \mbox{Trace}(V \Sigma V^t) = \sum \lambda_k\)</span> (i.e.&nbsp;the total variability is the sum of the eigenvalues)</li>
+<li>Since <span class="math inline">\(V^t V = I\)</span>, <span class="math inline">\(V\)</span> is a rotation matrix. Thus, <span class="math inline">\(V\)</span> rotates <span class="math inline">\(X_i\)</span> in such a way that to maximize variability in the first dimension, then the second dimensions …</li>
+<li><span class="math inline">\(\mbox{Cov}(X_i^t v_k, x_i^t v_{k'} )= \mbox{Cov}(X_i^t v_k, x_i^t v_{k'} ) v_k^t \mbox{Cov}(x_i, x_i^t) v_{k'} = v_k^t V v_{k'} = 0\)</span> if <span class="math inline">\(k\neq k'\)</span></li>
+<li>Another representation of <span class="math inline">\(\Sigma\)</span> is <span class="math inline">\(\sum_{k=1}^p \lambda_i v_k v_k^t\)</span> by simply rewriting the matrix algebra of <span class="math inline">\(V \Lambda V^t\)</span>.</li>
+<li>The variables <span class="math inline">\(U_i = V X_i\)</span> then: have uncorrelated elements (<span class="math inline">\(\mbox{Cov}(U_{ik}, U_{ik'}) = 0\)</span> for <span class="math inline">\(k\neq k'\)</span> by property 5), have the same total variability as the elements of <span class="math inline">\(X_i\)</span> (<span class="math inline">\(\sum_k \mbox{Var}(U_{ik}) = \sum_k \lambda_k = \sum_k \mbox{Var}(X_{ik})\)</span> by property 2), are a rotation of the <span class="math inline">\(X_i\)</span>, are ordered so that <span class="math inline">\(U_{i1}\)</span> has the greatest amount of variability and so on.</li>
+</ol>
+<p>Notation:</p>
+<ol type="1">
+<li>The <span class="math inline">\(\lambda_k\)</span> are simply called the eigenvalues or principal components variation.</li>
+<li><span class="math inline">\(U_{ik} = X_i^t v_k\)</span> is called the <strong>principal component scores</strong>.</li>
+<li>The <span class="math inline">\(v_k\)</span> are called the <strong>principal component loadings</strong> or <strong>weights</strong>, with <span class="math inline">\(v_1\)</span> being called the first principal component and so on.</li>
+</ol>
+<p>Statistical properties</p>
+<ol type="1">
+<li><span class="math inline">\(E[U_{ik}]=0\)</span></li>
+<li><span class="math inline">\(\mbox{Var}(U_{ik}) = \lambda_k\)</span></li>
+<li><span class="math inline">\(\mbox{Cov}(U_{ik}, U_{ik'}) = 0\)</span> if <span class="math inline">\(k\neq k'\)</span></li>
+<li><span class="math inline">\(\sum_{k=1}^p \mbox{Var}(U_{ik}) = \mbox{Trace}(\Sigma)\)</span>.</li>
+<li><span class="math inline">\(\prod_{k=1}^p \mbox{Var}(U_{ik}) = \mbox{Det}(\Sigma)\)</span></li>
+</ol>
+<section id="sample-pca" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="sample-pca"><span class="header-section-number">11.1.1</span> Sample PCA</h3>
+<p>Of course, we’re describing PCA as a conceptual process. We realize <span class="math inline">\(n\)</span> <span class="math inline">\(p\)</span> dimensional vectors <span class="math inline">\(x_1\)</span> to <span class="math inline">\(x_n\)</span>, typically organized in <span class="math inline">\(X\)</span> a <span class="math inline">\(n\times p\)</span> matrix. If <span class="math inline">\(X\)</span> is not mean 0, we typically demean it by calculating <span class="math inline">\((I- J(J^t J)^{-1} J') X\)</span> where <span class="math inline">\(J\)</span> is a vector of ones. Assume this is done. Then <span class="math inline">\(\frac{1}{n-1} X^t X = \hat \Sigma\)</span>. Thus, our sample PCA is obtained via the eigenvalue decomposition <span class="math inline">\(\hat \Sigma = \hat V \hat \Lambda \hat V^t\)</span> and our principal components obtained as $ X V$.</p>
+<p>We can relate PCA to the SVD as follows. Let <span class="math inline">\(\frac{1}{\sqrt{n-1}} X = \hat U \sqrt{\hat \Lambda} \hat V^t\)</span> be the SVD of the scaled version of <span class="math inline">\(X\)</span>. Then note that <span class="math display">\[
+\hat \Sigma = \frac{1}{n-1} X^t X = \hat V \hat \Lambda \hat V^t
+\]</span> yields the sample covariance matrix eigenvalue decomposition.</p>
 </section>
-<section id="organization" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="organization"><span class="header-section-number">2.2</span> Organization</h2>
-<p>This is a two quarter course. The first quater is devoted to tools and the second is deveoted to theory. So the book is divided in half that way.</p>
+<section id="pca-with-a-large-dimension" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="pca-with-a-large-dimension"><span class="header-section-number">11.1.2</span> PCA with a large dimension</h3>
+<p>Consider the case where one of <span class="math inline">\(n\)</span> or <span class="math inline">\(p\)</span> is large. Let’s assume <span class="math inline">\(n\)</span> is large. Then <span class="math display">\[
+\frac{1}{n-1} X^t X = \frac{1}{n-1} \sum_i x_i x_i^t
+\]</span></p>
 
 
 </section>
@@ -328,13 +357,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./convnet_example.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Example convnet</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./interactive.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interactive graphics</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./data_analysis_theory.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
