@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -190,6 +253,8 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#sample-pca" id="toc-sample-pca" class="nav-link" data-scroll-target="#sample-pca"><span class="toc-section-number">11.1.1</span>  Sample PCA</a></li>
   <li><a href="#pca-with-a-large-dimension" id="toc-pca-with-a-large-dimension" class="nav-link" data-scroll-target="#pca-with-a-large-dimension"><span class="toc-section-number">11.1.2</span>  PCA with a large dimension</a></li>
+  <li><a href="#simple-example" id="toc-simple-example" class="nav-link" data-scroll-target="#simple-example"><span class="toc-section-number">11.1.3</span>  Simple example</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="toc-section-number">11.1.4</span>  Example</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -250,7 +315,159 @@ ul.task-list li input[type="checkbox"] {
 <h3 data-number="11.1.2" class="anchored" data-anchor-id="pca-with-a-large-dimension"><span class="header-section-number">11.1.2</span> PCA with a large dimension</h3>
 <p>Consider the case where one of <span class="math inline">\(n\)</span> or <span class="math inline">\(p\)</span> is large. Let’s assume <span class="math inline">\(n\)</span> is large. Then <span class="math display">\[
 \frac{1}{n-1} X^t X = \frac{1}{n-1} \sum_i x_i x_i^t
-\]</span></p>
+\]</span> As we learned in the chapter on HDF5, we can do sums like these without loading the entirety of <span class="math inline">\(X\)</span> into memory. Thus, in this case, we can calculate the eigenvectors using only the small dimension. If, on the other hand, <span class="math inline">\(p\)</span> is large and <span class="math inline">\(n\)</span> is smaller, then we can calculate the eigenvalue decomposition of <span class="math display">\[
+\frac{1}{n-1} X X^t = \hat U \hat \Lambda \hat U^t.
+\]</span> In either case, whether <span class="math inline">\(U\)</span> or <span class="math inline">\(V\)</span> is easier to get, we can then obtain the other via vectorized multiplication.</p>
+</section>
+<section id="simple-example" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="simple-example"><span class="header-section-number">11.1.3</span> Simple example</h3>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.linalg <span class="im">as</span> la</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Sigma <span class="op">=</span> np.matrix([[<span class="dv">1</span>, <span class="fl">.5</span>], [<span class="fl">.5</span>, <span class="dv">1</span>]])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.multivariate_normal( mean <span class="op">=</span> mu, cov <span class="op">=</span> Sigma, size <span class="op">=</span> n)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x78cdab305810&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="unsupervised_files/figure-html/cell-2-output-2.png" width="569" height="411"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X <span class="op">-</span> X.mean(<span class="dv">0</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X.mean(<span class="dv">0</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Sigma_hat <span class="op">=</span> np.matmul(np.transpose(X), X) <span class="op">/</span> (n<span class="op">-</span><span class="dv">1</span>) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Sigma_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[4.03010958e-17 2.50355292e-17]</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>array([[1.02586627, 0.50395186],
+       [0.50395186, 0.99814154]])</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>evd <span class="op">=</span> la.eig(Sigma_hat)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lambda_ <span class="op">=</span> evd[<span class="dv">0</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>v_hat <span class="op">=</span> evd[<span class="dv">1</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>u_hat <span class="op">=</span> np.matmul(X, np.transpose(v_hat))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(u_hat[:,<span class="dv">0</span>], u_hat[:,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x78cda8ddb430&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="unsupervised_files/figure-html/cell-4-output-2.png" width="569" height="411"></p>
+</div>
+</div>
+<p>Fit using scikitlearn’s function</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>).fit(X)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pca.explained_variance_)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lambda_ )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1.51614639 0.50786142]
+[1.51614639 0.50786142]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>u_hat2 <span class="op">=</span> pca.transform(X)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(u_hat2[:,<span class="dv">0</span>], u_hat2[:,<span class="dv">1</span>])</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(u_hat2[:,<span class="dv">0</span>], u_hat[:,<span class="dv">0</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.scatter(u_hat2[:,<span class="dv">1</span>], u_hat[:,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x78cda00924a0&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="unsupervised_files/figure-html/cell-6-output-2.png" width="569" height="411"></p>
+</div>
+</div>
+</section>
+<section id="example" class="level3" data-number="11.1.4">
+<h3 data-number="11.1.4" class="anchored" data-anchor-id="example"><span class="header-section-number">11.1.4</span> Example</h3>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> PIL</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> TensorDataset, DataLoader</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision.transforms <span class="im">as</span> transforms</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>imgURL <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png"</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>urllib.request.urlretrieve(imgURL, <span class="st">"cryptoPunksAll.jpg"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> PIL.Image.<span class="bu">open</span>(<span class="st">"cryptoPunksAll.jpg"</span>).convert(<span class="st">"RGB"</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>imgArray <span class="op">=</span> np.asarray(img)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>finalArray <span class="op">=</span> np.empty((<span class="dv">10000</span>, <span class="dv">3</span>, <span class="dv">24</span>, <span class="dv">24</span>))</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    a, b <span class="op">=</span> <span class="dv">24</span> <span class="op">*</span> i, <span class="dv">24</span> <span class="op">*</span> (i <span class="op">+</span> <span class="dv">1</span>)  </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    c, d <span class="op">=</span> <span class="dv">24</span> <span class="op">*</span> j, <span class="dv">24</span> <span class="op">*</span> (j <span class="op">+</span> <span class="dv">1</span>) </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> j <span class="op">+</span> i <span class="op">*</span> (<span class="dv">100</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    finalArray[idx,<span class="dv">0</span>,:,:] <span class="op">=</span> imgArray[a:b,c:d,<span class="dv">0</span>]</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    finalArray[idx,<span class="dv">1</span>,:,:] <span class="op">=</span> imgArray[a:b,c:d,<span class="dv">1</span>]</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    finalArray[idx,<span class="dv">2</span>,:,:] <span class="op">=</span> imgArray[a:b,c:d,<span class="dv">2</span>]</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> finalArray.shape[<span class="dv">0</span>]</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>trainFraction <span class="op">=</span> <span class="fl">.75</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>sample <span class="op">=</span> np.random.uniform(size <span class="op">=</span> n) <span class="op">&lt;</span> trainFraction</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> finalArray[ sample, :, :, :] <span class="op">/</span> <span class="dv">255</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>x_test <span class="op">=</span>  finalArray[<span class="op">~</span>sample, :, :, :] <span class="op">/</span> <span class="dv">255</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([x_train.shape, x_test.shape])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[(7572, 3, 24, 24), (2428, 3, 24, 24)]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n_train <span class="op">=</span> x_train.shape[<span class="dv">0</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">24</span>, <span class="dv">24</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>x_reshaped <span class="op">=</span> x_train.reshape(n_train, np.prod(dim))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#x_mean = x_reshaped.mean(0)</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#x_reshaped_demeaned =  x_reshaped - x_mean</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>n_comp <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> n_comp).fit(x_reshaped)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>plt.plot(pca.explained_variance_ratio_[<span class="dv">1</span> : <span class="dv">70</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="unsupervised_files/figure-html/cell-8-output-1.png" width="579" height="413"></p>
+</div>
+</div>
+<p>Fit the testing data with the training data</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>n_test <span class="op">=</span> x_test.shape[<span class="dv">0</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x_test_reshaped <span class="op">=</span> x_test.reshape(n_test, np.prod(dim))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>x_test_reshaped_fit <span class="op">=</span> pca.inverse_transform(pca.fit_transform(x_test_reshaped))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>np.mean(np.<span class="bu">abs</span>(x_test_reshaped <span class="op">-</span> x_test_reshaped_fit))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>0.007062854279882699</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> np.transpose(x_test_reshaped_fit[<span class="dv">0</span>,:].reshape(<span class="dv">3</span>, <span class="dv">24</span>, <span class="dv">24</span>), (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(img)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>&lt;matplotlib.image.AxesImage at 0x78cd2ce1fa00&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="unsupervised_files/figure-html/cell-10-output-3.png" width="415" height="411"></p>
+</div>
+</div>
 
 
 </section>

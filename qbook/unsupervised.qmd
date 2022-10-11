@@ -158,7 +158,7 @@ x_reshaped = x_train.reshape(n_train, np.prod(dim))
 #x_reshaped_demeaned =  x_reshaped - x_mean
 
 n_comp = 100
-pca = PCA(n_components = n_comp).fit(x_reshaped_demeaned)
+pca = PCA(n_components = n_comp).fit(x_reshaped)
 
 plt.plot(pca.explained_variance_ratio_[1 : 70])
 ```

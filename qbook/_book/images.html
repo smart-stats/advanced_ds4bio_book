@@ -217,17 +217,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -406,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span>  X[np.<span class="bu">min</span>(np.where(X <span class="op">!=</span>  <span class="dv">0</span>)) : X.size]</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>plt.plot(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-10-output-1.png" width="618" height="416"></p>
+<p><img src="images_files/figure-html/cell-10-output-1.png" width="612" height="416"></p>
 </div>
 </div>
 <p>Now let’s plot the convolutions with different options in <code>np.convolve</code>.</p>
@@ -470,10 +475,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">2</span>].plot(XCshifted)</span>
 <span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">2</span>].plot(X <span class="op">-</span> XCshifted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-11-output-1.png" width="1027" height="963"></p>
+<p><img src="images_files/figure-html/cell-11-output-1.png" width="1024" height="963"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-11-output-2.png" width="1027" height="963"></p>
+<p><img src="images_files/figure-html/cell-11-output-2.png" width="1024" height="963"></p>
 </div>
 </div>
 <p>Let’s show that the first point and end point of the convolution are the averages of <span class="math inline">\((M-1)/2\)</span> points and and <span class="math inline">\((M-1)/2+1\)</span> zeros at the beginning or end of the original signal just to show that our intuition is correct.</p>
@@ -490,7 +495,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>[[0.07317073170731708, 0.07317073170731707],
- [9950.90243902439, 9950.90243902439]]</code></pre>
+ [16135.414634146342, 16135.414634146342]]</code></pre>
 </div>
 </div>
 <p>Also, I averaged a lot (41 days) in order to make the shift very apparent. Let’s look at the performance for less wide of a kernel.</p>
@@ -505,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(XC)</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(X <span class="op">-</span> XC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-13-output-1.png" width="1021" height="506"></p>
+<p><img src="images_files/figure-html/cell-13-output-1.png" width="1016" height="506"></p>
 </div>
 </div>
 <p>It should be stated that the convolution operation is multiplication in Fourier space. So, functions like np.convolve are performing FFTs in the background. However, if you’re going to do this yourself, make sure to keep track of indices and zero padding. (I.e. the bookkeeping.) Otherwise, the FFT wraps around and you get a little of the end averaged in with the beginning and vice versa. I work out getting the same answer as mode = “same” below.</p>
@@ -535,7 +540,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Show they're the same by plotting the subtraction</span></span>
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(convolution <span class="op">-</span> XC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="images_files/figure-html/cell-14-output-1.png" width="1021" height="520"></p>
+<p><img src="images_files/figure-html/cell-14-output-1.png" width="1016" height="520"></p>
 </div>
 </div>
 </section>
@@ -572,7 +577,7 @@ X(u, v) / (M_1 M_2)
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(img, cmap<span class="op">=</span><span class="st">'gray'</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">255</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>&lt;matplotlib.image.AxesImage at 0x7c7b17ffad40&gt;</code></pre>
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7ad3271d28f0&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="images_files/figure-html/cell-15-output-2.png" width="389" height="389"></p>
