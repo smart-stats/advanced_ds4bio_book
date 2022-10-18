@@ -207,6 +207,29 @@ Often this is done by plotting the cummulative sum so that you can visualize how
 plt.plot(np.cumsum(pca.explained_variance_ratio_))
 ```
 
+Note that the weights from the eigenvectors, $V$, are images. We can plot these as images.
+
+```{python}
+eigen_moles = pca.components_
+```
+
+```{python}
+#| echo: false
+plt.figure(figsize=(10,5))
+for i in range(10): 
+  plt.subplot(2, 5,i+1)
+  plt.xticks([])
+  plt.yticks([])
+  img = eigen_moles[i,:].reshape(28, 28, 3)
+  img = (img - img.min())
+  img = img / img.max()
+  img = img * 255 
+  img = img.astype(np.uint8)
+  plt.imshow(img)
+
+
+```
+
 Let's project our testing data onto the principal component basis created by our training data and see how it does. Let $X_{training} = U \Lambda^{1/2} V^t$ is the SVD of our training data.
 Then, we can convert ths scores, $U$ back to $X_{training}$ with the map $U \rightarrow U \lambda^{1/2} V$. Or, if our scores are normalized, $U \Lambda^{1/2}$ then we simply multiply
 by $V^t$. If we want to represent $X_{training}$ by a lower dimensional summary, we just keep fewer columns of scores, then multiply by the same columns of $V$. We could write this as
