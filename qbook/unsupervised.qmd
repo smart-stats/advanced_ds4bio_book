@@ -29,7 +29,7 @@ Notation:
 2. $U_{ik} = X_i^t v_k$ is called the **principal component scores**.
 3. The $v_k$ are called the **principal component loadings** or **weights**, with $v_1$ being called the first principal component and so on.
 
-Statistical properties
+Statistical properties under the assumption that the $x_i$ are iid with mean 0 and variance $\Sigma$ 
 
 1. $E[U_{ik}]=0$
 2. $\mbox{Var}(U_{ik}) = \lambda_k$
@@ -42,7 +42,7 @@ Statistical properties
 Of course, we're describing PCA as a conceptual process. We realize $n$ $p$ dimensional vectors $x_1$ to $x_n$, typically organized in $X$ a $n\times p$ matrix. If $X$ is not mean 0, we typically demean it by calculating $(I- J(J^t J)^{-1} J') X$ where $J$ is a vector of ones. Assume this is done. Then $\frac{1}{n-1} X^t X = \hat \Sigma$. Thus,
 our sample PCA is obtained via the eigenvalue decomposition $\hat \Sigma = \hat V \hat \Lambda \hat V^t$ and our principal components obtained as $ X V$. 
 
-We can relate PCA to the SVD as follows. Let $\frac{1}{\sqrt{n-1}} X = \hat U \sqrt{\hat \Lambda} \hat V^t$ be the SVD of the scaled version of $X$. Then note that
+We can relate PCA to the SVD as follows. Let $\frac{1}{\sqrt{n-1}} X = \hat U \hat \Lambda^{1/2} \hat V^t$ be the SVD of the scaled version of $X$. Then note that
 $$
 \hat \Sigma = \frac{1}{n-1} X^t X = \hat V \hat \Lambda \hat V^t
 $$
@@ -75,10 +75,18 @@ import PIL
 import numpy as np
 import torch 
 import torch.nn as nn
+import torch.optim as optim
 import torch.nn.functional as F
-from torch.utils.data import TensorDataset, DataLoader
 import torchvision
 import torchvision.transforms as transforms
+import torch.utils.data as data
+from torch.utils.data import TensorDataset, DataLoader
+from sklearn.decomposition import FastICA
+from tqdm import tqdm
+import medmnist
+from medmnist import INFO, Evaluator
+import scipy
+import IPython
 ```
 
 ```{python}
@@ -115,35 +123,12 @@ print(pca.explained_variance_)
 print(lambda_ )
 ```
 
-```{python}
-u_hat2 = pca.transform(X)
-plt.subplot(2, 2, 1)
-plt.scatter(u_hat2[:,0], u_hat2[:,1])
-plt.subplot(2, 2, 2)
-plt.scatter(u_hat2[:,0], u_hat[:,0])
-plt.subplot(2, 2, 3)
-plt.scatter(u_hat2[:,1], u_hat[:,1])
-```
-
 ### Example
 
 Let's consider the melanoma dataset that we looked at before. First we read in the data as we have done before so we don't show that code.
 
 ```{python}
 #| echo: false
-from tqdm import tqdm
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.utils.data as data
-import torchvision
-import torchvision.transforms as transforms
-import medmnist
-from medmnist import INFO, Evaluator
-import matplotlib.pyplot as plt
-import scipy
-
 data_flag = 'dermamnist'
 
 ## This defines our NN parameters
@@ -273,38 +258,184 @@ for i in range(5):
 ```
 
 
+### ICA
+
+ICA, independent components analysis, tries to find linear transformations of the data that are statistically independent. Usually, independence is an assumption in ICA, not actually embedded in the loss function. 
+
+Let $S_t$ be an $\mathbb{R}^p$ collection of $p$ source signals. Assume that the underlying signals are independent, so that $S_t \sim F = F_1 \times F_2 \times \ldots \time f_p$. Assume that the observed data is $X_t = M S_t$ and $X_t \sim G$. It is typically
+assumed that $M$ is invertible so that $S_t = M^{-1} X_t$ and $M$ and $M^{-1}$ are called the mixing and unmixing matrices respectively. Note that, since we observe $X_t$ over many repititions of $t$, we can get an estimate of $G$. Typically, it is also assumed that the $X_t$ are iid over $t$.
+
+One way to characterize the estimation problem is to parameterize $F_1$, $F_2$ and $F_3$ and use maximum likelihood, or equivalent [citations]. Another is to minimize some distance between $G$ and $F_1$, $F_2$ and $F_3$. Yet another is to actually maximize independence between the components of $S_t$ using some estimate of independence [cite Matteson]. 
+
+The most popular approaches try to find $M^{-1}$ by maximizing non-Gaussianity. The logic goes that 1) interesting features tend to be non-Gaussian and 2) an appeal to the CLT over signals suggest that the mixed signals should be more Gaussian by being linear combinations of independent things. The latter claim is heuristic relative to the formal CLT. However, maximizing non-Gaussian components tends to work well in practice, thus validating the motivation empirically.
+
+One form of ICA maximizes the kurtosis. If $Y$ is a random variable, then 
+$E[Y^4] - 3 E[Y^2]$ is the kurtosis. One could then find $M^{-1}$ that maximizes the empirical kurtosis of the unmixed signals.
+Another variation of non-Gaussianity maximizes neg-entropy. The neg-entropy of a density $h$ is given by
+$$
+- \int h(y) \log(h(y)) dy = - E_h[\log h(Y)]
+$$
+A well known theorem states that the Gaussian distribution has the largest entropy of all distributions with the same variance. 
+Therefore, to maximize non-Gaussianity, we can minmize entropy, or equivalently maximize neg-entropy. We could subtract the
+entropy of the Gaussian distribution to consider this a cross entropy problem, but that only adds a constant to the loss function.
+The maximization of neg-entropy can be done many ways. We need the following. For a given $M^{-1}$, estimate $G$ from the collection
+$M^{-1} X_t$, then calculate the neg-entropy of $f_j$. Use that to then take an opimization step of $M$ is the right direction. 
+Some versions of estimation use a polynomial expansion of the $f_j$, which then typically only requires higher order moments, like kurtosis.
+Fast ICA is a particular implmementation of maximizing neg-entropy.
+
+Statistical versions of ICA don't require $M$ to be invertible. Moreover, error terms can be added in which case you can see the connection between ICA and factor analytic models. However, factor analysis  models tend to assume Gaussianity. 
+
+### Example
+Consider an example that PCA would have somewhat of a hard time with. In this case, our data is from a mixture of normals with half from a normal with a strong positive correlation and half with a strong negative correlation. Because the angle between the two is not 90 degrees PCA has no chance. No rotation of the axes satisfies the obvious structure in this data.
+
 ```{python}
-from sklearn.decomposition import FastICA
+n = 1000
 
-transformer = FastICA(n_components=10, random_state=0, whiten='unit-variance')
+Sigma = np.matrix([[4, 1.8], [1.8, 1]])
+a = np.random.multivariate_normal( mean = [0, 0], cov = Sigma, size = int(n/2))
+Sigma = np.matrix([[4, -1.8], [-1.8, 1]])
+b = np.random.multivariate_normal( mean = [0, 0], cov = Sigma, size = int(n/2))
+x = np.append( a, b, axis = 0)
+plt.scatter(x[:,0], x[:,1])
+plt.xlim([-6, 6])
+plt.ylim([-6, 6])
+```
 
-icafit = transformer.fit_transform(train_matrix)
-train_matrix_fit_ica = transformer.inverse_transform(icafit)
+Let's try fast ICA. Notice it comes much closer to discovering the structure we'd like to discover than PCA could. It pulls appart the two components to a fair degree. Also note, there's a random starting point of ICA, so that I get fairly different fits over re-runs of the algorithm. I had to lower the tolerance to get a good fit.
+
+Indpendent components are order invariant and sign invariant.
+
+```{python}
+transformer = FastICA(tol = 1e-7)
+icafit = transformer.fit(x)
+s = icafit.transform(x)
+plt.scatter(s[:,0], s[:,1])
+plt.xlim( [s.min(), s.max()])
+plt.ylim( [s.min(), s.max()])
+```
+
+
+### Cocktail party example
+
+The classic ICA problem is the so called cocktail party problem. In this, you have $p$ sources and $p$ microphones. The microphones each pick up a mixture of signals from the different sources. The goal is to unmix the sources into the components. Independence makes sense in the cocktail party example, since logically conversations would have some independence. 
+
+```{python}
+#| echo: false
+IPython.display.Audio("mp3s/4.mp3")
 ```
 
 ```{python}
+#| echo: false
+IPython.display.Audio("mp3s/2.mp3")
+```
+
+```{python}
+#| echo: false
+IPython.display.Audio("mp3s/3.mp3")
+```
+
+
+```{python}
+import audio2numpy as a2n
+s1, i1 = a2n.audio_from_file("mp3s/4.mp3")
+s2, i2 = a2n.audio_from_file("mp3s/5.mp3")
+s3, i3 = a2n.audio_from_file("mp3s/6.mp3")
+
+## Get everything to be the same shape and sum the two audio channels
+n = np.min((s1.shape[0], s2.shape[0], s3.shape[0]))
+s1 = s1[0:n,:].mean(axis = 1)
+s2 = s2[0:n,:].mean(axis = 1)
+s3 = s3[0:n,:].mean(axis = 1)
+
+s = np.matrix([s1, s2, s3])
+```
+
+Mix the signals.
+```{python}
+w = np.matrix( [ [.7, .2, .1], [.1, .7, .2], [.2, .1, .7] ])
+x = np.transpose(np.matmul(w, s))
+```
+
+Here's an example mixed signal
+```{python}
+IPython.display.Audio(data = x[:,1].reshape(n), rate = i1)
+```
+
+Now try to unmix using fastICA
+
+```{python}
+transformer = FastICA(whiten=False, tol = 1e-7)
+icafit = transformer.fit(x)
+```
+
+```{python}
+icafit.mixing_
+```
+
+Unmixing matrix
+```{python}
+icafit.components_
+```
+
+Here's a scatterplot matrix where the real component is on the rows and the estimated component is on the columns.
+```{python}
+hat_s = np.transpose(icafit.transform(x))
+
+plt.figure(figsize=(10,10))
+
+for i in range(3):
+  for j in range(3):
+    plt.subplot(3, 3, (3 * i + j) + 1)
+    plt.scatter(hat_s[i,:].squeeze(), np.asarray(s)[j,:])
+```
+
+We can now play the estimated sources and see how they turned out.
+```{python}
+from scipy.io.wavfile import write
+i = 0
+data = (hat_s[i,:].reshape(n) / np.max(np.abs(hat_s[i,:]))) * .5
+IPython.display.Audio(data = data, rate = i1)
+```
+
+```{python}
+i = 1
+data = (hat_s[i,:].reshape(n) / np.max(np.abs(hat_s[i,:]))) * .5
+IPython.display.Audio(data = data, rate = i1)
+```
+
+```{python}
+i = 2
+data = (hat_s[i,:].reshape(n) / np.max(np.abs(hat_s[i,:]))) * .5
+IPython.display.Audio(data = data, rate = i1)
+```
+
+### Imaging example using ICA
+
+Let's see what we get for the images. Logically, one would consider voxels as mixed sources and images as the iid replications. But, then the sources would not be images. Let's try the other dimension and see what we get where subject images are mixtures of source images. This is analogous to finding a soure basis of subject images.
+
+This is often done in ICA where people transpose matrices to investigate different problems.
+
+```{python}
+transformer = FastICA(n_components=10, random_state=0,whiten='unit-variance', tol = 1e-7)
+icafit = transformer.fit_transform(np.transpose(train_matrix))
+icafit.shape
+```
+
+```{python}
+#| echo: false
+
 train_matrix_remeaned = train_matrix + train_mean
 
-#| echo: false
 plt.figure(figsize=(10,5))
-for i in range(5): 
+for i in range(10): 
   plt.subplot(2, 5,i+1)
   plt.xticks([])
   plt.yticks([])
-  img = train_matrix_remeaned[i,:].reshape(28, 28, 3)
+  img = icafit[:,i].reshape(28, 28, 3)
   img = (img - img.min())
   img = img / img.max()
   img = img * 255 
   img = img.astype(np.uint8)
-  plt.imshow(img)
-
-  plt.subplot(2, 5,i+6)
-  plt.xticks([])
-  plt.yticks([])
-  img = train_matrix_fit_ica[i,:].reshape(28, 28, 3)
-  img = (img - img.min())
-  img = img / img.max()
-  img = img * 255 
-  img = img.astype(np.uint8)
-  plt.imshow(img)
+  plt.imshow(img)  
 ```
+
