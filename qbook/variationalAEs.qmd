@@ -1,0 +1,33 @@
+---
+title: "Variational autoencoders"
+format: html
+---
+
+## Introduction
+
+Variational autoencoders were introduced in [@kingma2013auto]. A really good tutorial can be found [here](https://jaan.io/what-is-variational-autoencoder-vae-tutorial/) and some sample code on MNIST
+can be found [here](https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb).
+An alternate way to think about autoencoders is via variational Bayes arguments. Let $x_i$ be a record for $i = 1,\ldots,n$. For now, let's 
+drop the subscript $i$. Define the following:
+ 
++ $p_\theta(x | z)$ is the likelihood of $z$ when viewed as a function of $z$ or is the data generating distribution if viewed as a function of $x$;
++ $p_\theta(x)$ is the data marginal;
++ $p_\theta(z | x)$ is the posterior (of $z$ given $x$) 
++ Note $p_\theta(z | x) = p_\theta(x, z) / p_\theta(x)$
++ Note $p_\theta(x) = \int p_\theta(x, z) dz$
+
+We could view any latent probability distribution as an autoencoder, where $p_\theta(z | x)$ is the encoder and $p_\theta(x | z)$ is the decoder. One issue with this approach is that computing is quite hard for problems of sufficient scale. Variational Bayes uses approximations
+instead of the actual distributions. Let $q_\phi(z | x)$ be an approximiation of the posterior. Typical variational Bayes uses minmizers of the KL divergence. Variational autoencoders do that as well. However, VAEs tend to maximize the ELBO, evidence lower bound (ELBO).
+
+$$
+L_{\phi, \theta}(x) = \log\{p_\theta(x)\} - E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)}  \right)\right]
+$$
+
+Maximizing ELBO does two good things. First, it maximizes $p_\theta(x)$, i.e. that the model fits the data well. Secondly, it minmizes
+$E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)}  \right)\right]$, or the KL divergence between the approximation
+and what it's approximating.
+
+
+## Gaussian VAEs
+
+ A common assumption to make is that $q_\phi(z | x) = N(\mu_\phi(x), \Sigma_\phi(x))$
