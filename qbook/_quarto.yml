@@ -19,6 +19,7 @@ book:
     - diymlai.qmd
     - convnet_example.qmd
     - unsupervised.qmd
+    - variationalAEs.qmd
     - data_analysis_theory.qmd
     - data_science_as_a_science.qmd
     - graphics.qmd
