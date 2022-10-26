@@ -11,7 +11,6 @@ book:
     - intro.qmd
     - interactive.qmd
     - webscraping.qmd
-    - nlp.qmd
     - images.qmd
     - databases.qmd
     - pipelines.qmd
@@ -20,6 +19,7 @@ book:
     - convnet_example.qmd
     - unsupervised.qmd
     - variationalAEs.qmd
+    - nlp.qmd
     - data_analysis_theory.qmd
     - data_science_as_a_science.qmd
     - graphics.qmd

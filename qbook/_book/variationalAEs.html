@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 12&nbsp; Variational autoencoders</title>
+<title>Advanced Data Science for Public Health - 11&nbsp; Variational autoencoders</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -49,7 +49,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./data_analysis_theory.html" rel="next">
+<link href="./nlp.html" rel="next">
 <link href="./unsupervised.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -90,7 +90,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -138,47 +138,47 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  <a href="./images.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with images</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./images.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with images</span></a>
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Databases</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data structures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
+  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
+  <a href="./variationalAEs.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./variationalAEs.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></a>
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">NLP</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -210,8 +210,9 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">12.1</span>  Introduction</a></li>
-  <li><a href="#gaussian-vaes" id="toc-gaussian-vaes" class="nav-link" data-scroll-target="#gaussian-vaes"><span class="toc-section-number">12.2</span>  Gaussian VAEs</a></li>
+  <li><a href="#variational-bayes" id="toc-variational-bayes" class="nav-link active" data-scroll-target="#variational-bayes"><span class="toc-section-number">11.1</span>  Variational Bayes</a></li>
+  <li><a href="#introduction-to-vaes" id="toc-introduction-to-vaes" class="nav-link" data-scroll-target="#introduction-to-vaes"><span class="toc-section-number">11.2</span>  Introduction to VAEs</a></li>
+  <li><a href="#gaussian-vaes" id="toc-gaussian-vaes" class="nav-link" data-scroll-target="#gaussian-vaes"><span class="toc-section-number">11.3</span>  Gaussian VAEs</a></li>
   </ul>
 </nav>
     </div>
@@ -220,7 +221,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></h1>
 </div>
 
 
@@ -234,8 +235,22 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">12.1</span> Introduction</h2>
+<section id="variational-bayes" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="variational-bayes"><span class="header-section-number">11.1</span> Variational Bayes</h2>
+<p>Since we’re talking about variational autoencoders, we should probably first talk about variational Bayes (VB). VB is a scaling solution for Bayesian inference.</p>
+<p>Bayesian inference tends to follow something like this. We have a likelihood, <span class="math inline">\(f(x | \theta)\)</span>, and a prior, <span class="math inline">\(f(\theta)\)</span>. We use Bayes rule to calculate <span class="math inline">\(f(\theta | x) = f(x|\theta)p(\theta) / f(X)\)</span> where <span class="math inline">\(f(x) = \int f(x, \theta) d\theta\)</span>. The posterior, <span class="math inline">\(f(\theta | x)\)</span> is our object of interest for which we will make inferences. Some problems arise. Often can’t calculate <span class="math inline">\(f(x)\)</span>, since the integral is intractable. Monte Carlo solutions generate <span class="math inline">\(\theta^{(i)} \sim f(\theta | x)\)</span> and then approximate expectations from the posterior, <span class="math inline">\(E[h(\theta) | X]\)</span> with <span class="math inline">\(\frac{1}{N} \sum_{i=1}^N h(\theta^{(i)})\)</span>, which converges by the law of large numbers. Sometimes we can’t simulate iid variates from <span class="math inline">\(f(\theta | x)\)</span>, so we’ll sample from <span class="math inline">\(f(\theta_k | \theta_{\sim k}, x)\)</span> for each <span class="math inline">\(k\)</span>. This is called Gibbs sampling and generates a Markov chain that, under assumptions, yields variables that satisfy LLNs. Sometimes we can’t do the Gibbs sampler and more elaborate sampling schemes need to be done. All in all, this makes Bayes analysis challenging and often difficult to scale.</p>
+<p>Many solutions use candidate distributions. Say, for example, <span class="math inline">\(g(z|x)\)</span> is a distribution that we can sample from. Then notice that for samples <span class="math inline">\(Z^{(i)}\sim g(z|x)\)</span> <span class="math display">\[
+\frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i)|x})}{g(z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i)|x})}{g(Z^{(i)}|x)}} = \frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}} \rightarrow \frac{E[h(Z) | x]}{E[1 | x]} = E[h(Z) | x]
+\]</span> Of note we can calculate these weights, since we know <span class="math inline">\(g(z|x)\)</span> and <span class="math inline">\(f(z,x} = f(x|z)f(z)\)</span> is the likelihood times the prior.</p>
+<p>Importance sampling, Gibbs sampling and other Monte Carlo techniques get combined for complicated problems. However, modern problems often present a challenge that Monte Carlo techniques cannot solve. Enter variational Bayes. Instead of fixing up samples from <span class="math inline">\(g\)</span> to be exactly what we want, why don’t we choose <span class="math inline">\(g\)</span> as well as possible and simply use it instead of <span class="math inline">\(f(z|x)\)</span>?</p>
+<p>The most common version of variational Bayes uses the KL divergence. I.e. choose <span class="math inline">\(g\)</span> to minimize</p>
+<p><span class="math display">\[
+\int g(z|x) \log\left( \frac{g(z|x)}{f(z|x)} \right) dz
+= E_{g(z|x)}\left[\log\left( \frac{g(Z|x)}{f(Z|x)} \right)\right]
+\]</span></p>
+</section>
+<section id="introduction-to-vaes" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="introduction-to-vaes"><span class="header-section-number">11.2</span> Introduction to VAEs</h2>
 <p>Variational autoencoders were introduced in <span class="citation" data-cites="kingma2013auto">(<a href="references.html#ref-kingma2013auto" role="doc-biblioref">Kingma and Welling 2013</a>)</span>. A really good tutorial can be found <a href="https://jaan.io/what-is-variational-autoencoder-vae-tutorial/">here</a> and some sample code on MNIST can be found <a href="https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb">here</a>. An alternate way to think about autoencoders is via variational Bayes arguments. Let <span class="math inline">\(x_i\)</span> be a record for <span class="math inline">\(i = 1,\ldots,n\)</span>. For now, let’s drop the subscript <span class="math inline">\(i\)</span>. Define the following:</p>
 <ul>
 <li><span class="math inline">\(p_\theta(x | z)\)</span> is the likelihood of <span class="math inline">\(z\)</span> when viewed as a function of <span class="math inline">\(z\)</span> or is the data generating distribution if viewed as a function of <span class="math inline">\(x\)</span>;</li>
@@ -250,8 +265,8 @@ L_{\phi, \theta}(x) = \log\{p_\theta(x)\} - E_{q_\phi(z | x)} \left[\log\left( \
 \]</span></p>
 <p>Maximizing ELBO does two good things. First, it maximizes <span class="math inline">\(p_\theta(x)\)</span>, i.e.&nbsp;that the model fits the data well. Secondly, it minmizes <span class="math inline">\(E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)} \right)\right]\)</span>, or the KL divergence between the approximation and what it’s approximating.</p>
 </section>
-<section id="gaussian-vaes" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="gaussian-vaes"><span class="header-section-number">12.2</span> Gaussian VAEs</h2>
+<section id="gaussian-vaes" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="gaussian-vaes"><span class="header-section-number">11.3</span> Gaussian VAEs</h2>
 <p>A common assumption to make is that <span class="math inline">\(q_\phi(z | x) = N(\mu_\phi(x), \Sigma_\phi(x))\)</span></p>
 
 
@@ -364,12 +379,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./unsupervised.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./data_analysis_theory.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./nlp.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">NLP</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

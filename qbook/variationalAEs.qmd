@@ -3,7 +3,29 @@ title: "Variational autoencoders"
 format: html
 ---
 
-## Introduction
+## Variational Bayes
+
+Since we're talking about variational autoencoders, we should probably first talk about variational Bayes (VB). VB is a scaling solution for Bayesian inference. 
+
+Bayesian inference tends to follow something like this. We have a likelihood, $f(x | \theta)$, and a prior, $f(\theta)$. We use Bayes rule to calculate $f(\theta | x) = f(x|\theta)p(\theta) / f(X)$ where $f(x) = \int f(x, \theta) d\theta$. The posterior, $f(\theta | x)$ is our object of interest for which we will make inferences. Some problems arise. Often can't calculate $f(x)$, since the integral is intractable. Monte Carlo solutions generate $\theta^{(i)} \sim f(\theta | x)$ and then approximate expectations from the posterior, $E[h(\theta) | X]$ with
+$\frac{1}{N} \sum_{i=1}^N h(\theta^{(i)})$, which converges by the law of large numbers. Sometimes we can't simulate iid variates from $f(\theta | x)$, so we'll sample from $f(\theta_k | \theta_{\sim k}, x)$ for each $k$. This is called Gibbs sampling and generates a Markov chain that, under assumptions, yields variables that satisfy LLNs. Sometimes we can't do the Gibbs sampler and more elaborate sampling schemes need to be done. All in all, this makes Bayes analysis challenging and often difficult to scale. 
+
+Many solutions use candidate distributions. Say, for example, $g(z|x)$ is a distribution that we can sample from. Then notice that for samples $Z^{(i)}\sim g(z|x)$
+$$
+\frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i)|x})}{g(z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i)|x})}{g(Z^{(i)}|x)}} = \frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}} \rightarrow \frac{E[h(Z) | x]}{E[1 | x]} = E[h(Z) | x]
+$$
+Of note we can calculate these weights, since we know $g(z|x)$ and $f(z,x} = f(x|z)f(z)$ is the likelihood times the prior.
+
+Importance sampling, Gibbs sampling and other Monte Carlo techniques get combined for complicated problems. However, modern problems often present a challenge that Monte Carlo techniques cannot solve. Enter variational Bayes. Instead of fixing up samples from $g$ to be exactly what we want, why don't we choose $g$ as well as possible and simply use it instead of $f(z|x)$? 
+
+The most common version of variational Bayes uses the KL divergence. I.e. choose $g$ to minimize
+
+$$
+\int g(z|x) \log\left( \frac{g(z|x)}{f(z|x)} \right) dz
+= E_{g(z|x)}\left[\log\left( \frac{g(Z|x)}{f(Z|x)} \right)\right]
+$$
+
+## Introduction to VAEs
 
 Variational autoencoders were introduced in [@kingma2013auto]. A really good tutorial can be found [here](https://jaan.io/what-is-variational-autoencoder-vae-tutorial/) and some sample code on MNIST
 can be found [here](https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb).
