@@ -18,13 +18,24 @@ Of note we can calculate these weights, since we know $g(z|x)$ and $f(z,x) = f(x
 
 Importance sampling, Gibbs sampling and other Monte Carlo techniques get combined for complicated problems. However, modern problems often present a challenge that Monte Carlo techniques cannot solve. Enter variational Bayes. Instead of fixing up samples from $g$ to be exactly what we want, why don't we choose $g$ as well as possible and simply use it instead of $f(z|x)$? 
 
-The most common version of variational Bayes uses the KL divergence. I.e. choose $g$ to minimize
+This is where variational Bayes comes in. It turns a MC sampling problem into an optimization problem. Wikipedia [has a pretty nice introduction to the topic](https://en.wikipedia.org/wiki/Variational_Bayesian_methods). The most common version of variational Bayes uses the KL divergence. I.e. choose $g$ to minimize
 
 $$
 \int g(z|x) \log\left( \frac{g(z|x)}{f(z|x)} \right) dz
 = E_{g(z|x)}\left[\log\left( \frac{g(Z|x)}{f(Z|x)} \right)\right]
 \equiv D_{KL}\{g(Z|x) || f(Z|x) \}
 $$
+
+Often $g(z|x)$ is chosen to be be $\prod_j g(z_j|x)$, or independent in the components of $z$. Then
+it can be shown that the best approximation to the posterior, in the sense of minimizing the KL divergence, sets
+
+$$
+\hat g (z_j | x) \propto \exp\left\{ E_{i\neq j}[\log\{f(Z_i | x)\}]\right\}
+$$
+
+It is called variational Bayes, since it uses calculus of variations to solve this equation.
+Go over the Wikipedia article's Gaussian / Gamma prior example. There you can see the derivation of the variational posterior approximation in a case where it can be done analytically. In most cases, one is left with doing it via algorithmmic optimization.
+
 
 ## VAEs
 
@@ -56,7 +67,7 @@ Where, recall, we call $p_\theta(x)$ the evidence (in this area). That it's a bo
 $E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)}  \right)\right]$, or the KL divergence between the approximation
 and what it's approximating.
 
-We can rewrite the ELBO as (HW!):
+We can rewrite the ELBO as (try for HW!):
 $$
 E_{q_\phi(z | x)} \left[\log\left( p_\theta(x | Z) \right)\right]
 - D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z) \right\}
@@ -76,7 +87,7 @@ can be shown that
 $$
 D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \left(1 + \log\{\sigma_{\phi,j}(x)^2\} - \mu_{\phi,j}(x)^2 - \sigma_{\phi,j}(x)^2 \right)
 $$
-where a subscript $j$ refers to the vector component. If we have a Monte Carlo sample, $\epsilon^{(1)}$  then we can approximate it as follows:
+where a subscript $j$ refers to the vector component. If we have a Monte Carlo sample, $\epsilon^{(l)}$  then we can approximate it as follows:
 
 $$
 \begin{aligned}  

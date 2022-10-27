@@ -310,12 +310,17 @@ div.csl-indent {
 \frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i)|x})}{g(z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i)|x})}{g(Z^{(i)}|x)}} = \frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}} \rightarrow \frac{E[h(Z) | x]}{E[1 | x]} = E[h(Z) | x]
 \]</span> Of note we can calculate these weights, since we know <span class="math inline">\(g(z|x)\)</span> and <span class="math inline">\(f(z,x) = f(x|z)f(z)\)</span> is the likelihood times the prior.</p>
 <p>Importance sampling, Gibbs sampling and other Monte Carlo techniques get combined for complicated problems. However, modern problems often present a challenge that Monte Carlo techniques cannot solve. Enter variational Bayes. Instead of fixing up samples from <span class="math inline">\(g\)</span> to be exactly what we want, why don’t we choose <span class="math inline">\(g\)</span> as well as possible and simply use it instead of <span class="math inline">\(f(z|x)\)</span>?</p>
-<p>The most common version of variational Bayes uses the KL divergence. I.e. choose <span class="math inline">\(g\)</span> to minimize</p>
+<p>This is where variational Bayes comes in. It turns a MC sampling problem into an optimization problem. Wikipedia <a href="https://en.wikipedia.org/wiki/Variational_Bayesian_methods">has a pretty nice introduction to the topic</a>. The most common version of variational Bayes uses the KL divergence. I.e. choose <span class="math inline">\(g\)</span> to minimize</p>
 <p><span class="math display">\[
 \int g(z|x) \log\left( \frac{g(z|x)}{f(z|x)} \right) dz
 = E_{g(z|x)}\left[\log\left( \frac{g(Z|x)}{f(Z|x)} \right)\right]
 \equiv D_{KL}\{g(Z|x) || f(Z|x) \}
 \]</span></p>
+<p>Often <span class="math inline">\(g(z|x)\)</span> is chosen to be be <span class="math inline">\(\prod_j g(z_j|x)\)</span>, or independent in the components of <span class="math inline">\(z\)</span>. Then it can be shown that the best approximation to the posterior, in the sense of minimizing the KL divergence, sets</p>
+<p><span class="math display">\[
+\hat g (z_j | x) \propto \exp\left\{ E_{i\neq j}[\log\{f(Z_i | x)\}]\right\}
+\]</span></p>
+<p>It is called variational Bayes, since it uses calculus of variations to solve this equation. Go over the Wikipedia article’s Gaussian / Gamma prior example. There you can see the derivation of the variational posterior approximation in a case where it can be done analytically. In most cases, one is left with doing it via algorithmmic optimization.</p>
 </section>
 <section id="vaes" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="vaes"><span class="header-section-number">11.2</span> VAEs</h2>
@@ -337,7 +342,7 @@ L_{\phi, \theta}(x) = \log\{p_\theta(x)\} - E_{q_\phi(z | x)} \left[\log\left( \
 \]</span> where <span class="math inline">\(D_{KL}(a||b)\)</span> is the Kullback/Liebler divergence between distributions <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. The ELBO is a lower bound since the divergence term is positive and so the following inequality holds: <span class="math display">\[
 L_{\phi, \theta}(x) \leq \log\{p_\theta(x)\}.
 \]</span> Where, recall, we call <span class="math inline">\(p_\theta(x)\)</span> the evidence (in this area). That it’s a bound on the evidence suggest that maximizing it is a good thing. Regardless, we can see that maximizing ELBO obviously does two good things. First, it maximizes <span class="math inline">\(p_\theta(x)\)</span>, i.e.&nbsp;that the model fits the data well. Secondly, it minmizes <span class="math inline">\(E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)} \right)\right]\)</span>, or the KL divergence between the approximation and what it’s approximating.</p>
-<p>We can rewrite the ELBO as (HW!): <span class="math display">\[
+<p>We can rewrite the ELBO as (try for HW!): <span class="math display">\[
 E_{q_\phi(z | x)} \left[\log\left( p_\theta(x | Z) \right)\right]
 - D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z) \right\}
 \]</span></p>
@@ -352,7 +357,7 @@ E_{q_\phi(z | x)} \left[\log\left( p_\theta(x | Z) \right)\right]
 </ol>
 <p>We can write <span class="math inline">\(z = \mu_\phi(x) + \mbox{Diag}(\sigma(x)) \epsilon\)</span> where <span class="math inline">\(\epsilon\)</span> is multivariate standard normal. Moreover, under these assumptions it can be shown that <span class="math display">\[
 D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \left(1 + \log\{\sigma_{\phi,j}(x)^2\} - \mu_{\phi,j}(x)^2 - \sigma_{\phi,j}(x)^2 \right)
-\]</span> where a subscript <span class="math inline">\(j\)</span> refers to the vector component. If we have a Monte Carlo sample, <span class="math inline">\(\epsilon^{(1)}\)</span> then we can approximate it as follows:</p>
+\]</span> where a subscript <span class="math inline">\(j\)</span> refers to the vector component. If we have a Monte Carlo sample, <span class="math inline">\(\epsilon^{(l)}\)</span> then we can approximate it as follows:</p>
 <p><span class="math display">\[
 \begin{aligned}  
 &amp; E_{q_\phi(z | x)} \left[\log\left\{ p_\theta(x | Z) \right\}\right] \\
