@@ -280,7 +280,6 @@ div.csl-indent {
   <li><a href="#gaussian-vaes" id="toc-gaussian-vaes" class="nav-link" data-scroll-target="#gaussian-vaes"><span class="toc-section-number">11.2.2</span>  Gaussian VAEs</a></li>
   <li><a href="#example-using-chest-x-rays" id="toc-example-using-chest-x-rays" class="nav-link" data-scroll-target="#example-using-chest-x-rays"><span class="toc-section-number">11.2.3</span>  Example using chest x-rays</a></li>
   </ul></li>
-  <li><a href="#training-the-neural-network" id="toc-training-the-neural-network" class="nav-link" data-scroll-target="#training-the-neural-network"><span class="toc-section-number">11.3</span>  Training the neural network</a></li>
   </ul>
 </nav>
     </div>
@@ -358,7 +357,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 \begin{aligned}  
 &amp; E_{q_\phi(z | x)} \left[\log\left\{ p_\theta(x | Z) \right\}\right] \\
 \approx &amp; \frac{1}{L} \sum_{l=1}^L \log\{ p_\theta(x | z = \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)})\} \\  
-= &amp; -\frac{1}{2} \sum_{l=1}^L ||x - \theta_1\{ \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)}\}||^2 / \theta_2 \\
+= &amp; -\frac{1}{2L} \sum_{l=1}^L ||x - \theta_1\{ \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)}\}||^2 / \theta_2 \\
 \end{aligned}
 \]</span></p>
 <p>Both of these expressions are the contributions of one row, <span class="math inline">\(x\)</span>. They get summed over <span class="math inline">\(x\)</span> to obtain the full ELBO. Here we can see why expressing <span class="math inline">\(z = \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)\)</span> is important. This way our parameters, <span class="math inline">\(\mu_\phi\)</span> and <span class="math inline">\(\sigma_\phi\)</span> are in the loss function, not hidden in <span class="math inline">\(z\)</span>. The backprop algorithm doesn’t know how to take a derivative with respect to a realized random variable. It can, however, differentiate <span class="math inline">\(\mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon\)</span> for realized <span class="math inline">\(\epsilon\)</span>.</p>
@@ -376,146 +375,151 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </div>
 <p>Here’s a montage of the training data.</p>
 <div class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="16">
-<p><img src="variationalAEs_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/bcaffo/miniconda3/envs/ds4bio/lib/python3.10/site-packages/medmnist/utils.py:25: FutureWarning:
+
+`multichannel` is a deprecated argument name for `montage`. It will be removed in version 1.0. Please use `channel_axis` instead.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<p><img src="variationalAEs_files/figure-html/cell-4-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Here’s the shape of the dataset. Note, <span class="math inline">\(28^2=784\)</span> is the vectorized size. Also, as these images are gray scale so that there’s only one color channel. We’re not going to use any convolutional layers or anything like that. We’ll just flatten everything.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>temp, _ <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_dataset))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> temp.numpy()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>[temp.shape, temp.<span class="bu">max</span>(), temp.<span class="bu">min</span>()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>temp, _ <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_dataset))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> temp.numpy()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>[temp.shape, temp.<span class="bu">max</span>(), temp.<span class="bu">min</span>()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>[(1, 28, 28), 0.93333334, 0.015686275]</code></pre>
 </div>
 </div>
 <p>Let’s use Jackson Kang’s wonderful VAE tutorial from <a href="https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb">here</a>.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x_dim  <span class="op">=</span> <span class="dv">784</span> <span class="co">## This is 28**2, the length of the vectorized images</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hidden_dim <span class="op">=</span> <span class="dv">400</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>latent_dim <span class="op">=</span> <span class="dv">200</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x_dim  <span class="op">=</span> <span class="dv">784</span> <span class="co">## This is 28**2, the length of the vectorized images</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hidden_dim <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>latent_dim <span class="op">=</span> <span class="dv">200</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="defining-the-encoder" class="level4" data-number="11.2.3.1">
 <h4 data-number="11.2.3.1" class="anchored" data-anchor-id="defining-the-encoder"><span class="header-section-number">11.2.3.1</span> Defining the encoder</h4>
 <p>First we define the encoder. Remember, the encoder is <span class="math inline">\(q_\phi(z | x)\)</span>, which we are assuming is multivariate independent normals with means and variances depending on <span class="math inline">\(x\)</span>. Notice this takes in the input, <span class="math inline">\(x\)</span> and uses a NN to estimate <span class="math inline">\(\mu_\phi(x)\)</span> and <span class="math inline">\(\log(\sigma^2_\phi(x))\)</span>.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Encoder(nn.Module):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, hidden_dim, latent_dim):</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Encoder, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_input <span class="op">=</span> nn.Linear(input_dim, hidden_dim)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_input2 <span class="op">=</span> nn.Linear(hidden_dim, hidden_dim)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_mean  <span class="op">=</span> nn.Linear(hidden_dim, latent_dim)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_var   <span class="op">=</span> nn.Linear (hidden_dim, latent_dim)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.LeakyReLU <span class="op">=</span> nn.LeakyReLU(<span class="fl">0.2</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.training <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        h_       <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_input(x))</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        h_       <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_input2(h_))</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        mean     <span class="op">=</span> <span class="va">self</span>.FC_mean(h_)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        log_var  <span class="op">=</span> <span class="va">self</span>.FC_var(h_) </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mean, log_var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Encoder(nn.Module):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, hidden_dim, latent_dim):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Encoder, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_input <span class="op">=</span> nn.Linear(input_dim, hidden_dim)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_input2 <span class="op">=</span> nn.Linear(hidden_dim, hidden_dim)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_mean  <span class="op">=</span> nn.Linear(hidden_dim, latent_dim)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_var   <span class="op">=</span> nn.Linear (hidden_dim, latent_dim)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.LeakyReLU <span class="op">=</span> nn.LeakyReLU(<span class="fl">0.2</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.training <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        h_       <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_input(x))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        h_       <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_input2(h_))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        mean     <span class="op">=</span> <span class="va">self</span>.FC_mean(h_)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        log_var  <span class="op">=</span> <span class="va">self</span>.FC_var(h_) </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mean, log_var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="defining-the-decoder" class="level4" data-number="11.2.3.2">
 <h4 data-number="11.2.3.2" class="anchored" data-anchor-id="defining-the-decoder"><span class="header-section-number">11.2.3.2</span> Defining the decoder</h4>
 <p>Next we define our decoder. Remember our decoder is <span class="math inline">\(p_\theta(x | z)\)</span>. However, the distribution will be fully defined in the loss function. Instead, we’re just taking in <span class="math inline">\(z\)</span> and giving out <span class="math inline">\(\hat x = \theta_1(z)\)</span>.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Decoder(nn.Module):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, latent_dim, hidden_dim, output_dim):</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Decoder, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_hidden <span class="op">=</span> nn.Linear(latent_dim, hidden_dim)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_hidden2 <span class="op">=</span> nn.Linear(hidden_dim, hidden_dim)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_output <span class="op">=</span> nn.Linear(hidden_dim, output_dim)        </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.LeakyReLU <span class="op">=</span> nn.LeakyReLU(<span class="fl">0.2</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        h     <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_hidden(x))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        h     <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_hidden2(h))</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        x_hat <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.FC_output(h))</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Decoder(nn.Module):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, latent_dim, hidden_dim, output_dim):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Decoder, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_hidden <span class="op">=</span> nn.Linear(latent_dim, hidden_dim)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_hidden2 <span class="op">=</span> nn.Linear(hidden_dim, hidden_dim)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.FC_output <span class="op">=</span> nn.Linear(hidden_dim, output_dim)        </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.LeakyReLU <span class="op">=</span> nn.LeakyReLU(<span class="fl">0.2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        h     <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_hidden(x))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        h     <span class="op">=</span> <span class="va">self</span>.LeakyReLU(<span class="va">self</span>.FC_hidden2(h))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        x_hat <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.FC_output(h))</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="defining-the-full-model-autoencoder-decoder" class="level4" data-number="11.2.3.3">
 <h4 data-number="11.2.3.3" class="anchored" data-anchor-id="defining-the-full-model-autoencoder-decoder"><span class="header-section-number">11.2.3.3</span> Defining the full model = autoencoder / decoder</h4>
 <p>To run a datapoint, <span class="math inline">\(x\)</span> through the model. First the encoder generates <span class="math inline">\(\mu_phi(x)\)</span> and <span class="math inline">\(\sigma_\phi(x)\)</span>. Next, it generates <span class="math inline">\(z\)</span> from <span class="math inline">\(q_\phi(z|x)\)</span> using a reparameterization, then passes <span class="math inline">\(z\)</span> through the decoder, <span class="math inline">\(p_\theta(x | z)\)</span>.</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Model(nn.Module):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, Encoder, Decoder):</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Encoder <span class="op">=</span> Encoder</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Decoder <span class="op">=</span> Decoder</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        mean, log_var <span class="op">=</span> <span class="va">self</span>.Encoder(x)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> torch.exp(<span class="fl">0.5</span> <span class="op">*</span> log_var)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> mean <span class="op">+</span> sd <span class="op">*</span> torch.randn_like(sd)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        x_hat <span class="op">=</span> <span class="va">self</span>.Decoder(z)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x_hat, mean, log_var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Model(nn.Module):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, Encoder, Decoder):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Encoder <span class="op">=</span> Encoder</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.Decoder <span class="op">=</span> Decoder</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        mean, log_var <span class="op">=</span> <span class="va">self</span>.Encoder(x)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> torch.exp(<span class="fl">0.5</span> <span class="op">*</span> log_var)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> mean <span class="op">+</span> sd <span class="op">*</span> torch.randn_like(sd)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        x_hat <span class="op">=</span> <span class="va">self</span>.Decoder(z)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x_hat, mean, log_var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> Encoder(input_dim<span class="op">=</span>x_dim, hidden_dim<span class="op">=</span>hidden_dim, latent_dim<span class="op">=</span>latent_dim)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>decoder <span class="op">=</span> Decoder(latent_dim<span class="op">=</span>latent_dim, hidden_dim <span class="op">=</span> hidden_dim, output_dim <span class="op">=</span> x_dim)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model(Encoder<span class="op">=</span>encoder, Decoder<span class="op">=</span>decoder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> Encoder(input_dim<span class="op">=</span>x_dim, hidden_dim<span class="op">=</span>hidden_dim, latent_dim<span class="op">=</span>latent_dim)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>decoder <span class="op">=</span> Decoder(latent_dim<span class="op">=</span>latent_dim, hidden_dim <span class="op">=</span> hidden_dim, output_dim <span class="op">=</span> x_dim)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model(Encoder<span class="op">=</span>encoder, Decoder<span class="op">=</span>decoder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="defining-the-elbo" class="level4" data-number="11.2.3.4">
 <h4 data-number="11.2.3.4" class="anchored" data-anchor-id="defining-the-elbo"><span class="header-section-number">11.2.3.4</span> Defining the ELBO</h4>
 <p>The ELBO is the sum of the reproduction loss and the KL divergence.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss_function(x, x_hat, mean, log_var):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    reproduction_loss <span class="op">=</span> nn.functional.mse_loss(x_hat, x, reduction<span class="op">=</span><span class="st">'sum'</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    KLD      <span class="op">=</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> torch.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">+</span> log_var <span class="op">-</span> mean.<span class="bu">pow</span>(<span class="dv">2</span>) <span class="op">-</span> log_var.exp())</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reproduction_loss <span class="op">+</span> KLD</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> Adam(model.parameters(), lr<span class="op">=</span>lr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss_function(x, x_hat, mean, log_var):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    reproduction_loss <span class="op">=</span> nn.functional.mse_loss(x_hat, x, reduction<span class="op">=</span><span class="st">'sum'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    KLD      <span class="op">=</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> torch.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">+</span> log_var <span class="op">-</span> mean.<span class="bu">pow</span>(<span class="dv">2</span>) <span class="op">-</span> log_var.exp())</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reproduction_loss <span class="op">+</span> KLD</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> Adam(model.parameters(), lr<span class="op">=</span>lr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-</section>
-<section id="training-the-neural-network" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="training-the-neural-network"><span class="header-section-number">11.3</span> Training the neural network</h2>
+<section id="training-the-neural-network" class="level4" data-number="11.2.3.5">
+<h4 data-number="11.2.3.5" class="anchored" data-anchor-id="training-the-neural-network"><span class="header-section-number">11.2.3.5</span> Training the neural network</h4>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model.train()</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(NUM_EPOCHS):</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch_idx, (x, _) <span class="kw">in</span> <span class="bu">enumerate</span>(train_loader):</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">## Note unlike the mnist data, the final batch isn't always the same size</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        batch_size <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x.view(batch_size, x_dim)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        x_hat, mean, log_var <span class="op">=</span> model(x)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> loss_function(x, x_hat, mean, log_var)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.train()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(NUM_EPOCHS):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch_idx, (x, _) <span class="kw">in</span> <span class="bu">enumerate</span>(train_loader):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">## Note unlike the mnist data, the final batch isn't always the same size</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        batch_size <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x.view(batch_size, x_dim)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        x_hat, mean, log_var <span class="op">=</span> model(x)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> loss_function(x, x_hat, mean, log_var)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        loss.backward()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="show-an-image-passed-through-the-vae" class="level4" data-number="11.3.0.1">
-<h4 data-number="11.3.0.1" class="anchored" data-anchor-id="show-an-image-passed-through-the-vae"><span class="header-section-number">11.3.0.1</span> Show an image passed through the VAE</h4>
+</section>
+<section id="show-an-image-passed-through-the-vae" class="level4" data-number="11.2.3.6">
+<h4 data-number="11.2.3.6" class="anchored" data-anchor-id="show-an-image-passed-through-the-vae"><span class="header-section-number">11.2.3.6</span> Show an image passed through the VAE</h4>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#with torch.no_grad():</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x, _ <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(test_loader))        </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x.view(batch_size, x_dim)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>x_hat, _, _ <span class="op">=</span> model(x)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>x     <span class="op">=</span>     x.view(batch_size, <span class="dv">28</span>, <span class="dv">28</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>x_hat <span class="op">=</span> x_hat.view(batch_size, <span class="dv">28</span>, <span class="dv">28</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">5</span>])</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plt.imshow(x[idx].numpy(), cmap<span class="op">=</span><span class="st">'gray'</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>plt.xticks([])</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>plt.imshow(x_hat[idx].detach().numpy(), cmap<span class="op">=</span><span class="st">'gray'</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>plt.xticks([])</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#with torch.no_grad():</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>x, _ <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(test_loader))        </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x.view(batch_size, x_dim)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>x_hat, _, _ <span class="op">=</span> model(x)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>x     <span class="op">=</span>     x.view(batch_size, <span class="dv">28</span>, <span class="dv">28</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>x_hat <span class="op">=</span> x_hat.view(batch_size, <span class="dv">28</span>, <span class="dv">28</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">5</span>])</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>plt.imshow(x[idx].numpy(), cmap<span class="op">=</span><span class="st">'gray'</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>plt.xticks([])</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>plt.imshow(x_hat[idx].detach().numpy(), cmap<span class="op">=</span><span class="st">'gray'</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>plt.xticks([])</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>plt.yticks([])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>([], [])</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -523,20 +527,20 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </div>
 </div>
 </section>
-<section id="generate-a-random-images-from-a-vae." class="level4" data-number="11.3.0.2">
-<h4 data-number="11.3.0.2" class="anchored" data-anchor-id="generate-a-random-images-from-a-vae."><span class="header-section-number">11.3.0.2</span> Generate a random images from a VAE.</h4>
+<section id="generate-a-random-images-from-a-vae." class="level4" data-number="11.2.3.7">
+<h4 data-number="11.2.3.7" class="anchored" data-anchor-id="generate-a-random-images-from-a-vae."><span class="header-section-number">11.2.3.7</span> Generate a random images from a VAE.</h4>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>no_im <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> torch.randn(no_im <span class="op">**</span> <span class="dv">2</span>, latent_dim)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>generated_images <span class="op">=</span> decoder(noise)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> generated_images.view(no_im <span class="op">**</span> <span class="dv">2</span>, <span class="dv">28</span>, <span class="dv">28</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(no_im <span class="op">**</span> <span class="dv">2</span>):</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">5</span>, <span class="dv">5</span>, i<span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    plt.imshow(im[i].detach().numpy(), cmap<span class="op">=</span><span class="st">'gray'</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    plt.xticks([])</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    plt.yticks([])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>no_im <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> torch.randn(no_im <span class="op">**</span> <span class="dv">2</span>, latent_dim)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>generated_images <span class="op">=</span> decoder(noise)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> generated_images.view(no_im <span class="op">**</span> <span class="dv">2</span>, <span class="dv">28</span>, <span class="dv">28</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(no_im <span class="op">**</span> <span class="dv">2</span>):</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">5</span>, <span class="dv">5</span>, i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    plt.imshow(im[i].detach().numpy(), cmap<span class="op">=</span><span class="st">'gray'</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    plt.xticks([])</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    plt.yticks([])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="variationalAEs_files/figure-html/cell-14-output-1.png" width="519" height="393"></p>
 </div>
@@ -548,6 +552,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 Kingma, Diederik P, and Max Welling. 2013. <span>“Auto-Encoding Variational <span>B</span>ayes.”</span> <em>arXiv Preprint arXiv:1312.6114</em>.
 </div>
 </div>
+</section>
 </section>
 </section>
 
