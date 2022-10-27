@@ -144,7 +144,11 @@ n_classes = len(info['label'])
 ##https://github.com/MedMNIST/MedMNIST/blob/main/examples/getting_started.ipynb
 data_flag = 'dermamnist'
 
-data_transform = transforms.Compose([transforms.ToTensor()])
+data_transform = transforms.Compose([
+  
+  transforms.ToTensor()
+
+])
 DataClass = getattr(medmnist, info['python_class'])
 
 # load the data

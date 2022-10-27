@@ -14,7 +14,7 @@ Many solutions use candidate distributions. Say, for example, $g(z|x)$ is a dist
 $$
 \frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i)|x})}{g(z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i)|x})}{g(Z^{(i)}|x)}} = \frac{\sum_{i=1}^N h(Z^{(i)})\frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}}{\sum_{i=1}^N \frac{f(Z^{(i), x})}{g(Z^{(i)}|x)}} \rightarrow \frac{E[h(Z) | x]}{E[1 | x]} = E[h(Z) | x]
 $$
-Of note we can calculate these weights, since we know $g(z|x)$ and $f(z,x} = f(x|z)f(z)$ is the likelihood times the prior.
+Of note we can calculate these weights, since we know $g(z|x)$ and $f(z,x) = f(x|z)f(z)$ is the likelihood times the prior.
 
 Importance sampling, Gibbs sampling and other Monte Carlo techniques get combined for complicated problems. However, modern problems often present a challenge that Monte Carlo techniques cannot solve. Enter variational Bayes. Instead of fixing up samples from $g$ to be exactly what we want, why don't we choose $g$ as well as possible and simply use it instead of $f(z|x)$? 
 
@@ -23,33 +23,293 @@ The most common version of variational Bayes uses the KL divergence. I.e. choose
 $$
 \int g(z|x) \log\left( \frac{g(z|x)}{f(z|x)} \right) dz
 = E_{g(z|x)}\left[\log\left( \frac{g(Z|x)}{f(Z|x)} \right)\right]
+\equiv D_{KL}\{g(Z|x) || f(Z|x) \}
 $$
 
-## Introduction to VAEs
+## VAEs
 
+### Introduction to VAEs
 Variational autoencoders were introduced in [@kingma2013auto]. A really good tutorial can be found [here](https://jaan.io/what-is-variational-autoencoder-vae-tutorial/) and some sample code on MNIST
 can be found [here](https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb).
 An alternate way to think about autoencoders is via variational Bayes arguments. Let $x_i$ be a record for $i = 1,\ldots,n$. For now, let's 
 drop the subscript $i$. Define the following:
  
 + $p_\theta(x | z)$ is the likelihood of $z$ when viewed as a function of $z$ or is the data generating distribution if viewed as a function of $x$;
-+ $p_\theta(x)$ is the data marginal;
-+ $p_\theta(z | x)$ is the posterior (of $z$ given $x$) 
-+ Note $p_\theta(z | x) = p_\theta(x, z) / p_\theta(x)$
-+ Note $p_\theta(x) = \int p_\theta(x, z) dz$
++ $p_\theta(x)$ is the data marginal, often called the evidence in this literature;
++ $p_\theta(z | x)$ is the posterior (of $z$ given $x$); 
++ Note $p_\theta(z | x) = p_\theta(x, z) / p_\theta(x)$;
++ Note $p_\theta(x) = \int p_\theta(x, z) dz$;
 
-We could view any latent probability distribution as an autoencoder, where $p_\theta(z | x)$ is the encoder and $p_\theta(x | z)$ is the decoder. One issue with this approach is that computing is quite hard for problems of sufficient scale. Variational Bayes uses approximations
-instead of the actual distributions. Let $q_\phi(z | x)$ be an approximiation of the posterior. Typical variational Bayes uses minmizers of the KL divergence. Variational autoencoders do that as well. However, VAEs tend to maximize the ELBO, evidence lower bound (ELBO).
+We could view any latent probability distribution as an autoencoder, where $p_\theta(z | x)$ is the encoder and $p_\theta(x | z)$ is the decoder.  Note, if $x$ is an image, say, then it is the *distribution* $p_\theta(x | z)$ that characterizes an image given its latent representation $z$. So, if we want an image, we need to look at the mean, posterior mode or even just a sample generation of $p_\theta(x | z)$.
+
+One issue with this approach is that computing is quite hard for problems of sufficient scale. Variational Bayes uses approximations instead of the actual distributions. Let $q_\phi(z | x)$ be an approximiation of the posterior. Typical variational Bayes uses minmizers of the KL divergence. Variational autoencoders do that as well. However, VAEs tend to maximize the ELBO, evidence lower bound (ELBO). We define the ELBO as
  
 $$
-L_{\phi, \theta}(x) = \log\{p_\theta(x)\} - E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)}  \right)\right]
+L_{\phi, \theta}(x) = \log\{p_\theta(x)\} - E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | x)}  \right)\right]
+= \log\{p_\theta(x)\} - D_{KL}\{q_\phi(Z | x) || p_\theta(Z | x)\}
 $$
-
-Maximizing ELBO does two good things. First, it maximizes $p_\theta(x)$, i.e. that the model fits the data well. Secondly, it minmizes
+where $D_{KL}(a||b)$ is the Kullback/Liebler divergence between distributions $a$ and $b$. The ELBO is a lower bound since the divergence term is positive and so the following inequality holds:
+$$
+L_{\phi, \theta}(x) \leq \log\{p_\theta(x)\}.
+$$
+Where, recall, we call $p_\theta(x)$ the evidence (in this area). That it's a bound on the evidence suggest that maximizing it is a good thing. Regardless, we can see that maximizing ELBO obviously does two good things. First, it maximizes $p_\theta(x)$, i.e. that the model fits the data well. Secondly, it minmizes
 $E_{q_\phi(z | x)} \left[\log\left( \frac{q_\phi(Z | x)}{p_\theta(Z | X)}  \right)\right]$, or the KL divergence between the approximation
 and what it's approximating.
 
+We can rewrite the ELBO as (HW!):
+$$
+E_{q_\phi(z | x)} \left[\log\left( p_\theta(x | Z) \right)\right]
+- D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z) \right\}
+$$
 
-## Gaussian VAEs
 
- A common assumption to make is that $q_\phi(z | x) = N(\mu_\phi(x), \Sigma_\phi(x))$
+### Gaussian VAEs
+
+Consider the following assumptions:
+
+1.  $p_\theta(z)$ is a multivariate standard normal (i.e. $N(J,I)$) for $J$ a vector of zeros and $I$ an identity matrix)
+2. $q_\phi(z | x) = N(\mu_\phi(x), \mbox{Diag}(\sigma_\phi(x)))^2$ 
+3. $p_\theta(x | z)$ is a multivariate normal with mean $\theta_1(z)$ and variance matrix $\theta_2 I$. 
+
+We can write $z = \mu_\phi(x) + \mbox{Diag}(\sigma(x)) \epsilon$ where $\epsilon$ is multivariate standard normal. Moreover, under these assumptions it
+can be shown that
+$$
+D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \left(1 + \log\{\sigma_{\phi,j}(x)^2\} - \mu_{\phi,j}(x)^2 - \sigma_{\phi,j}(x)^2 \right)
+$$
+where a subscript $j$ refers to the vector component. If we have a Monte Carlo sample, $\epsilon^{(1)}$  then we can approximate it as follows:
+
+$$
+\begin{aligned}  
+& E_{q_\phi(z | x)} \left[\log\left\{ p_\theta(x | Z) \right\}\right] \\
+ \approx & \frac{1}{L} \sum_{l=1}^L \log\{ p_\theta(x | z = \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)})\} \\  
+ = & -\frac{1}{2} \sum_{l=1}^L ||x - \theta_1\{ \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)}\}||^2 / \theta_2 \\
+\end{aligned}
+$$
+
+Both of these expressions are the contributions of one row, $x$. They get summed over $x$ to obtain the full ELBO. Here we can see why expressing $z = \mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon^{(l)$ is important. This way our parameters, $\mu_\phi$ and $\sigma_\phi$ are in the loss function, not hidden in $z$. The backprop algorithm doesn't know how to take a derivative with respect to a realized random variable. It can, however, differentiate $\mu_\phi(x) + \mbox{Diag}(\sigma_\phi(x) \epsilon$ for realized $\epsilon$.
+
+### Example using chest x-rays
+
+We're omitting our imports and gettng the data. See the [qmd file](https://github.com/smart-stats/advanced_ds4bio_book/blob/main/qbook/variationalAEs.qmd) for the full list. Here we have epochs as 10 and batch size as 128. 
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy.linalg as la
+from sklearn.decomposition import PCA
+import urllib.request
+import PIL
+import numpy as np
+import torch 
+import torch.nn as nn
+import torch.optim as optim
+from torch.optim import Adam
+import torch.nn.functional as F
+import torchvision
+import torchvision.transforms as transforms
+import torch.utils.data as data
+from torchvision.utils import save_image, make_grid
+from torch.utils.data import TensorDataset, DataLoader
+from sklearn.decomposition import FastICA
+from tqdm import tqdm
+import medmnist
+from medmnist import INFO, Evaluator
+import scipy
+import IPython
+import torch
+```
+
+
+```{python}
+#| echo: false
+
+data_flag = 'chestmnist'
+
+## This defines our NN parameters
+NUM_EPOCHS = 10
+BATCH_SIZE = 128
+lr = 0.001
+
+info = INFO[data_flag]
+task = info['task']
+n_channels = info['n_channels']
+n_classes = len(info['label'])
+
+##https://github.com/MedMNIST/MedMNIST/blob/main/examples/getting_started.ipynb
+
+data_transform = transforms.Compose([transforms.ToTensor()])
+DataClass = getattr(medmnist, info['python_class'])
+
+# load the data
+train_dataset = DataClass(split = 'train', transform = data_transform, download = True)
+test_dataset  = DataClass(split = 'test' , transform = data_transform, download = True)
+
+train_loader = data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+test_loader = data.DataLoader(dataset=test_dataset, batch_size=2*BATCH_SIZE, shuffle=False)
+```
+
+Here's a montage of the training data.
+
+```{python}
+#| echo: false
+train_dataset.montage(length=20)
+```
+
+Here's the shape of the dataset. Note, $28^2=784$ is the vectorized size. Also, as these images are gray scale so that there's only one color channel. We're not going to use any convolutional layers or anything like that. We'll just flatten everything.
+
+```{python}
+temp, _ = next(iter(train_dataset))
+temp = temp.numpy()
+[temp.shape, temp.max(), temp.min()]
+```
+
+Let's use Jackson Kang's wonderful VAE tutorial from [here](https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb). 
+
+```{python}
+x_dim  = 784 ## This is 28**2, the length of the vectorized images
+hidden_dim = 400
+latent_dim = 200
+```
+
+#### Defining the encoder
+First we define the encoder. Remember, the encoder is $q_\phi(z | x)$, which we are assuming is multivariate independent normals with means and variances depending on $x$. Notice this takes in the input, $x$ and uses a NN to estimate $\mu_\phi(x)$ and $\log(\sigma^2_\phi(x))$. 
+
+```{python}
+class Encoder(nn.Module):
+    def __init__(self, input_dim, hidden_dim, latent_dim):
+        super(Encoder, self).__init__()
+        self.FC_input = nn.Linear(input_dim, hidden_dim)
+        self.FC_input2 = nn.Linear(hidden_dim, hidden_dim)
+        self.FC_mean  = nn.Linear(hidden_dim, latent_dim)
+        self.FC_var   = nn.Linear (hidden_dim, latent_dim)
+        self.LeakyReLU = nn.LeakyReLU(0.2)
+        self.training = True
+        
+    def forward(self, x):
+        h_       = self.LeakyReLU(self.FC_input(x))
+        h_       = self.LeakyReLU(self.FC_input2(h_))
+        mean     = self.FC_mean(h_)
+        log_var  = self.FC_var(h_) 
+        return mean, log_var
+```
+
+#### Defining the decoder
+
+Next we define our decoder. Remember our decoder is $p_\theta(x | z)$. However, the distribution will be fully defined in the loss function. Instead, we're just taking in $z$ and giving out $\hat x = \theta_1(z)$. 
+
+```{python}
+class Decoder(nn.Module):
+    def __init__(self, latent_dim, hidden_dim, output_dim):
+        super(Decoder, self).__init__()
+        self.FC_hidden = nn.Linear(latent_dim, hidden_dim)
+        self.FC_hidden2 = nn.Linear(hidden_dim, hidden_dim)
+        self.FC_output = nn.Linear(hidden_dim, output_dim)        
+        self.LeakyReLU = nn.LeakyReLU(0.2)
+    def forward(self, x):
+        h     = self.LeakyReLU(self.FC_hidden(x))
+        h     = self.LeakyReLU(self.FC_hidden2(h))
+        x_hat = torch.sigmoid(self.FC_output(h))
+        return x_hat
+```
+
+#### Defining the full model = autoencoder / decoder
+To run a datapoint, $x$ through the model. First the encoder generates $\mu_phi(x)$ and $\sigma_\phi(x)$. Next, it generates $z$ from $q_\phi(z|x)$ using a reparameterization, then passes $z$ through the decoder, $p_\theta(x | z)$. 
+
+```{python}
+class Model(nn.Module):
+    def __init__(self, Encoder, Decoder):
+        super(Model, self).__init__()
+        self.Encoder = Encoder
+        self.Decoder = Decoder
+
+    def forward(self, x):
+        mean, log_var = self.Encoder(x)
+        sd = torch.exp(0.5 * log_var)
+        z = mean + sd * torch.randn_like(sd)
+        x_hat = self.Decoder(z)
+        return x_hat, mean, log_var
+```
+
+```{python}
+encoder = Encoder(input_dim=x_dim, hidden_dim=hidden_dim, latent_dim=latent_dim)
+decoder = Decoder(latent_dim=latent_dim, hidden_dim = hidden_dim, output_dim = x_dim)
+model = Model(Encoder=encoder, Decoder=decoder)
+```
+
+#### Defining the ELBO
+
+The ELBO is the sum of the reproduction loss and the KL divergence.
+
+```{python}
+def loss_function(x, x_hat, mean, log_var):
+    reproduction_loss = nn.functional.mse_loss(x_hat, x, reduction='sum')
+    KLD      = - 0.5 * torch.sum(1+ log_var - mean.pow(2) - log_var.exp())
+    return reproduction_loss + KLD
+
+optimizer = Adam(model.parameters(), lr=lr)
+```
+
+#### Training the neural network
+
+```{python}
+model.train()
+for epoch in range(NUM_EPOCHS):
+    for batch_idx, (x, _) in enumerate(train_loader):
+        ## Note unlike the mnist data, the final batch isn't always the same size
+        batch_size = x.shape[0]
+        x = x.view(batch_size, x_dim)
+        optimizer.zero_grad()
+        x_hat, mean, log_var = model(x)
+        loss = loss_function(x, x_hat, mean, log_var)
+        loss.backward()
+        optimizer.step()
+```
+
+
+#### Show an image passed through the VAE
+
+```{python}
+model.eval()
+
+#with torch.no_grad():
+x, _ = next(iter(test_loader))        
+batch_size = x.shape[0]
+x = x.view(batch_size, x_dim)
+x_hat, _, _ = model(x)
+
+
+x     =     x.view(batch_size, 28, 28)
+x_hat = x_hat.view(batch_size, 28, 28)
+
+plt.figure(figsize=[10, 5])
+
+idx = 0
+plt.subplot(1, 2, 1)
+plt.imshow(x[idx].numpy(), cmap='gray', vmin = 0, vmax = 1)
+plt.xticks([])
+plt.yticks([])
+
+
+plt.subplot(1, 2, 2)
+plt.imshow(x_hat[idx].detach().numpy(), cmap='gray', vmin = 0, vmax = 1)
+plt.xticks([])
+plt.yticks([])
+```
+
+#### Generate a random images from a VAE.
+
+```{python}
+
+no_im = 5
+noise = torch.randn(no_im ** 2, latent_dim)
+generated_images = decoder(noise)
+
+im = generated_images.view(no_im ** 2, 28, 28)
+
+for i in range(no_im ** 2):
+    plt.subplot(5, 5, i+1)
+    plt.imshow(im[i].detach().numpy(), cmap='gray', vmin = 0, vmax = 1)
+    plt.xticks([])
+    plt.yticks([])
+```

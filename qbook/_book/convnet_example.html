@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 10&nbsp; Example convnet</title>
+<title>Advanced Data Science for Public Health - 9&nbsp; Example convnet</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -153,7 +153,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Example convnet</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Example convnet</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -201,47 +201,47 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  <a href="./images.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with images</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./images.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with images</span></a>
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Databases</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data structures</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Example convnet</span></a>
+  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
+  <a href="./variationalAEs.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./variationalAEs.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></a>
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">NLP</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -273,10 +273,10 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#medical-mnist-data" id="toc-medical-mnist-data" class="nav-link active" data-scroll-target="#medical-mnist-data"><span class="toc-section-number">10.1</span>  Medical MNIST data</a></li>
-  <li><a href="#training-the-network" id="toc-training-the-network" class="nav-link" data-scroll-target="#training-the-network"><span class="toc-section-number">10.2</span>  Training the network</a></li>
-  <li><a href="#evaluating-the-network" id="toc-evaluating-the-network" class="nav-link" data-scroll-target="#evaluating-the-network"><span class="toc-section-number">10.3</span>  Evaluating the network</a></li>
-  <li><a href="#visualizing-the-network" id="toc-visualizing-the-network" class="nav-link" data-scroll-target="#visualizing-the-network"><span class="toc-section-number">10.4</span>  Visualizing the network</a></li>
+  <li><a href="#medical-mnist-data" id="toc-medical-mnist-data" class="nav-link active" data-scroll-target="#medical-mnist-data"><span class="toc-section-number">9.1</span>  Medical MNIST data</a></li>
+  <li><a href="#training-the-network" id="toc-training-the-network" class="nav-link" data-scroll-target="#training-the-network"><span class="toc-section-number">9.2</span>  Training the network</a></li>
+  <li><a href="#evaluating-the-network" id="toc-evaluating-the-network" class="nav-link" data-scroll-target="#evaluating-the-network"><span class="toc-section-number">9.3</span>  Evaluating the network</a></li>
+  <li><a href="#visualizing-the-network" id="toc-visualizing-the-network" class="nav-link" data-scroll-target="#visualizing-the-network"><span class="toc-section-number">9.4</span>  Visualizing the network</a></li>
   </ul>
 </nav>
     </div>
@@ -285,7 +285,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Example convnet</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Example convnet</span></h1>
 </div>
 
 
@@ -299,8 +299,8 @@ div.csl-indent {
 
 </header>
 
-<section id="medical-mnist-data" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="medical-mnist-data"><span class="header-section-number">10.1</span> Medical MNIST data</h2>
+<section id="medical-mnist-data" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="medical-mnist-data"><span class="header-section-number">9.1</span> Medical MNIST data</h2>
 <p>Medical images offer unique challenges for imaging. A common format for medical images is dicom. Most medical images are 3D or 4D grayscale images. To get a sense of working with medical images, let’s consider a set of 2D color images from the medical mnist library <span class="citation" data-cites="medmnistv2">(<a href="references.html#ref-medmnistv2" role="doc-biblioref">Yang et al. 2021</a>)</span>. A tutorial for working with these images can be found <a href="https://github.com/MedMNIST/MedMNIST/blob/main/examples/getting_started.ipynb">here</a>. These are images of moles to determine whether or not they are cancerous. We’ll follow along with the medmnist code then investigate the output.</p>
 <p>Here are the imports</p>
 <div class="cell" data-execution_count="1">
@@ -417,8 +417,8 @@ dtype: float64</code></pre>
 P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 \]</span> where <span class="math inline">\(J\)</span> is the number of categories (7 in our case) and <span class="math inline">\(Y_i\)</span> is an outcome for image <span class="math inline">\(i\)</span>. Notice, this sums to 1 over <span class="math inline">\(j\)</span>.</p>
 </section>
-<section id="training-the-network" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="training-the-network"><span class="header-section-number">10.2</span> Training the network</h2>
+<section id="training-the-network" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="training-the-network"><span class="header-section-number">9.2</span> Training the network</h2>
 <p>Here is the medmnist NN. Note <code>convd</code> has argument <code>in_channels</code>, <code>out_channels</code>, <code>kernel_size</code>. So, in this case the number of channels in is 3 and in the first layer it puts out a 16 channel image obtained by convolving a 3x3x3 kernels with each channel, adding bias terms, then repeating that 15 more times (<a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html">documentaiton</a>).</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Net(nn.Module):</span>
@@ -500,8 +500,8 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="evaluating-the-network" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="evaluating-the-network"><span class="header-section-number">10.3</span> Evaluating the network</h2>
+<section id="evaluating-the-network" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="evaluating-the-network"><span class="header-section-number">9.3</span> Evaluating the network</h2>
 <p>There’s some evaluation methods included at the MedMnist repo. Below this calculates the AUCs and the accuracy.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test(split):</span>
@@ -624,8 +624,8 @@ dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="visualizing-the-network" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="visualizing-the-network"><span class="header-section-number">10.4</span> Visualizing the network</h2>
+<section id="visualizing-the-network" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="visualizing-the-network"><span class="header-section-number">9.4</span> Visualizing the network</h2>
 <p>Here are the convolutions. Note they are color images since there are 3 channels.</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">### here's a list of the states that the model has kept track of</span></span>
@@ -822,12 +822,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./diymlai.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./unsupervised.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
