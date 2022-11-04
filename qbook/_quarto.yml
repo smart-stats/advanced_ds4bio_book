@@ -21,6 +21,7 @@ book:
     - variationalAEs.qmd
     - nlp.qmd
     - data_analysis_theory.qmd
+    - stat_language.qmd
     - data_science_as_a_science.qmd
     - graphics.qmd
     - references.qmd
