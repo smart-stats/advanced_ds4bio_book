@@ -1,0 +1,190 @@
+---
+title: "Causal DAGs"
+format: html
+---
+
+## Associational models versus causal models
+
+Causal models differ from associational models in that they codify causal directions not just associations.  In our program, you might have learned of the use of propensity scores, counterfactuals or randomization to study causality. There, typically the goal is to make causal statements with as few assumptions as possible or at least understanding the assumptions. Typically the object of study is the estimation of an effect avergated over covarites.
+
+Causal graphs take a different approach, even if they wind up at a similar same place. Here, the goal is to postulate hyptothetical causal relationships and use those hypothetical relationships to estimate causal effects. In that sense, they use more assumptions. But, on the other hand, the very act of postulating causal relationships has a benefit unto itself. Moreover, causal graphs intersect with understanding causal theory more generally.
+
+
+### Structural causal models
+
+A structural causal model (SCM) over a collection of variables, $X=(X_1, \ldots, X_p)$, postulates a set of functional relationships
+$$
+X_j = f(P_j, \epsilon_j)
+$$
+where $P_j$ are the antecedent causes of $X_j$, called the parents of $X_j$, and $\epsilon_j$ is an accumulation of variables treated as mutally independent. This defines a directed graph, $G$ say, where a graph is collection of vertices corresponding to our variables, $V=\{1,\ldots, p\}$, corresponding to the $X_i$, and edges, $E$, which is a set of ordered pairs of nodes. Node $i$ is a parent of node $j$ if $(i,j) \in E$ and $(j,i)\notin E$. Similarly,  node $i$ is a **child** of node $j$ if $(j,i) \in E$ and $(i,j)\notin E$. A node 
+is a **descendant** of another if it is a child, or a child of a child and so on.
+
+```{dot}
+//| label: three-node
+//| fig-width: 3
+//| fig-cap: A simple causal diagram.
+digraph G {
+  X1 -> {X2, X3};
+  {rank=same; X2 -> X3};
+
+}
+```
+
+In this case, $P_1 = \{\}$, $P_2 = \{1\}$ and $P_3 = \{1,2\}$. SCMs define a unique probability distribution over $X$.
+
+Given a cross-sectional sample, we can estimate the joint distribution of $P(X_1,\ldots, X_p)$ and all of its conditionals. 
+These conditionals must agree with the causal graph in a sense. Specifically, it agrees with the conditional independence (Markov) model implied by the associated *undirected* graph. Causality comes in from our assuming arrows and using these assumptions
+in a specific way. 
+
+One specific way in which we use the assumptions is to investigate how the graph changes when we fix a node at a specific value, like an intevention, thus breaking its association with its parents. This operation is conceptual, but at times we can relate probabilities associated with interventions that were not realized. Consider an instrance where  where $X_1$ is a collection of confounders, $X_2$ is an exposure and $X_3$ is an outcome. Ideally, we'd like to know
+$$
+P(X_3 ~|~ do(X_2) = x_2)
+$$
+That is, the impact on the response if we were to set the exposure to $e_0$. 
+
+### Blocking and d-separation
+
+Return to diagram @three-node.
+
++ $X1$ is a *confounder* betweend $X2$ and $X3$ 
++ $X2$ is a *mediator* between $X1$ and $X3$ 
++ $X3$ is a *collider* between $X1$ and $X2$ 
+
+Consider an example. $X1$ is having a BMI > 35, $X2$ is sleep disordered breathing and $X3$ is hypertension. 
+
+```{dot}
+//| fig-width: 3
+digraph G {
+  BMI35 -> {SDB, HTN};
+  {rank = same; SDB -> HTN}
+}
+```
+
+Here if we're studying whether SDB causes HTN, BMI35 confounds the relationship as a possible common cause of both. 
+We would need to adjust for BMI35 to make sure the association between SDB and HTN isn't just due to this common cause.
+
+If we were studying whether BMI35 causes HTN, we might be interested in how much of that effect is mediated (indirectly) through 
+SDB and how much is directly from BMI35.
+
+If we are studying the relationship between BMI35 and SDB directly, adjusting for HTN may cause an association. Consider the
+(fictitious) case where there is a large number of people who have SDB who are not obese, yet all have hypertension, for whatever the reason. Then, among the HTN, there could be a negative association between BMI35 and SDB, because of the large collection of patients would who have SDB and are not obese and the same for obese and not hyptertensive. That is, adjusting for HTN created an association. This is an example of [Berkson's paradox](https://en.wikipedia.org/wiki/Berkson%27s_paradox). This is a somewhat contrived example, but hopefully you get the point.
+The wikipedia article has a funny example where they consider $X_1$ is whether or not the hamburger is good at a fast food restaurant, $X_2$ is whether or not the fries are good and $X_3$ is whether or not people eat there. Since few people would eat at a place where both the hamburger and fries are bad, conditioning on $X_3$ can create a negative association.
+
+The main point here is that adjusting for colliders may open up a pathway between the nodes.
+
+A **path** between two nodes $n_1$ and $n_k$ is a sequence of nodes, $v_1, v_2,\ldots v_{k}$, where  $v_{i}$ and $v_{i+1}$ are connected.
+The path is **directed** if $v_{i}$ points to $v_{i+1}$ for $i=1,\ldots,k$. A graph is a Directed Acyclic Graph (DAG) if all edges are directed and there are no two nodes $v_i$ and $v_j$ with a directed path in both directions.  
+
+A path between $v_1$ and $v_k$, $v_1,\ldots, v_k$, is blocked by a set of nodes, $S$, if for some $v_j$ in $S$ 
+
+1. $v_j\in S$ and $v_k$ is a mediator or confounder between $v_{j-1}$ and $v_{j+1}$ in either direction **or**
+2. $v_j\notin S$ and all of the descendants of $v_j \notin S$ and $v_{j}$ is a collider between $v_{j-1}$ and $v_{j+1}$. 
+
+In other words, a path is blocked if a mediator or confounder is included in $S$ or a collider and all of its descendants is excluded from $S$.
+
+For 1. this is equivalent to saying one of 
+
+* $v_{j-1}\rightarrow v_{j} \rightarrow v_{j+1}$
+* $v_{j-1}\leftarrow v_{j} \leftarrow v_{j+1}$
+* $v_{j-1}\leftarrow v_{j} \rightarrow v_{j+1}$
+
+holds. For 2. recall a collider is $v_{j-1}\rightarrow v_{j} \leftarrow v_{j+1}$. 
+
+We say that two nodes or groups of nodes are
+**D-Separated** by a set of nodes, $S$, if every path between nodes in the two groups is blocked by $S$.
+
+
+Consider the following graph. 
+
+
+
+```{python}
+#| echo: false
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+import sklearn as skl
+```
+
+```{python}
+#| echo: false
+#plt.figure(figsize=[2, 2])
+G = nx.DiGraph()
+G.add_node("X",  pos = (0,   0) )
+G.add_node("Y",  pos = (2,   0) )
+G.add_node("X2", pos = (0,   1) )
+G.add_node("X3", pos = (1, 1.5) )
+G.add_node("X4", pos = (1,  .5) )
+G.add_node("X5", pos = (2,   1) )
+G.add_edges_from([  
+  ["X", "Y"  ],
+  ["X2", "X" ], 
+  ["X2", "X3"],
+  ["X3", "X" ],
+  ["X3", "X4"],
+  ["X4", "Y" ],
+  ["X5", "X3"],
+  ["X5", "Y" ]
+] )
+
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 2.3])
+ax.set_ylim([-.3, 2.3])
+plt.show()
+```
+Here are the minimal valid D-separating paths between $X$ and $Y$:
+
+1. $S = \{X_2, X_3\}$
+2. $S = \{X_3, X_5\}$
+3. $S = \{X_4, X_5\}$
+
+Here are some **invalid** D-separating sets.
+
+1. $S$ equal to any single node. Example, $S=\{X_3\}$. This does not block the path $X\leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y$.
+2. $S=\{X_3, X_4\}$ does not block the path
+$X \leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y$.
+3. $S=\{X_2, X_4\}$. does not block the path $X\leftarrow X_3 \leftarrow X_5 \rightarrow Y$.
+
+Importantly, if $S$ D-separates $X$ and $Y$ then in the implied distribution from the SCM, $X \perp Y ~|~ S$.
+
+## Do calculus and backdoor criterion
+
+Recall that specifying a causal graph model implies a probability distribution. Moreover, the implied independence relationships are given
+by the undirected graph. 
+
+Consider a theoretical intervention obtained by setting
+$X = a$, which we write as $do(X) = a$. We want to estimate
+$P(Y ~|~ do(X) = a)$, which is fundamentally different than
+$P(Y ~|~ X = a)$. 
+
+A set $Z$ satisfies the **back door** criterion with respect
+to nodes $X$ and $Y$ if 
+
+1. No descendant of $X$ is in $Z$.
+2. $Z$ blocks every path $X$ and $Y$ that contains an arrow pointing to $Y$.
+
+The magic of the back door adjustment comes from the relationship:
+
+$$
+P(Y ~|~ do(X) = x) = \sum_{z} P(y ~ | x, z) p(z)
+$$
+
+where $z$ are the collection of variables in $S$. If the $z$ are all observed variables, then the RHS of this equation is estimable. Note the interesting statement that not all variables need to be observed, just
+$y$, $x$ and $z$.
+
+
+
+## Reading:
++ I got most of this stuff from @peters2017elements, which you can read [here](https://library.oapen.org/bitstream/id/056a11be-ce3a-44b9-8987-a6c68fce8d9b/11283.pdf)
++ Also read @hardt2021patterns, which you can read [here](https://mlstory.org/index.html)
++ [A crash course in good and bad controls](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf), or [here](http://causality.cs.ucla.edu/blog/index.php/category/back-door-criterion/)
++ [dagitty](http://dagitty.net/.html#)

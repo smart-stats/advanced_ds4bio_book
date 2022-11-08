@@ -25,6 +25,8 @@ book:
     - data_science_as_a_science.qmd
     - graphics.qmd
     - causal.qmd
+    - validation.qmd
+    - ethics.qmd
     - references.qmd
 
 bibliography: references.bib
