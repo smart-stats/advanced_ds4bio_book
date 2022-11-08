@@ -80,6 +80,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -202,6 +203,11 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./causal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -257,6 +263,22 @@ div.csl-indent {
 </section>
 <section id="psychology" class="level3" data-number="15.1.2">
 <h3 data-number="15.1.2" class="anchored" data-anchor-id="psychology"><span class="header-section-number">15.1.2</span> Psychology</h3>
+<p>One of the most celebrated versions of data science as a science is the understanding of how we perceive chance, randomness and decision making under uncertainty, by Kahneman, Tversky, Slovic and many others. A good starting point for this is the book <span class="citation" data-cites="kahneman1982judgment">Kahneman et al. (<a href="references.html#ref-kahneman1982judgment" role="doc-biblioref">1982</a>)</span>.</p>
+<p>One key point is that we all, regardless of training, rely on heuristics and biases to mentally represent uncertainty. An example is the lack of use of prior probabilities</p>
+<blockquote class="blockquote">
+<p>Subjects were shown brief personality descriptions of several individuals, allegedly sampled at random from a group of 100 professionals - engineers and lawyers. The subjects were asked to assess, for each description, the probability that it belonged to an engineer rather than to a lawyer. In one experimental condition, subjects were told that the group from which the descriptions had been drawn consisted of 70 engineers and 30 lawyers. In another condition, subjects were told that the group consisted of 30 engineers and 70 lawyers. The odds that any particular description belongs to an engineer rather than to a lawyer should be higher in the first condition, where there is a majority of engineers, than in the second condition, where there is a majority of lawyers. Specifically, it can be shown by applying Bayes’ rule that the ratio of these odds should be (.7/.3)2, or 5.44, for each description. In a sharp violation of Bayes’ rule, the subjects in the two conditions produced essentially the same probability judgments. Apparently, subjects evaluated the likelihood that a particular description belonged to an engineer rather than to a lawyer by the degree to which this description was representa￾tive of the two stereotypes, with little or no regard for the prior probabili￾ties of the categories.</p>
+</blockquote>
+<p>A major thrust of this work was on sample representativeness <span class="citation" data-cites="kahneman1972subjective">(<a href="references.html#ref-kahneman1972subjective" role="doc-biblioref">Kahneman and Tversky 1972</a>)</span>. They summarize their findings as:</p>
+<blockquote class="blockquote">
+<ol type="i">
+<li>people expect samples to be highly similar to their parent population, and also to represent the randomness of the sampling process (Tversky &amp; Kahneman, 1971, 1974); (ii) people often rely on representativeness as a heuristic for judgment and prediction (Kahneman &amp; Tversky, 1972, 1973).</li>
+</ol>
+</blockquote>
+<p>These biases creep into our judgements. <span class="citation" data-cites="kahneman1972subjective">Kahneman and Tversky (<a href="references.html#ref-kahneman1972subjective" role="doc-biblioref">1972</a>)</span> discusses people’s ability to rank <span class="math inline">\(P(A)\)</span> and <span class="math inline">\(P(A\cap B)\)</span>, the latter being mathematically guaranteed to be the smaller. They observed a strong conjunction bias. For example:</p>
+<blockquote class="blockquote">
+<p>Linda is 31 years old, single, outspoken and very bright. She maJored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.</p>
+</blockquote>
+<p>When asked to rank the probability of “Linda is a bank teller” (T), “Linda is active in the feminist movement.” (F) versus “Linda is a bank teller and active in the feminist movement” (T&amp;F). They similarly describe Bill as having stereotypical accountant traits and ask to rank “Bill is an accountant.”, “Bill plays jazz for a hobby.” and “Bill is an accountant who plays jazz for a hobby.” In 90% of the cases, the subjects ranked the intersection in between the two marginal probabilities (eg. ranking F &gt; T&amp;F &gt; T for Linda).</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -265,6 +287,12 @@ Gilland, Karen L, Benjamin MW Tsui, Yujin Qi, and Grant T Gullberg. 2006. <span>
 </div>
 <div id="ref-he2004mathematical" class="csl-entry" role="doc-biblioentry">
 He, Xin, Eric C Frey, Jonathan M Links, Karen L Gilland, William P Segars, and Benjamin MW Tsui. 2004. <span>“A Mathematical Observer Study for the Evaluation and Optimization of Compensation Methods for Myocardial SPECT Using a Phantom Population That Realistically Models Patient Variability.”</span> <em>IEEE Transactions on Nuclear Science</em> 51 (1): 218–24.
+</div>
+<div id="ref-kahneman1982judgment" class="csl-entry" role="doc-biblioentry">
+Kahneman, Daniel, Stewart Paul Slovic, Paul Slovic, and Amos Tversky. 1982. <em>Judgment Under Uncertainty: Heuristics and Biases</em>. Cambridge university press.
+</div>
+<div id="ref-kahneman1972subjective" class="csl-entry" role="doc-biblioentry">
+Kahneman, Daniel, and Amos Tversky. 1972. <span>“Subjective Probability: A Judgment of Representativeness.”</span> <em>Cognitive Psychology</em> 3 (3): 430–54.
 </div>
 </div>
 </section>

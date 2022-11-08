@@ -11,3 +11,15 @@ I'm going to assume that you have a lot of basic data science tools down already
 ## Organization
 
 This is a two quarter course. The first quater is devoted to tools and the second is deveoted to theory. So the book is divided in half that way.
+
+## Reading
+
+Read these papers first
+
+1. @tukey1962future
+2. @donoho201750
+3. @leek2015question
+4. @leek2015question
+5. @kass2016ten
+6. @hicks2018guide
+7. @hardin2015data

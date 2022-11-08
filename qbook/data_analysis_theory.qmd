@@ -127,6 +127,7 @@ Questions:
 * Wickham, Exploratory Model Inference [@wickham2006exploratory]
 * Unwin and Volinsky on Exploratory Model Inference [@unwin2003parallel]
 * Breiman discussing modeling [@breiman2001statistical] 
+* Diaconis discussing magical thinking [@diaconis2006theories]
 
 
 

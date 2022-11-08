@@ -24,6 +24,7 @@ book:
     - stat_language.qmd
     - data_science_as_a_science.qmd
     - graphics.qmd
+    - causal.qmd
     - references.qmd
 
 bibliography: references.bib

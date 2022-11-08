@@ -336,7 +336,7 @@ for h in range(16):
     plt.imshow(img);
 ```
 
-Let's use SHAP to look at our convolutional neural network. SHAP uses Shapley values from game theory to explain NN predictors. [Here's a manuscript](https://arxiv.org/pdf/1908.06612.pdf) that utilizes SHAP values on this problem.
+Let's use SHAP to look at our convolutional neural network. SHAP uses Shapley values from game theory to explain NN predictors. [Here's a manuscript](https://arxiv.org/pdf/1908.06612.pdf) [@young2019deep] that utilizes SHAP values on this problem.
 
 The Shapley value is defined in game theory as the contribution of a player to a teams' output factoring in their cooperation. In neural networks, a pixel could be a considered a player and the gain function as the output. The goal is to see the contribution of the player/pixel, factoring in the contributions and how they interact with the others. The Shapley values are difficult to compute, and so approximations need to be used. Python has a package `shap` that can be used to calculate and visualize approximated Shapley values for an input.
 
