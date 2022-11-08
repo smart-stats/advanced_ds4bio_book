@@ -252,6 +252,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -334,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>[mean1, mean2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>[0.014454236495387218, 0.033624250586707774]</code></pre>
+<pre><code>[0.02559563359212289, 0.03601204637319233]</code></pre>
 </div>
 </div>
 <p>Let’s now center our time series.</p>
@@ -353,7 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">+=</span> np.<span class="bu">sum</span>(s2[block_indices] <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>[v1, v2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>[1.0168366632147015, 0.953229453217395]</code></pre>
+<pre><code>[1.0303031613911366, 1.0464642530746193]</code></pre>
 </div>
 </div>
 <p>Now let’s scale our vectors as</p>
@@ -373,7 +383,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    cor <span class="op">+=</span> np.<span class="bu">sum</span>(s1[block_indices] <span class="op">*</span> s2[block_indices]) <span class="op">/</span> (n<span class="op">-</span><span class="dv">1</span>) </span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>cor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>-0.03009388991632757</code></pre>
+<pre><code>-0.014163650190021075</code></pre>
 </div>
 </div>
 <p>Finally, we want to “regress out” s2 from s1. Since we normalized our series, the correlation is slope coefficient from linear regression (regardless of the outcome and dependent variable) and the intercept is zero (since we centered). Thus, the residual we want is <span class="math inline">\(e_{12} = s_1 - \rho s_2\)</span> where <span class="math inline">\(\rho\)</span> is the correlation.</p>

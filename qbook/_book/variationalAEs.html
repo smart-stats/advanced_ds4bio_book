@@ -271,6 +271,16 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -336,7 +346,7 @@ div.csl-indent {
 <h2 data-number="11.2" class="anchored" data-anchor-id="vaes"><span class="header-section-number">11.2</span> VAEs</h2>
 <section id="introduction-to-vaes" class="level3" data-number="11.2.1">
 <h3 data-number="11.2.1" class="anchored" data-anchor-id="introduction-to-vaes"><span class="header-section-number">11.2.1</span> Introduction to VAEs</h3>
-<p>Variational autoencoders were introduced in <span class="citation" data-cites="kingma2013auto">(<a href="references.html#ref-kingma2013auto" role="doc-biblioref">Kingma and Welling 2013</a>)</span>. A really good tutorial can be found <a href="https://jaan.io/what-is-variational-autoencoder-vae-tutorial/">here</a> and some sample code on MNIST can be found <a href="https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb">here</a>. An alternate way to think about autoencoders is via variational Bayes arguments. Let <span class="math inline">\(x_i\)</span> be a record for <span class="math inline">\(i = 1,\ldots,n\)</span>. For now, let’s drop the subscript <span class="math inline">\(i\)</span>. Define the following:</p>
+<p>Variational autoencoders were introduced in <span class="citation" data-cites="kingma2013auto">(<a href="#ref-kingma2013auto" role="doc-biblioref">Kingma and Welling 2013</a>)</span>. A really good tutorial can be found <a href="https://jaan.io/what-is-variational-autoencoder-vae-tutorial/">here</a> and some sample code on MNIST can be found <a href="https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb">here</a>. An alternate way to think about autoencoders is via variational Bayes arguments. Let <span class="math inline">\(x_i\)</span> be a record for <span class="math inline">\(i = 1,\ldots,n\)</span>. For now, let’s drop the subscript <span class="math inline">\(i\)</span>. Define the following:</p>
 <ul>
 <li><span class="math inline">\(p_\theta(x | z)\)</span> is the likelihood of <span class="math inline">\(z\)</span> when viewed as a function of <span class="math inline">\(z\)</span> or is the data generating distribution if viewed as a function of <span class="math inline">\(x\)</span>;</li>
 <li><span class="math inline">\(p_\theta(x)\)</span> is the data marginal, often called the evidence in this literature;</li>
@@ -562,7 +572,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-kingma2013auto" class="csl-entry" role="doc-biblioentry">
 Kingma, Diederik P, and Max Welling. 2013. <span>“Auto-Encoding Variational <span>B</span>ayes.”</span> <em>arXiv Preprint arXiv:1312.6114</em>.
 </div>

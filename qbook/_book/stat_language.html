@@ -208,6 +208,16 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -252,7 +262,7 @@ div.csl-indent {
 
 <section id="statistics-and-language" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="statistics-and-language"><span class="header-section-number">14.1</span> Statistics and language</h2>
-<p>Statistics is a complex discipline requiring a large collection of ideas and definitions. Non-experts in the field might be surprised to find out that many common statistical terms lack a unified defition among experts, even within a statastical paradigm or application context. More troubling, experts’ personal defintions of concepts believed to be essential can be divergent, or even contradictory, to that of other experts. One such examples it the term “representative sample”, which is nearly universally thought of as an important concept, yet has no unified definition within the field of statistics. This fact was noted and largely studied by the celebrated statisticians William Kruskal and Frederick Mosteller in a series of articles in the late 1970s and early 1980s <span class="citation" data-cites="kruskalI kruskalII kruskalIII kruskalIV">(<a href="references.html#ref-kruskalI" role="doc-biblioref">Kruskal and Mosteller 1979a</a>, <a href="references.html#ref-kruskalII" role="doc-biblioref">1979b</a>, <a href="references.html#ref-kruskalIII" role="doc-biblioref">1979c</a>, <a href="references.html#ref-kruskalIV" role="doc-biblioref">1980</a>)</span>. These articles gave nine definitions of a representative sample and surveyed the statistical and application literature demonstrating that all nine of the uses occur commonly.</p>
+<p>Statistics is a complex discipline requiring a large collection of ideas and definitions. Non-experts in the field might be surprised to find out that many common statistical terms lack a unified defition among experts, even within a statastical paradigm or application context. More troubling, experts’ personal defintions of concepts believed to be essential can be divergent, or even contradictory, to that of other experts. One such examples it the term “representative sample”, which is nearly universally thought of as an important concept, yet has no unified definition within the field of statistics. This fact was noted and largely studied by the celebrated statisticians William Kruskal and Frederick Mosteller in a series of articles in the late 1970s and early 1980s <span class="citation" data-cites="kruskalI kruskalII kruskalIII kruskalIV">(<a href="#ref-kruskalI" role="doc-biblioref">Kruskal and Mosteller 1979a</a>, <a href="#ref-kruskalII" role="doc-biblioref">1979b</a>, <a href="#ref-kruskalIII" role="doc-biblioref">1979c</a>, <a href="#ref-kruskalIV" role="doc-biblioref">1980</a>)</span>. These articles gave nine definitions of a representative sample and surveyed the statistical and application literature demonstrating that all nine of the uses occur commonly.</p>
 <section id="the-data-are-gaussian" class="level3" data-number="14.1.1">
 <h3 data-number="14.1.1" class="anchored" data-anchor-id="the-data-are-gaussian"><span class="header-section-number">14.1.1</span> The data are Gaussian</h3>
 <p>We’ll return to “representative sampling” in a bit. For the time being, consider the phrase “the data are Gaussian” or “the data are normal”. What do these statements mean? Some possibilities</p>
@@ -264,7 +274,7 @@ div.csl-indent {
 <li>IID draws from a normal distribution is an accurate model of the data generating process.</li>
 </ol>
 <p>These are all very related, but different, statements. For example, a small dataset can be simulated from a Gaussian distribution (3 or 5 depending on your point of view), yet not look at all like a Gaussian distribution (fails 1 or 2). Data can reject a test of non-Gaussianity yet (fails 2.) yet appears Gaussian in a plot to many observers (1.). One could argue (and I believe) 3 is never true.</p>
-<p>This is an issue, since it’s generally not clear from the context what the person speaking the phrase actually means and 1-5 can have different implications for interpretation. <span class="citation" data-cites="kass2011statistical">Kass (<a href="references.html#ref-kass2011statistical" role="doc-biblioref">2011</a>)</span> discusses this phrase explicitly:</p>
+<p>This is an issue, since it’s generally not clear from the context what the person speaking the phrase actually means and 1-5 can have different implications for interpretation. <span class="citation" data-cites="kass2011statistical">Kass (<a href="#ref-kass2011statistical" role="doc-biblioref">2011</a>)</span> discusses this phrase explicitly:</p>
 <blockquote class="blockquote">
 <p>… “Let us assume the data are normally distributed” and we proceed to make a statistical inference, we do not need to take these words literally as asserting that the data form a random sample. Instead, this kind of language is a convenient and familiar shorthand for the much weaker assertion that, for our specified purposes, the variability of the data are adequately consistent with variability that would occur in a random sample. This linguistic amenity is used routinely in both frequentist and Bayesian frameworks.</p>
 </blockquote>
@@ -290,7 +300,7 @@ div.csl-indent {
 <p>Bizarrely, researchers often invoke representativeness, but do not exploit the assumption. Typically, we assume process representativeness; that is that the sample is random. Perhaps the most charitable way to summarize this line of thinking is: hoping for the best (assuming sample representativeness), but preparing for the worst (assuming process representativeness).</p>
 <p>This idea of hoping for the best while preparing for the worst perhaps belies a general distrust of formal statistical inference, even among practicing statisticians. That is, by peforming standard statistical inference, such as confidence or credible intervals, one is addressing uncertainty in the best ways known. However, an assumption of sample representative appears to be the hope of actually realized correct evidence.</p>
 <p>An assumption of sample representativeness allows researchers to keep their analyses more fully within the data, avoiding or downplaying the role of formal inference. One does not need to generalize to the population if one has a realized mirror image of it in hand. This would fall in line with the idea of a preference of thinking in the terms of sample representativeness as another instance of preference for the more direct and literal System I thinking over labored and conceptual System II thinking.</p>
-<p><span class="citation" data-cites="kahneman1972subjective">Kahneman and Tversky (<a href="references.html#ref-kahneman1972subjective" role="doc-biblioref">1972</a>)</span> argue on the psychological basis for representativeness</p>
+<p><span class="citation" data-cites="kahneman1972subjective">Kahneman and Tversky (<a href="#ref-kahneman1972subjective" role="doc-biblioref">1972</a>)</span> argue on the psychological basis for representativeness</p>
 <blockquote class="blockquote">
 <ol type="i">
 <li>people expect samples to be highly similar to their parent population, and also to represent the randomness of the sampling process (Tversky &amp; Kahneman, 1971, 1974); (ii) people often rely on representativeness as a heuristic for judgment and prediction (Kahneman &amp; Tversky, 1972, 1973).</li>
@@ -310,12 +320,12 @@ div.csl-indent {
 <section id="reading" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="reading"><span class="header-section-number">14.3</span> Reading</h2>
 <ol type="1">
-<li><span class="citation" data-cites="kaplan2014exploiting">Kaplan, Rogness, and Fisher (<a href="references.html#ref-kaplan2014exploiting" role="doc-biblioref">2014</a>)</span></li>
-<li><span class="citation" data-cites="kahneman1972subjective">Kahneman and Tversky (<a href="references.html#ref-kahneman1972subjective" role="doc-biblioref">1972</a>)</span></li>
+<li><span class="citation" data-cites="kaplan2014exploiting">Kaplan, Rogness, and Fisher (<a href="#ref-kaplan2014exploiting" role="doc-biblioref">2014</a>)</span></li>
+<li><span class="citation" data-cites="kahneman1972subjective">Kahneman and Tversky (<a href="#ref-kahneman1972subjective" role="doc-biblioref">1972</a>)</span></li>
 </ol>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-kahneman1972subjective" class="csl-entry" role="doc-biblioentry">
 Kahneman, Daniel, and Amos Tversky. 1972. <span>“Subjective Probability: A Judgment of Representativeness.”</span> <em>Cognitive Psychology</em> 3 (3): 430–54.
 </div>

@@ -208,6 +208,16 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -275,8 +285,8 @@ div.csl-indent {
 <section id="some-models-are-useful" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="some-models-are-useful"><span class="header-section-number">13.3</span> Some models are useful</h2>
 <p>Do we even care if models are ultimately correct? The quote ends with, “some models are useful”. How are they useful? The smallest meaningful statement that I can come up with is <em>a model is useful if it convinces you or someone else of a true statement</em>. This allows for the possibility that a poorly fitting, or obviously incorrect model, can still be useful.</p>
-<p>Scott Zeger had a wonderful quote, I recall, which is that <em>models are lenses through which we look at data</em>. I really like this statement, since it mirrors the richness of ways that we can use models. Infrared, satellite and microscopic images all tell very different stories, but no one is the true depiction of world, though all are useful. The idea of models as lens through which we look at data is further explored in the research on <em>exploratory modeling</em> <span class="citation" data-cites="wickham2006exploratory">(<a href="references.html#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span>. The idea is to use modeling in the same way that we do exploratory data analysis.</p>
-<p>Another useful definition of a model is that it connects our data to a hypothetical or actual population. This requires defining the population of interest. Having a good sense of the target population is an important step in data analysis. Without this step, we are creating estimators without estimands. Defined this way, our model helps us <strong>generalize</strong> our results beyond our sample. Kass discusses this idea of modeling in <span class="citation" data-cites="kass2011statistical">(<a href="references.html#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span>. He expouses a form of “statistical pragmatism”. Notably, he makes a stark delineation between statisticl concepts and the “real world”. As an example</p>
+<p>Scott Zeger had a wonderful quote, I recall, which is that <em>models are lenses through which we look at data</em>. I really like this statement, since it mirrors the richness of ways that we can use models. Infrared, satellite and microscopic images all tell very different stories, but no one is the true depiction of world, though all are useful. The idea of models as lens through which we look at data is further explored in the research on <em>exploratory modeling</em> <span class="citation" data-cites="wickham2006exploratory">(<a href="#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span>. The idea is to use modeling in the same way that we do exploratory data analysis.</p>
+<p>Another useful definition of a model is that it connects our data to a hypothetical or actual population. This requires defining the population of interest. Having a good sense of the target population is an important step in data analysis. Without this step, we are creating estimators without estimands. Defined this way, our model helps us <strong>generalize</strong> our results beyond our sample. Kass discusses this idea of modeling in <span class="citation" data-cites="kass2011statistical">(<a href="#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span>. He expouses a form of “statistical pragmatism”. Notably, he makes a stark delineation between statisticl concepts and the “real world”. As an example</p>
 <blockquote class="blockquote">
 <p>Statistical inferences of all kinds use statistical models, which embody theoretical assumptions. … like scientific models, statistical models exist in an abstract framework; to distinguish this framework from the real world inhabited by data we may call it a “theoretical world.” Random variables, confidence intervals, and posterior probabilities all live in this theoretical world. When we use a statistical model to make a statistical inference we implicitly assert that the variation exhibited by data is captured reasonably well by the statistical model, so that the theoretical world corresponds reasonably well to the real world. Conclusions are drawn by applying a statistical inference technique, which is a theoretical construct, to some real data.</p>
 </blockquote>
@@ -373,15 +383,15 @@ E_m =
 <section id="reading" class="level2" data-number="13.7">
 <h2 data-number="13.7" class="anchored" data-anchor-id="reading"><span class="header-section-number">13.7</span> Reading</h2>
 <ul>
-<li>Kass discusses statistical inference and modeling <span class="citation" data-cites="kass2011statistical">(<a href="references.html#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span></li>
-<li>Wickham, Exploratory Model Inference <span class="citation" data-cites="wickham2006exploratory">(<a href="references.html#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span></li>
-<li>Unwin and Volinsky on Exploratory Model Inference <span class="citation" data-cites="unwin2003parallel">(<a href="references.html#ref-unwin2003parallel" role="doc-biblioref">Unwin, Volinsky, and Winkler 2003</a>)</span></li>
-<li>Breiman discussing modeling <span class="citation" data-cites="breiman2001statistical">(<a href="references.html#ref-breiman2001statistical" role="doc-biblioref">Breiman 2001</a>)</span></li>
-<li>Diaconis discussing magical thinking <span class="citation" data-cites="diaconis2006theories">(<a href="references.html#ref-diaconis2006theories" role="doc-biblioref">Diaconis 2006</a>)</span></li>
+<li>Kass discusses statistical inference and modeling <span class="citation" data-cites="kass2011statistical">(<a href="#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span></li>
+<li>Wickham, Exploratory Model Inference <span class="citation" data-cites="wickham2006exploratory">(<a href="#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span></li>
+<li>Unwin and Volinsky on Exploratory Model Inference <span class="citation" data-cites="unwin2003parallel">(<a href="#ref-unwin2003parallel" role="doc-biblioref">Unwin, Volinsky, and Winkler 2003</a>)</span></li>
+<li>Breiman discussing modeling <span class="citation" data-cites="breiman2001statistical">(<a href="#ref-breiman2001statistical" role="doc-biblioref">Breiman 2001</a>)</span></li>
+<li>Diaconis discussing magical thinking <span class="citation" data-cites="diaconis2006theories">(<a href="#ref-diaconis2006theories" role="doc-biblioref">Diaconis 2006</a>)</span></li>
 </ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-breiman2001statistical" class="csl-entry" role="doc-biblioentry">
 Breiman, Leo. 2001. <span>“Statistical Modeling: The Two Cultures (with Comments and a Rejoinder by the Author).”</span> <em>Statistical Science</em> 16 (3): 199–231.
 </div>
