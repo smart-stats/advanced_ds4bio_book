@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 13&nbsp; Data science, conceptually</title>
+<title>Advanced Data Science for Public Health - 14&nbsp; Data science, conceptually</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -50,7 +50,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./stat_language.html" rel="next">
-<link href="./nlp.html" rel="prev">
+<link href="./measurement.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -90,7 +90,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -183,37 +183,42 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  <a href="./measurement.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Measurement</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./causal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  <a href="./causal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ethics</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -230,20 +235,20 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">13.1</span>  Introduction</a></li>
-  <li><a href="#all-models-are-wrong" id="toc-all-models-are-wrong" class="nav-link" data-scroll-target="#all-models-are-wrong"><span class="toc-section-number">13.2</span>  All models are wrong</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">14.1</span>  Introduction</a></li>
+  <li><a href="#all-models-are-wrong" id="toc-all-models-are-wrong" class="nav-link" data-scroll-target="#all-models-are-wrong"><span class="toc-section-number">14.2</span>  All models are wrong</a>
   <ul class="collapse">
-  <li><a href="#wrong-means-wrong" id="toc-wrong-means-wrong" class="nav-link" data-scroll-target="#wrong-means-wrong"><span class="toc-section-number">13.2.1</span>  Wrong means wrong</a></li>
+  <li><a href="#wrong-means-wrong" id="toc-wrong-means-wrong" class="nav-link" data-scroll-target="#wrong-means-wrong"><span class="toc-section-number">14.2.1</span>  Wrong means wrong</a></li>
   </ul></li>
-  <li><a href="#some-models-are-useful" id="toc-some-models-are-useful" class="nav-link" data-scroll-target="#some-models-are-useful"><span class="toc-section-number">13.3</span>  Some models are useful</a></li>
-  <li><a href="#discussing-randomness-in-modeling" id="toc-discussing-randomness-in-modeling" class="nav-link" data-scroll-target="#discussing-randomness-in-modeling"><span class="toc-section-number">13.4</span>  Discussing randomness in modeling</a>
+  <li><a href="#some-models-are-useful" id="toc-some-models-are-useful" class="nav-link" data-scroll-target="#some-models-are-useful"><span class="toc-section-number">14.3</span>  Some models are useful</a></li>
+  <li><a href="#discussing-randomness-in-modeling" id="toc-discussing-randomness-in-modeling" class="nav-link" data-scroll-target="#discussing-randomness-in-modeling"><span class="toc-section-number">14.4</span>  Discussing randomness in modeling</a>
   <ul class="collapse">
-  <li><a href="#design-based-randomness" id="toc-design-based-randomness" class="nav-link" data-scroll-target="#design-based-randomness"><span class="toc-section-number">13.4.1</span>  Design based randomness</a></li>
-  <li><a href="#accumulated-errors" id="toc-accumulated-errors" class="nav-link" data-scroll-target="#accumulated-errors"><span class="toc-section-number">13.4.2</span>  Accumulated errors</a></li>
+  <li><a href="#design-based-randomness" id="toc-design-based-randomness" class="nav-link" data-scroll-target="#design-based-randomness"><span class="toc-section-number">14.4.1</span>  Design based randomness</a></li>
+  <li><a href="#accumulated-errors" id="toc-accumulated-errors" class="nav-link" data-scroll-target="#accumulated-errors"><span class="toc-section-number">14.4.2</span>  Accumulated errors</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">13.5</span>  Summary</a></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="toc-section-number">13.6</span>  Example</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="toc-section-number">13.7</span>  Reading</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="toc-section-number">14.5</span>  Summary</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="toc-section-number">14.6</span>  Example</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="toc-section-number">14.7</span>  Reading</a></li>
   </ul>
 </nav>
     </div>
@@ -252,7 +257,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></h1>
 </div>
 
 
@@ -266,15 +271,15 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">13.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">14.1</span> Introduction</h2>
 <p>In this chapter, we’ll focus on data science theory, thinking and philosophy. We’re going to omit any standard treatment of statistical theory and inference, like maximum likelihood optimality and asymptotics, since those are well covered elsewhere. However, it’s worth mentioning that those topics are obviously part of data science theory.</p>
 <p>Instead, we’ll focus on meta-inferential and meta-empirical science questions, as well as some of the conceptual and theoretical language that’s worth knowing.</p>
 </section>
-<section id="all-models-are-wrong" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="all-models-are-wrong"><span class="header-section-number">13.2</span> All models are wrong</h2>
-<section id="wrong-means-wrong" class="level3" data-number="13.2.1">
-<h3 data-number="13.2.1" class="anchored" data-anchor-id="wrong-means-wrong"><span class="header-section-number">13.2.1</span> Wrong means wrong</h3>
+<section id="all-models-are-wrong" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="all-models-are-wrong"><span class="header-section-number">14.2</span> All models are wrong</h2>
+<section id="wrong-means-wrong" class="level3" data-number="14.2.1">
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="wrong-means-wrong"><span class="header-section-number">14.2.1</span> Wrong means wrong</h3>
 <p>“All models are wrong, but some are useful”, or some variant, is a quote from statistician George Box that is so well known and used that it has a lengthy <a href="https://en.wikipedia.org/wiki/All_models_are_wrong">wikipedia page</a>. Restricting our attention to probabilistic models, it is interesting to note that this quote, which is near universally agreed upon, has implications that are often not. For example, the quote suggests that there is not, and never has been: an IID sample, normally distributed data (as in having been generated from a normal distribution), a true population stochastic model … In other words, there is no correct probabilistic model, ever, ever, ever (according to the quote).</p>
 <p>One way to interpret this is that there are correct probability models, we just haven’t found them yet, or maybe can’t find them via some incompleteness law. If we ever find one, I guess we’d have to change the quote. But, I don’t think the quote is implying the existence of true probabilistic models that we don’t, or can’t, know. I tend to think it is suggesting that randomness doesn’t exist and hence probabilitity models are, like Newtonian mechanics, just models, not truth.</p>
 <p>This is a well discussed topic in philosophy. On some meaningful level, the quote is obviously true. Most of the things we’re interested in public health are clearly purely functionally caused by antecedent variables, some of which we know and can measure and some of which we can’t. This is obviously true of of things like die rolls or casino games. Perhaps the most perfect example is random number generators, where we know the actual deterministic formula generating the numbers yet they are designed to appear as random as possible.</p>
@@ -282,17 +287,17 @@ div.csl-indent {
 <p>For our purposes, this seems irrelevant. Even if randomness does exist at the scale of the extremely small, our data generally references systems where we believe that determinism holds. There is no Bell’s theorem of disease. Typically, we think observed and hidden variables explain the relevant majority of an individual or population’s state of health. Moreover, regardless if some models are right or it’s just true that all stochastic models are wrong, many models are extremely useful. It is more important to be able to accurately represent one’s assumptions and how they connect to the experimental setting than it is to argue that one’s assumptions are true on some bizarre abstract level. So, my recommendation is to ignore this line of thinking entirely, and instead focus on being able to articulate your assumptions and describe what it is you’re treating as random, regardless of whether or not it actually is.</p>
 </section>
 </section>
-<section id="some-models-are-useful" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="some-models-are-useful"><span class="header-section-number">13.3</span> Some models are useful</h2>
+<section id="some-models-are-useful" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="some-models-are-useful"><span class="header-section-number">14.3</span> Some models are useful</h2>
 <p>Do we even care if models are ultimately correct? The quote ends with, “some models are useful”. How are they useful? The smallest meaningful statement that I can come up with is <em>a model is useful if it convinces you or someone else of a true statement</em>. This allows for the possibility that a poorly fitting, or obviously incorrect model, can still be useful.</p>
-<p>Scott Zeger had a wonderful quote, I recall, which is that <em>models are lenses through which we look at data</em>. I really like this statement, since it mirrors the richness of ways that we can use models. Infrared, satellite and microscopic images all tell very different stories, but no one is the true depiction of world, though all are useful. The idea of models as lens through which we look at data is further explored in the research on <em>exploratory modeling</em> <span class="citation" data-cites="wickham2006exploratory">(<a href="#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span>. The idea is to use modeling in the same way that we do exploratory data analysis.</p>
-<p>Another useful definition of a model is that it connects our data to a hypothetical or actual population. This requires defining the population of interest. Having a good sense of the target population is an important step in data analysis. Without this step, we are creating estimators without estimands. Defined this way, our model helps us <strong>generalize</strong> our results beyond our sample. Kass discusses this idea of modeling in <span class="citation" data-cites="kass2011statistical">(<a href="#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span>. He expouses a form of “statistical pragmatism”. Notably, he makes a stark delineation between statisticl concepts and the “real world”. As an example</p>
+<p>Scott Zeger had a wonderful quote, I recall, which is that <em>models are lenses through which we look at data</em>. I really like this statement, since it mirrors the richness of ways that we can use models. Infrared, satellite and microscopic images all tell very different stories, but no one is the true depiction of world, though all are useful. The idea of models as lens through which we look at data is further explored in the research on <em>exploratory modeling</em> <span class="citation" data-cites="wickham2006exploratory">(<a href="references.html#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span>. The idea is to use modeling in the same way that we do exploratory data analysis.</p>
+<p>Another useful definition of a model is that it connects our data to a hypothetical or actual population. This requires defining the population of interest. Having a good sense of the target population is an important step in data analysis. Without this step, we are creating estimators without estimands. Defined this way, our model helps us <strong>generalize</strong> our results beyond our sample. Kass discusses this idea of modeling in <span class="citation" data-cites="kass2011statistical">(<a href="references.html#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span>. He expouses a form of “statistical pragmatism”. Notably, he makes a stark delineation between statisticl concepts and the “real world”. As an example</p>
 <blockquote class="blockquote">
 <p>Statistical inferences of all kinds use statistical models, which embody theoretical assumptions. … like scientific models, statistical models exist in an abstract framework; to distinguish this framework from the real world inhabited by data we may call it a “theoretical world.” Random variables, confidence intervals, and posterior probabilities all live in this theoretical world. When we use a statistical model to make a statistical inference we implicitly assert that the variation exhibited by data is captured reasonably well by the statistical model, so that the theoretical world corresponds reasonably well to the real world. Conclusions are drawn by applying a statistical inference technique, which is a theoretical construct, to some real data.</p>
 </blockquote>
 </section>
-<section id="discussing-randomness-in-modeling" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="discussing-randomness-in-modeling"><span class="header-section-number">13.4</span> Discussing randomness in modeling</h2>
+<section id="discussing-randomness-in-modeling" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="discussing-randomness-in-modeling"><span class="header-section-number">14.4</span> Discussing randomness in modeling</h2>
 <p>It is almost always a useful exercise to ask, “What exactly is it that I’m treating as if random in a problem?”. Consider the following question:</p>
 <ol type="1">
 <li>I create a confidence interval using the binomial distribution for the prevalance of a disease from a cohort study.</li>
@@ -301,8 +306,8 @@ div.csl-indent {
 <p>In 1., it seems natural to say that it’s the sampling that’s random. In other words, there’s a population percentage of people with the disease and each subject in my sample is a random draw from that distribution. In 2. a reasonable assumption would be that my errors are an accumulation of unmodeled factors and that this accumulation is well modeled by assuming that the errors are IID.</p>
 <p>Gerenerally a few commmon themes arise when discussing randomness in models, along with some combination of these things. In addition, there is a distinction in how one views randomness from Bayesian or frequency perspectives. This is covered well elsewhere. Finally, there are ideas, such as exchangeability, which can offer weaker assumptions and still provide inference.</p>
 <p>Here we’ll discuss two major directions of randomness that are discussed in statistics.</p>
-<section id="design-based-randomness" class="level3" data-number="13.4.1">
-<h3 data-number="13.4.1" class="anchored" data-anchor-id="design-based-randomness"><span class="header-section-number">13.4.1</span> Design based randomness</h3>
+<section id="design-based-randomness" class="level3" data-number="14.4.1">
+<h3 data-number="14.4.1" class="anchored" data-anchor-id="design-based-randomness"><span class="header-section-number">14.4.1</span> Design based randomness</h3>
 <p>In randomized trials and finite population studies, often the randomness being modeled is the randomness in the design. This has a benefit of very good knowledge of the source of randomness if the design was actually followed. Researchers will also make inferences using design based arguments, even if that design was not utilized. For example, imagine estimating a prevalence from a sample that wasn’t actually random. You could make a statement such as “A 95% confidence interval pevalence would be [0.3, 0.70] if the sample were random.”</p>
 <p>It should be noted that using randomization for design based inference only makes statements about your specific sample. For example, let <span class="math inline">\(Y_{i}(j)\)</span> be the outcome one would have seen if subject <span class="math inline">\(i\)</span> received treatment <span class="math inline">\(j=0,1\)</span>. We then observe <span class="math inline">\(Y_i(T_i) = Y_i\)</span> where <span class="math inline">\(T_i\)</span> is the actual treatment. Our estimate of the treatment effect is:</p>
 <p><span class="math display">\[
@@ -325,13 +330,13 @@ E_m =
 <p>Notice, this inference is about the sample we observed, <span class="math inline">\(Y_i\)</span>, and maybe their counterfacultuals. But, without further assumptions conclusions would be relative to the sample. Typically, one does make these further assumptions, but note they typically require less direct knowledge of the source of randomness.</p>
 <p>Sampling variation deserves a special mention as design based inference. Very often we make iid (random) sampling assumptions even if the assumptions are obviously false. It is important to acknowledge that conclusions are under this assumption.</p>
 </section>
-<section id="accumulated-errors" class="level3" data-number="13.4.2">
-<h3 data-number="13.4.2" class="anchored" data-anchor-id="accumulated-errors"><span class="header-section-number">13.4.2</span> Accumulated errors</h3>
+<section id="accumulated-errors" class="level3" data-number="14.4.2">
+<h3 data-number="14.4.2" class="anchored" data-anchor-id="accumulated-errors"><span class="header-section-number">14.4.2</span> Accumulated errors</h3>
 <p>In many settings we assume that we are modeling mechanisms, for example when modeling <span class="math inline">\(Y=f(x)+\epsilon\)</span>. Often, we assume that <span class="math inline">\(\epsilon\)</span> is comprised of acculated errors from unmodeled variables. There is further an assumption that these errors accumulate in a way that is well modeled by randomness. Some examples where this fails to be true is when we omit an important confounder from our model. There, the errors are systematic in a way that is essential for understanding the scientific phenomena that we are studying. In a later chapter, we’ll discuss causal diagrams and think about what variables we include and exclude from our models and how to unmodeled variables can influence our results.</p>
 </section>
 </section>
-<section id="summary" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">13.5</span> Summary</h2>
+<section id="summary" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">14.5</span> Summary</h2>
 <p>It’s important to emphasize that rather than thinking of one way to think about modeling as being right and others wrong, one should be able to describe with precision what they are doing in their analysis. Here are some examples of questions one might ask themselves:</p>
 <ol start="0" type="1">
 <li>What am I trying to accomplish with this model?</li>
@@ -343,8 +348,8 @@ E_m =
 </ol>
 <p>This is perhaps just a subset of the questions one should ask themselves. I wish I could be more prescriptive, with a checklist or something like that. However, how models are used differs a great deal by the various scientific communities, within a community and even within individual statisticians over time.</p>
 </section>
-<section id="example" class="level2" data-number="13.6">
-<h2 data-number="13.6" class="anchored" data-anchor-id="example"><span class="header-section-number">13.6</span> Example</h2>
+<section id="example" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="example"><span class="header-section-number">14.6</span> Example</h2>
 <p>Here’s a neat example of using sampling assumptions to make an inference that could create some discussion. Assume repeated sampling sampling to capture bunnies in a field on two occasions where the bunnies are tagged on the first occasion if caught. The goal is to figure out the number of bunnies in the field.</p>
 <table class="table">
 <thead>
@@ -380,18 +385,18 @@ E_m =
 <li>How could we relax the assumptions?</li>
 </ol>
 </section>
-<section id="reading" class="level2" data-number="13.7">
-<h2 data-number="13.7" class="anchored" data-anchor-id="reading"><span class="header-section-number">13.7</span> Reading</h2>
+<section id="reading" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="reading"><span class="header-section-number">14.7</span> Reading</h2>
 <ul>
-<li>Kass discusses statistical inference and modeling <span class="citation" data-cites="kass2011statistical">(<a href="#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span></li>
-<li>Wickham, Exploratory Model Inference <span class="citation" data-cites="wickham2006exploratory">(<a href="#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span></li>
-<li>Unwin and Volinsky on Exploratory Model Inference <span class="citation" data-cites="unwin2003parallel">(<a href="#ref-unwin2003parallel" role="doc-biblioref">Unwin, Volinsky, and Winkler 2003</a>)</span></li>
-<li>Breiman discussing modeling <span class="citation" data-cites="breiman2001statistical">(<a href="#ref-breiman2001statistical" role="doc-biblioref">Breiman 2001</a>)</span></li>
-<li>Diaconis discussing magical thinking <span class="citation" data-cites="diaconis2006theories">(<a href="#ref-diaconis2006theories" role="doc-biblioref">Diaconis 2006</a>)</span></li>
+<li>Kass discusses statistical inference and modeling <span class="citation" data-cites="kass2011statistical">(<a href="references.html#ref-kass2011statistical" role="doc-biblioref">Kass 2011</a>)</span></li>
+<li>Wickham, Exploratory Model Inference <span class="citation" data-cites="wickham2006exploratory">(<a href="references.html#ref-wickham2006exploratory" role="doc-biblioref">Wickham 2006</a>)</span></li>
+<li>Unwin and Volinsky on Exploratory Model Inference <span class="citation" data-cites="unwin2003parallel">(<a href="references.html#ref-unwin2003parallel" role="doc-biblioref">Unwin, Volinsky, and Winkler 2003</a>)</span></li>
+<li>Breiman discussing modeling <span class="citation" data-cites="breiman2001statistical">(<a href="references.html#ref-breiman2001statistical" role="doc-biblioref">Breiman 2001</a>)</span></li>
+<li>Diaconis discussing magical thinking <span class="citation" data-cites="diaconis2006theories">(<a href="references.html#ref-diaconis2006theories" role="doc-biblioref">Diaconis 2006</a>)</span></li>
 </ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
 <div id="ref-breiman2001statistical" class="csl-entry" role="doc-biblioentry">
 Breiman, Leo. 2001. <span>“Statistical Modeling: The Two Cultures (with Comments and a Rejoinder by the Author).”</span> <em>Statistical Science</em> 16 (3): 199–231.
 </div>
@@ -511,13 +516,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./nlp.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">NLP</span></span>
+      <a href="./measurement.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Measurement</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./stat_language.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Statistics and language</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Statistics and language</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

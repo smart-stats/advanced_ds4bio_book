@@ -20,6 +20,7 @@ book:
     - unsupervised.qmd
     - variationalAEs.qmd
     - nlp.qmd
+    - measurement.qmd
     - data_analysis_theory.qmd
     - stat_language.qmd
     - data_science_as_a_science.qmd

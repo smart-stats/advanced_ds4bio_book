@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Advanced Data Science for Public Health - 17&nbsp; Causal DAGs</title>
+<title>Advanced Data Science for Public Health - 18&nbsp; Causal DAGs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -90,7 +90,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Causal DAGs</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -183,37 +183,42 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  <a href="./measurement.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Measurement</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./causal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  <a href="./causal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ethics</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -230,13 +235,17 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#associational-models-versus-causal-models" id="toc-associational-models-versus-causal-models" class="nav-link active" data-scroll-target="#associational-models-versus-causal-models"><span class="toc-section-number">17.1</span>  Associational models versus causal models</a>
+  <li><a href="#associational-models-versus-causal-models" id="toc-associational-models-versus-causal-models" class="nav-link active" data-scroll-target="#associational-models-versus-causal-models"><span class="toc-section-number">18.1</span>  Associational models versus causal models</a>
   <ul class="collapse">
-  <li><a href="#structural-causal-models" id="toc-structural-causal-models" class="nav-link" data-scroll-target="#structural-causal-models"><span class="toc-section-number">17.1.1</span>  Structural causal models</a></li>
-  <li><a href="#blocking-and-d-separation" id="toc-blocking-and-d-separation" class="nav-link" data-scroll-target="#blocking-and-d-separation"><span class="toc-section-number">17.1.2</span>  Blocking and d-separation</a></li>
+  <li><a href="#graphs-and-graphical-models" id="toc-graphs-and-graphical-models" class="nav-link" data-scroll-target="#graphs-and-graphical-models"><span class="toc-section-number">18.1.1</span>  Graphs and graphical models</a></li>
+  <li><a href="#structural-causal-models" id="toc-structural-causal-models" class="nav-link" data-scroll-target="#structural-causal-models"><span class="toc-section-number">18.1.2</span>  Structural causal models</a></li>
+  <li><a href="#blocking-and-d-separation" id="toc-blocking-and-d-separation" class="nav-link" data-scroll-target="#blocking-and-d-separation"><span class="toc-section-number">18.1.3</span>  Blocking and d-separation</a></li>
   </ul></li>
-  <li><a href="#do-calculus-and-backdoor-criterion" id="toc-do-calculus-and-backdoor-criterion" class="nav-link" data-scroll-target="#do-calculus-and-backdoor-criterion"><span class="toc-section-number">17.2</span>  Do calculus and backdoor criterion</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="toc-section-number">17.3</span>  Reading:</a></li>
+  <li><a href="#do-calculus-and-backdoor-criterion" id="toc-do-calculus-and-backdoor-criterion" class="nav-link" data-scroll-target="#do-calculus-and-backdoor-criterion"><span class="toc-section-number">18.2</span>  Do calculus and backdoor criterion</a>
+  <ul class="collapse">
+  <li><a href="#example-graphs" id="toc-example-graphs" class="nav-link" data-scroll-target="#example-graphs"><span class="toc-section-number">18.2.1</span>  Example graphs</a></li>
+  </ul></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="toc-section-number">18.3</span>  Reading:</a></li>
   </ul>
 </nav>
     </div>
@@ -245,7 +254,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Causal DAGs</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></h1>
 </div>
 
 
@@ -259,53 +268,23 @@ div.csl-indent {
 
 </header>
 
-<section id="associational-models-versus-causal-models" class="level2" data-number="17.1">
-<h2 data-number="17.1" class="anchored" data-anchor-id="associational-models-versus-causal-models"><span class="header-section-number">17.1</span> Associational models versus causal models</h2>
+<section id="associational-models-versus-causal-models" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="associational-models-versus-causal-models"><span class="header-section-number">18.1</span> Associational models versus causal models</h2>
 <p>Causal models differ from associational models in that they codify causal directions not just associations. In our program, you might have learned of the use of propensity scores, counterfactuals or randomization to study causality. There, typically the goal is to make causal statements with as few assumptions as possible or at least understanding the assumptions. Typically the object of study is the estimation of an effect avergated over covarites.</p>
 <p>Causal graphs take a different approach, even if they wind up at a similar same place. Here, the goal is to postulate hyptothetical causal relationships and use those hypothetical relationships to estimate causal effects. In that sense, they use more assumptions. But, on the other hand, the very act of postulating causal relationships has a benefit unto itself. Moreover, causal graphs intersect with understanding causal theory more generally.</p>
-<section id="structural-causal-models" class="level3" data-number="17.1.1">
-<h3 data-number="17.1.1" class="anchored" data-anchor-id="structural-causal-models"><span class="header-section-number">17.1.1</span> Structural causal models</h3>
+<section id="graphs-and-graphical-models" class="level3" data-number="18.1.1">
+<h3 data-number="18.1.1" class="anchored" data-anchor-id="graphs-and-graphical-models"><span class="header-section-number">18.1.1</span> Graphs and graphical models</h3>
+<p>A graph, <span class="math inline">\(G\)</span> is a collection of nodes, say <span class="math inline">\(V=\{1,\ldots, p\}\)</span> and a set edges between the nodes, i.e.&nbsp;a set of elements <span class="math inline">\((i,j)\)</span>. The graph is directed if <span class="math inline">\((i,j)\)</span> is considered different then <span class="math inline">\((j,i)\)</span>.</p>
+<p>Node <span class="math inline">\(i\)</span> is a parent of node <span class="math inline">\(j\)</span> if <span class="math inline">\((i,j) \in E\)</span> and <span class="math inline">\((j,i)\notin E\)</span>. Similarly, node <span class="math inline">\(i\)</span> is a <strong>child</strong> of node <span class="math inline">\(j\)</span> if <span class="math inline">\((j,i) \in E\)</span> and <span class="math inline">\((i,j)\notin E\)</span>. A node is a <strong>descendant</strong> of another if it is a child, or a child of a child and so on.</p>
+</section>
+<section id="structural-causal-models" class="level3" data-number="18.1.2">
+<h3 data-number="18.1.2" class="anchored" data-anchor-id="structural-causal-models"><span class="header-section-number">18.1.2</span> Structural causal models</h3>
 <p>A structural causal model (SCM) over a collection of variables, <span class="math inline">\(X=(X_1, \ldots, X_p)\)</span>, postulates a set of functional relationships <span class="math display">\[
 X_j = f(P_j, \epsilon_j)
-\]</span> where <span class="math inline">\(P_j\)</span> are the antecedent causes of <span class="math inline">\(X_j\)</span>, called the parents of <span class="math inline">\(X_j\)</span>, and <span class="math inline">\(\epsilon_j\)</span> is an accumulation of variables treated as mutally independent. This defines a directed graph, <span class="math inline">\(G\)</span> say, where a graph is collection of vertices corresponding to our variables, <span class="math inline">\(V=\{1,\ldots, p\}\)</span>, corresponding to the <span class="math inline">\(X_i\)</span>, and edges, <span class="math inline">\(E\)</span>, which is a set of ordered pairs of nodes. Node <span class="math inline">\(i\)</span> is a parent of node <span class="math inline">\(j\)</span> if <span class="math inline">\((i,j) \in E\)</span> and <span class="math inline">\((j,i)\notin E\)</span>. Similarly, node <span class="math inline">\(i\)</span> is a <strong>child</strong> of node <span class="math inline">\(j\)</span> if <span class="math inline">\((j,i) \in E\)</span> and <span class="math inline">\((i,j)\notin E\)</span>. A node is a <strong>descendant</strong> of another if it is a child, or a child of a child and so on.</p>
-<div class="cell" data-fig-width="3">
-<div class="cell-output-display">
-<div id="three-node">
-<p>
-<svg width="288" height="480" viewbox="0.00 0.00 134.00 116.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
-<title>
-G
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 130,-112 130,4 -4,4"></polygon> <!-- X1 --> <g id="node1" class="node">
-<title>
-X1
-</title>
-<ellipse fill="none" stroke="black" cx="63" cy="-90" rx="27" ry="18"></ellipse> <text text-anchor="middle" x="63" y="-85.8" font-family="Times,serif" font-size="14.00">X1</text> </g> <!-- X2 --> <g id="node2" class="node">
-<title>
-X2
-</title>
-<ellipse fill="none" stroke="black" cx="27" cy="-18" rx="27" ry="18"></ellipse> <text text-anchor="middle" x="27" y="-13.8" font-family="Times,serif" font-size="14.00">X2</text> </g> <!-- X1&#45;&gt;X2 --> <g id="edge1" class="edge">
-<title>
-X1-&gt;X2
-</title>
-<path fill="none" stroke="black" d="M54.65,-72.76C50.29,-64.28 44.85,-53.71 39.96,-44.2"></path> <polygon fill="black" stroke="black" points="42.99,-42.44 35.3,-35.15 36.77,-45.64 42.99,-42.44"></polygon> </g> <!-- X3 --> <g id="node3" class="node">
-<title>
-X3
-</title>
-<ellipse fill="none" stroke="black" cx="99" cy="-18" rx="27" ry="18"></ellipse> <text text-anchor="middle" x="99" y="-13.8" font-family="Times,serif" font-size="14.00">X3</text> </g> <!-- X1&#45;&gt;X3 --> <g id="edge2" class="edge">
-<title>
-X1-&gt;X3
-</title>
-<path fill="none" stroke="black" d="M71.35,-72.76C75.71,-64.28 81.15,-53.71 86.04,-44.2"></path> <polygon fill="black" stroke="black" points="89.23,-45.64 90.7,-35.15 83.01,-42.44 89.23,-45.64"></polygon> </g> <!-- X2&#45;&gt;X3 --> <g id="edge3" class="edge">
-<title>
-X2-&gt;X3
-</title>
-<path fill="none" stroke="black" d="M54,-18C56.61,-18 59.23,-18 61.84,-18"></path> <polygon fill="black" stroke="black" points="61.93,-21.5 71.93,-18 61.93,-14.5 61.93,-21.5"></polygon> </g> </g>
-</svg>
-</p>
-<p>A simple causal diagram.</p>
-</div>
+\]</span> where <span class="math inline">\(P_j\)</span> are the antecedent causes of <span class="math inline">\(X_j\)</span>, called the parents of <span class="math inline">\(X_j\)</span>, and <span class="math inline">\(\epsilon_j\)</span> is an accumulation of variables treated as mutally independent. This defines a directed graph, <span class="math inline">\(G\)</span> say, where a graph is collection of vertices corresponding to our variables, <span class="math inline">\(V=\{1,\ldots, p\}\)</span>, corresponding to the <span class="math inline">\(X_i\)</span>, and edges, <span class="math inline">\(E\)</span>, which is a set of ordered pairs of nodes.</p>
+<div class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-3-output-1.png" width="307" height="307"></p>
 </div>
 </div>
 <p>In this case, <span class="math inline">\(P_1 = \{\}\)</span>, <span class="math inline">\(P_2 = \{1\}\)</span> and <span class="math inline">\(P_3 = \{1,2\}\)</span>. SCMs define a unique probability distribution over <span class="math inline">\(X\)</span>.</p>
@@ -314,52 +293,18 @@ X2-&gt;X3
 P(X_3 ~|~ do(X_2) = x_2)
 \]</span> That is, the impact on the response if we were to set the exposure to <span class="math inline">\(e_0\)</span>.</p>
 </section>
-<section id="blocking-and-d-separation" class="level3" data-number="17.1.2">
-<h3 data-number="17.1.2" class="anchored" data-anchor-id="blocking-and-d-separation"><span class="header-section-number">17.1.2</span> Blocking and d-separation</h3>
-<p>Return to diagram <span class="citation" data-cites="three-node">(<a href="#ref-three-node" role="doc-biblioref"><strong>three-node?</strong></a>)</span>.</p>
+<section id="blocking-and-d-separation" class="level3" data-number="18.1.3">
+<h3 data-number="18.1.3" class="anchored" data-anchor-id="blocking-and-d-separation"><span class="header-section-number">18.1.3</span> Blocking and d-separation</h3>
+<p>Return to our previous diagram.</p>
 <ul>
 <li><span class="math inline">\(X1\)</span> is a <em>confounder</em> betweend <span class="math inline">\(X2\)</span> and <span class="math inline">\(X3\)</span></li>
 <li><span class="math inline">\(X2\)</span> is a <em>mediator</em> between <span class="math inline">\(X1\)</span> and <span class="math inline">\(X3\)</span></li>
 <li><span class="math inline">\(X3\)</span> is a <em>collider</em> between <span class="math inline">\(X1\)</span> and <span class="math inline">\(X2\)</span></li>
 </ul>
 <p>Consider an example. <span class="math inline">\(X1\)</span> is having a BMI &gt; 35, <span class="math inline">\(X2\)</span> is sleep disordered breathing and <span class="math inline">\(X3\)</span> is hypertension.</p>
-<div class="cell" data-fig-width="3">
-<div class="cell-output-display">
-<div>
-<p>
-<svg width="288" height="480" viewbox="0.00 0.00 147.71 116.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
-<title>
-G
-</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 143.71,-112 143.71,4 -4,4"></polygon> <!-- BMI35 --> <g id="node1" class="node">
-<title>
-BMI35
-</title>
-<ellipse fill="none" stroke="black" cx="68.82" cy="-90" rx="38.87" ry="18"></ellipse> <text text-anchor="middle" x="68.82" y="-85.8" font-family="Times,serif" font-size="14.00">BMI35</text> </g> <!-- SDB --> <g id="node2" class="node">
-<title>
-SDB
-</title>
-<ellipse fill="none" stroke="black" cx="29.82" cy="-18" rx="29.65" ry="18"></ellipse> <text text-anchor="middle" x="29.82" y="-13.8" font-family="Times,serif" font-size="14.00">SDB</text> </g> <!-- BMI35&#45;&gt;SDB --> <g id="edge1" class="edge">
-<title>
-BMI35-&gt;SDB
-</title>
-<path fill="none" stroke="black" d="M59.58,-72.41C54.92,-64.04 49.16,-53.71 43.96,-44.37"></path> <polygon fill="black" stroke="black" points="46.92,-42.5 39,-35.47 40.81,-45.91 46.92,-42.5"></polygon> </g> <!-- HTN --> <g id="node3" class="node">
-<title>
-HTN
-</title>
-<ellipse fill="none" stroke="black" cx="108.82" cy="-18" rx="30.77" ry="18"></ellipse> <text text-anchor="middle" x="108.82" y="-13.8" font-family="Times,serif" font-size="14.00">HTN</text> </g> <!-- BMI35&#45;&gt;HTN --> <g id="edge2" class="edge">
-<title>
-BMI35-&gt;HTN
-</title>
-<path fill="none" stroke="black" d="M78.3,-72.41C83.08,-64.04 88.99,-53.71 94.33,-44.37"></path> <polygon fill="black" stroke="black" points="97.49,-45.89 99.41,-35.47 91.41,-42.42 97.49,-45.89"></polygon> </g> <!-- SDB&#45;&gt;HTN --> <g id="edge3" class="edge">
-<title>
-SDB-&gt;HTN
-</title>
-<path fill="none" stroke="black" d="M59.76,-18C62.38,-18 65.01,-18 67.64,-18"></path> <polygon fill="black" stroke="black" points="67.77,-21.5 77.77,-18 67.77,-14.5 67.77,-21.5"></polygon> </g> </g>
-</svg>
-</p>
-</div>
+<div class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-4-output-1.png" width="307" height="307"></p>
 </div>
 </div>
 <p>Here if we’re studying whether SDB causes HTN, BMI35 confounds the relationship as a possible common cause of both. We would need to adjust for BMI35 to make sure the association between SDB and HTN isn’t just due to this common cause.</p>
@@ -382,9 +327,9 @@ SDB-&gt;HTN
 <p>holds. For 2. recall a collider is <span class="math inline">\(v_{j-1}\rightarrow v_{j} \leftarrow v_{j+1}\)</span>.</p>
 <p>We say that two nodes or groups of nodes are <strong>D-Separated</strong> by a set of nodes, <span class="math inline">\(S\)</span>, if every path between nodes in the two groups is blocked by <span class="math inline">\(S\)</span>.</p>
 <p>Consider the following graph.</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
-<p><img src="causal_files/figure-html/cell-3-output-1.png" width="691" height="499"></p>
+<p><img src="causal_files/figure-html/cell-5-output-1.png" width="307" height="307"></p>
 </div>
 </div>
 <p>Here are the minimal valid D-separating paths between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>:</p>
@@ -395,41 +340,137 @@ SDB-&gt;HTN
 </ol>
 <p>Here are some <strong>invalid</strong> D-separating sets.</p>
 <ol type="1">
-<li><span class="math inline">\(S\)</span> equal to any single node. Example, <span class="math inline">\(S=\{X_3\}\)</span>. This does not block the path <span class="math inline">\(X\leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y\)</span>.</li>
+<li><span class="math inline">\(S\)</span> equal to any single node.
+<ol type="1">
+<li><span class="math inline">\(S=\{X_3\}\)</span> does not block the path <span class="math inline">\(X\leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y\)</span>.</li>
+<li><span class="math inline">\(S=\{X_4\}\)</span> or <span class="math inline">\(S=\{X_2\}\)</span> does not block the path <span class="math inline">\(X \leftarrow X_3 \leftarrow X_5 \rightarrow Y\)</span>.</li>
+<li><span class="math inline">\(S=\{X_5\}\)</span> does not block the path <span class="math inline">\(X \leftarrow X_3 \leftarrow X_4 \rightarrow Y\)</span>.</li>
+</ol></li>
 <li><span class="math inline">\(S=\{X_3, X_4\}\)</span> does not block the path <span class="math inline">\(X \leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y\)</span>.</li>
-<li><span class="math inline">\(S=\{X_2, X_4\}\)</span>. does not block the path <span class="math inline">\(X\leftarrow X_3 \leftarrow X_5 \rightarrow Y\)</span>.</li>
+<li><span class="math inline">\(S=\{X_2, X_4\}\)</span> does not block the path <span class="math inline">\(X\leftarrow X_3 \leftarrow X_5 \rightarrow Y\)</span>.</li>
 </ol>
-<p>Importantly, if <span class="math inline">\(S\)</span> D-separates <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> then in the implied distribution from the SCM, <span class="math inline">\(X \perp Y ~|~ S\)</span>.</p>
+<p>Importantly, if <span class="math inline">\(S\)</span> D-separates <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> then in the implied distribution from the SCM <span class="math inline">\(X\)</span> is independent from <span class="math inline">\(Y\)</span> given <span class="math inline">\(S\)</span>, written <span class="math inline">\(X \perp Y ~|~ S\)</span>. One can, for example, look at the empirical dependence between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> given <span class="math inline">\(S\)</span> to investigate consistency with a graphical model.</p>
 </section>
 </section>
-<section id="do-calculus-and-backdoor-criterion" class="level2" data-number="17.2">
-<h2 data-number="17.2" class="anchored" data-anchor-id="do-calculus-and-backdoor-criterion"><span class="header-section-number">17.2</span> Do calculus and backdoor criterion</h2>
-<p>Recall that specifying a causal graph model implies a probability distribution. Moreover, the implied independence relationships are given by the undirected graph.</p>
-<p>Consider a theoretical intervention obtained by setting <span class="math inline">\(X = a\)</span>, which we write as <span class="math inline">\(do(X) = a\)</span>. We want to estimate <span class="math inline">\(P(Y ~|~ do(X) = a)\)</span>, which is fundamentally different than <span class="math inline">\(P(Y ~|~ X = a)\)</span>.</p>
+<section id="do-calculus-and-backdoor-criterion" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="do-calculus-and-backdoor-criterion"><span class="header-section-number">18.2</span> Do calculus and backdoor criterion</h2>
+<p>Recall that specifying a causal graph model implies the independence relationships of a probability distribution under assumptions such as the SCM.</p>
+<p>Consider a theoretical intervention obtained by setting <span class="math inline">\(X = a\)</span>, which we write as <span class="math inline">\(do(X) = a\)</span>. We want to estimate <span class="math inline">\(P(Y ~|~ do(X) = a)\)</span>.</p>
 <p>A set <span class="math inline">\(Z\)</span> satisfies the <strong>back door</strong> criterion with respect to nodes <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> if</p>
 <ol type="1">
 <li>No descendant of <span class="math inline">\(X\)</span> is in <span class="math inline">\(Z\)</span>.</li>
 <li><span class="math inline">\(Z\)</span> blocks every path <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that contains an arrow pointing to <span class="math inline">\(Y\)</span>.</li>
 </ol>
-<p>The magic of the back door adjustment comes from the relationship:</p>
+<p>The back door criteria is similar to D-separation. However, we only focus on arrows pointing into <span class="math inline">\(Y\)</span> and don’t allow for descendants of <span class="math inline">\(X\)</span>. In the example we worked out above, it’s the same, since there are no descendants of <span class="math inline">\(Y\)</span> and the only descendant of <span class="math inline">\(X\)</span> is <span class="math inline">\(Y\)</span>.</p>
+<p>The magic of the back door adjustment comes from the relationship, the adjustment formula:</p>
 <p><span class="math display">\[
-P(Y ~|~ do(X) = x) = \sum_{z} P(y ~ | x, z) p(z)
+P(Y ~|~ do(X) = x) = \sum_{z\in S} P(y ~ | x, z) p(z)
 \]</span></p>
-<p>where <span class="math inline">\(z\)</span> are the collection of variables in <span class="math inline">\(S\)</span>. If the <span class="math inline">\(z\)</span> are all observed variables, then the RHS of this equation is estimable. Note the interesting statement that not all variables need to be observed, just <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>.</p>
+<p>where <span class="math inline">\(S\)</span> satisfies the back door criterion. If the <span class="math inline">\(z\)</span> are all observed variables, then the RHS of this equation is estimable. Note the interesting statement that not all variables need to be observed, just <span class="math inline">\(y\)</span>, <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>. So, in our previous example, adjusting for <span class="math inline">\(S = \{X_2, X_3\}\)</span> allows us to estimate the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, even if <span class="math inline">\(X_4\)</span> and <span class="math inline">\(X_5\)</span> are not measured.</p>
+<p>It’s important to emphasize, that every aspect of the adjustment formula is theoretically estimable if <span class="math inline">\(Y\)</span>, <span class="math inline">\(X\)</span> and the nodes in <span class="math inline">\(S\)</span> are observed.</p>
+<section id="example-graphs" class="level3" data-number="18.2.1">
+<h3 data-number="18.2.1" class="anchored" data-anchor-id="example-graphs"><span class="header-section-number">18.2.1</span> Example graphs</h3>
+<p>In all the following, we’re interested in the causal effect of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. <span class="math inline">\(Z\)</span> variables are observed and <span class="math inline">\(U\)</span> variables are unobserved. Every variable is binary to make the discussion easier.</p>
+<section id="randomization" class="level4" data-number="18.2.1.1">
+<h4 data-number="18.2.1.1" class="anchored" data-anchor-id="randomization"><span class="header-section-number">18.2.1.1</span> Randomization</h4>
+<p>If <span class="math inline">\(X\)</span> is randomized <strong>and everyone takes the treatment assigned to them</strong> then <span class="math inline">\(X\)</span> has no parents other than the randomization mechanism,<span class="math inline">\(R\)</span>. We’re omitting any descendants of <span class="math inline">\(X\)</span> since we don’t have to worray about them. Then, regardless of the complexity of the relationship between the collection of observed, unobserved, known and unknown variables, <span class="math inline">\(Z, U\)</span>, and <span class="math inline">\(Y\)</span> we can estimate the causal effect simply without conditioning on anything.</p>
+<p>In contrast, if some people ignore their randomized treatment status and elect to choose a different treatment one may have opened a backdoor path. For example, if the treatment can’t be blinded and those randomized to the control with the worst baseline symptoms elect to obtain the treatment elsewhere.</p>
+<div class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-6-output-1.png" width="466" height="241"></p>
+</div>
+</div>
 </section>
-<section id="reading" class="level2" data-number="17.3">
-<h2 data-number="17.3" class="anchored" data-anchor-id="reading"><span class="header-section-number">17.3</span> Reading:</h2>
+<section id="simple-confounding" class="level4" data-number="18.2.1.2">
+<h4 data-number="18.2.1.2" class="anchored" data-anchor-id="simple-confounding"><span class="header-section-number">18.2.1.2</span> Simple confounding</h4>
+<p>The diagram below shows classic confounding. Conditioning in <span class="math inline">\(Z\)</span> allows for the estimation of the causal effect.</p>
+<div class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-7-output-1.png" width="307" height="307"></p>
+</div>
+</div>
+<p>Now the estimate of the adjusted effect (under our assumptions) is</p>
+<p><span class="math display">\[
+P(Y ~|~ do(X) = x) = P(Y ~|~ X=x, z = 0)P(z = 0) + P(Y ~|~ X=x, Z=1)P(Z=1)
+\]</span></p>
+<p>In the following two examples, the unmeasured confounder <span class="math inline">\(U\)</span> can be controlled for by conditioning on <span class="math inline">\(Z\)</span> and exactly the same estimate can be used as in the simple confounding model.</p>
+<div class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(-0.3, 1.3)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-8-output-2.png" width="466" height="241"></p>
+</div>
+</div>
+</section>
+<section id="mediation" class="level4" data-number="18.2.1.3">
+<h4 data-number="18.2.1.3" class="anchored" data-anchor-id="mediation"><span class="header-section-number">18.2.1.3</span> Mediation</h4>
+<p>In mediation, all or part of the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> flows through yet another variable <span class="math inline">\(Z\)</span>.</p>
+<div class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-9-output-1.png" width="307" height="307"></p>
+</div>
+</div>
+<p>The backdoor criteria does not apply here, since <span class="math inline">\(Z\)</span> is a descendant of <span class="math inline">\(X\)</span>. To answer the question “What is the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>?” one need not adjust. However, mediation is typically studied in a different way. Instead, one asks questions such as “How much of the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> flows or doesn’t flow through <span class="math inline">\(Z\)</span>?”. To answer this question, one usually conditions on <span class="math inline">\(Z\)</span> for a different goal than the backdoor adjustment is accomplishing.</p>
+<p><span class="citation" data-cites="cinelli2021crash">Cinelli, Forney, and Pearl (<a href="references.html#ref-cinelli2021crash" role="doc-biblioref">2021</a>)</span> shows an interesting example of mediation where one would want to adjust for <span class="math inline">\(Z\)</span> (left plot below).</p>
+<div class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(-0.3, 1.3)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-10-output-2.png" width="763" height="241"></p>
+</div>
+</div>
+<p>In this case, <span class="math inline">\(M\)</span> still mediates the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. However, <span class="math inline">\(Z\)</span> is in a backdoor path to <span class="math inline">\(M\)</span>. So, some of the variation in <span class="math inline">\(M\)</span> that impacts <span class="math inline">\(Y\)</span> could be due to <span class="math inline">\(Z\)</span> rather than <span class="math inline">\(X\)</span>. The right plot is similar and makes the point more explicit. <span class="math inline">\(Z\)</span> confounds the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> through <span class="math inline">\(M\)</span>. Without adjusting for <span class="math inline">\(Z\)</span>, the path <span class="math inline">\(X\leftarrow Z \rightarrow M \rightarrow Y\)</span> remains unblocked.</p>
+</section>
+<section id="bad-controls" class="level4" data-number="18.2.1.4">
+<h4 data-number="18.2.1.4" class="anchored" data-anchor-id="bad-controls"><span class="header-section-number">18.2.1.4</span> Bad controls</h4>
+<p>The following are all unhelpful for conditioning on <span class="math inline">\(Z\)</span> using the backdoor criteria.</p>
+<p>Upper left. Adjusting for colliders is the standard bad control. Below adjusting for <span class="math inline">\(Z\)</span> open ups a backdoor path that was closed. From a common sense perspective, why would you want to adjust for a consequence of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> when exploring their relationship?</p>
+<p>In the upper right diagram below, <span class="math inline">\(Z\)</span> is a so-called <strong>instrumental</strong> variable. A good example is <span class="math inline">\(Z\)</span> being the randomization indicator and <span class="math inline">\(X\)</span> being the treatment the person actually took. It is important in this example to emphasize that use of the instrumental variable is often a very fruitful method of analysis. However, it’s not a useful backdoor adjustment and conditioning on <span class="math inline">\(Z\)</span> simply removes most of the relevant variation in <span class="math inline">\(X\)</span>. If one wants to use <span class="math inline">\(Z\)</span> as an instrumental variable in this setting, then specific methods taylored to instrumental variable use need to be employed.</p>
+<p>In the lower left plot, <span class="math inline">\(Z\)</span> is a descendant of <span class="math inline">\(X\)</span>. Conditioning on <span class="math inline">\(Z\)</span> removes relevant pathway information regarding the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>&gt;</p>
+<p>The lower right plot is similar. Conditioning on <span class="math inline">\(Z\)</span> removes variation in <span class="math inline">\(M\)</span> which hinders our ability to study the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> through <span class="math inline">\(M\)</span>.</p>
+<div class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-11-output-1.png" width="466" height="463"></p>
+</div>
+</div>
+</section>
+<section id="conditioning-may-help" class="level4" data-number="18.2.1.5">
+<h4 data-number="18.2.1.5" class="anchored" data-anchor-id="conditioning-may-help"><span class="header-section-number">18.2.1.5</span> Conditioning may help</h4>
+<p>In the upper left plot, adjusting for <span class="math inline">\(Z\)</span> may reduce variability in <span class="math inline">\(Y\)</span> to help focus on the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<p>In the upper left plot, adjusting for <span class="math inline">\(Z\)</span> may reduce variation in the mediator unrelated to the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(-0.3, 1.3)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="causal_files/figure-html/cell-12-output-2.png" width="466" height="241"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="reading" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="reading"><span class="header-section-number">18.3</span> Reading:</h2>
 <ul>
-<li>I got most of this stuff from <span class="citation" data-cites="peters2017elements">Peters, Janzing, and Schölkopf (<a href="#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>, which you can read <a href="https://library.oapen.org/bitstream/id/056a11be-ce3a-44b9-8987-a6c68fce8d9b/11283.pdf">here</a></li>
-<li>Also read <span class="citation" data-cites="hardt2021patterns">Hardt and Recht (<a href="#ref-hardt2021patterns" role="doc-biblioref">2021</a>)</span>, which you can read <a href="https://mlstory.org/index.html">here</a></li>
+<li>The definitive causal reference is <span class="citation" data-cites="pearl2009causality">Pearl (<a href="references.html#ref-pearl2009causality" role="doc-biblioref">2009</a>)</span>.</li>
+<li>I got a lot of this stuff from <span class="citation" data-cites="peters2017elements">Peters, Janzing, and Schölkopf (<a href="references.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>, which you can read <a href="https://library.oapen.org/bitstream/id/056a11be-ce3a-44b9-8987-a6c68fce8d9b/11283.pdf">here</a></li>
+<li>Also read <span class="citation" data-cites="hardt2021patterns">Hardt and Recht (<a href="references.html#ref-hardt2021patterns" role="doc-biblioref">2021</a>)</span>, which you can read <a href="https://mlstory.org/index.html">here</a></li>
 <li><a href="https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf">A crash course in good and bad controls</a>, or <a href="http://causality.cs.ucla.edu/blog/index.php/category/back-door-criterion/">here</a></li>
 <li><a href="http://dagitty.net/.html#">dagitty</a></li>
 </ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-cinelli2021crash" class="csl-entry" role="doc-biblioentry">
+Cinelli, Carlos, Andrew Forney, and Judea Pearl. 2021. <span>“A Crash Course in Good and Bad Controls.”</span> <em>Sociological Methods &amp; Research</em>, 00491241221099552.
+</div>
 <div id="ref-hardt2021patterns" class="csl-entry" role="doc-biblioentry">
 Hardt, Moritz, and Benjamin Recht. 2021. <span>“Patterns, Predictions, and Actions: A Story about Machine Learning.”</span> <em>arXiv Preprint arXiv:2102.05242</em>.
+</div>
+<div id="ref-pearl2009causality" class="csl-entry" role="doc-biblioentry">
+Pearl, Judea. 2009. <em>Causality</em>. Cambridge university press.
 </div>
 <div id="ref-peters2017elements" class="csl-entry" role="doc-biblioentry">
 Peters, Jonas, Dominik Janzing, and Bernhard Schölkopf. 2017. <em>Elements of Causal Inference: Foundations and Learning Algorithms</em>. The MIT Press.
@@ -539,12 +580,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./graphics.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./validation.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

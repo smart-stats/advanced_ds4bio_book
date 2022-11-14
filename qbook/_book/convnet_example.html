@@ -246,37 +246,42 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  <a href="./measurement.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Measurement</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./causal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  <a href="./causal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  <a href="./validation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ethics</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -321,7 +326,7 @@ div.csl-indent {
 
 <section id="medical-mnist-data" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="medical-mnist-data"><span class="header-section-number">9.1</span> Medical MNIST data</h2>
-<p>Medical images offer unique challenges for imaging. A common format for medical images is dicom. Most medical images are 3D or 4D grayscale images. To get a sense of working with medical images, let’s consider a set of 2D color images from the medical mnist library <span class="citation" data-cites="medmnistv2">(<a href="#ref-medmnistv2" role="doc-biblioref">Yang et al. 2021</a>)</span>. A tutorial for working with these images can be found <a href="https://github.com/MedMNIST/MedMNIST/blob/main/examples/getting_started.ipynb">here</a>. These are images of moles to determine whether or not they are cancerous. We’ll follow along with the medmnist code then investigate the output.</p>
+<p>Medical images offer unique challenges for imaging. A common format for medical images is dicom. Most medical images are 3D or 4D grayscale images. To get a sense of working with medical images, let’s consider a set of 2D color images from the medical mnist library <span class="citation" data-cites="medmnistv2">(<a href="references.html#ref-medmnistv2" role="doc-biblioref">Yang et al. 2021</a>)</span>. A tutorial for working with these images can be found <a href="https://github.com/MedMNIST/MedMNIST/blob/main/examples/getting_started.ipynb">here</a>. These are images of moles to determine whether or not they are cancerous. We’ll follow along with the medmnist code then investigate the output.</p>
 <p>Here are the imports</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
@@ -561,10 +566,10 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <pre><code>==&gt; Evaluating ...</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>train  auc: 0.895  acc:0.728</code></pre>
+<pre><code>train  auc: 0.890  acc:0.723</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>test  auc: 0.885  acc:0.722</code></pre>
+<pre><code>test  auc: 0.878  acc:0.713</code></pre>
 </div>
 </div>
 <p>Let’s look into the levels. First let’s grab a batch and run it through the model. Then we’ll look at the predictions for a batch. Recall there are 7 tumor types, so we plot our predictions as an image (in little bars since it’s too long otherwise).</p>
@@ -610,7 +615,7 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"P="</span><span class="op">+</span><span class="bu">str</span>(target_prob[i])<span class="op">+</span><span class="st">",Yhat="</span><span class="op">+</span><span class="bu">str</span>(target_pred[i])<span class="op">+</span><span class="st">",Y="</span><span class="op">+</span> <span class="bu">str</span>(actual[i]))</span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    plt.imshow(img)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="convnet_example_files/figure-html/cell-11-output-1.png" width="767" height="783"></p>
+<p><img src="convnet_example_files/figure-html/cell-11-output-1.png" width="772" height="783"></p>
 </div>
 </div>
 <p>Let’s look at a cross tabulation of the model prediction versus the actual value.</p>
@@ -630,16 +635,16 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>confusion.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>y  yhat
-5  5       1284
-4  5        145
-2  5        103
-   2         88
-1  5         42
-4  4         42
-1  1         33
-4  2         33
-5  2         29
-0  1         27
+5  5       1255
+4  5        132
+2  2        109
+   5         84
+5  2         55
+1  5         46
+4  4         46
+   2         40
+1  2         35
+5  4         25
 dtype: int64</code></pre>
 </div>
 </div>
@@ -689,7 +694,7 @@ dtype: int64</code></pre>
 <p><img src="convnet_example_files/figure-html/cell-14-output-1.png" width="767" height="763"></p>
 </div>
 </div>
-<p>Let’s use SHAP to look at our convolutional neural network. SHAP uses Shapley values from game theory to explain NN predictors. <a href="https://arxiv.org/pdf/1908.06612.pdf">Here’s a manuscript</a> <span class="citation" data-cites="young2019deep">(<a href="#ref-young2019deep" role="doc-biblioref">Young et al. 2019</a>)</span> that utilizes SHAP values on this problem.</p>
+<p>Let’s use SHAP to look at our convolutional neural network. SHAP uses Shapley values from game theory to explain NN predictors. <a href="https://arxiv.org/pdf/1908.06612.pdf">Here’s a manuscript</a> <span class="citation" data-cites="young2019deep">(<a href="references.html#ref-young2019deep" role="doc-biblioref">Young et al. 2019</a>)</span> that utilizes SHAP values on this problem.</p>
 <p>The Shapley value is defined in game theory as the contribution of a player to a teams’ output factoring in their cooperation. In neural networks, a pixel could be a considered a player and the gain function as the output. The goal is to see the contribution of the player/pixel, factoring in the contributions and how they interact with the others. The Shapley values are difficult to compute, and so approximations need to be used. Python has a package <code>shap</code> that can be used to calculate and visualize approximated Shapley values for an input.</p>
 <p>The following code is taken from <a href="https://towardsdatascience.com/pytorch-shap-explainable-convolutional-neural-networks-ece5f04c374f">here</a></p>
 <div class="cell" data-execution_count="14">
@@ -733,7 +738,7 @@ dtype: int64</code></pre>
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
 <div id="ref-medmnistv2" class="csl-entry" role="doc-biblioentry">
 Yang, Jiancheng, Rui Shi, Donglai Wei, Zequan Liu, Lin Zhao, Bilian Ke, Hanspeter Pfister, and Bingbing Ni. 2021. <span>“MedMNIST V2: A Large-Scale Lightweight Benchmark for 2D and 3D Biomedical Image Classification.”</span> <em>arXiv Preprint arXiv:2110.14795</em>.
 </div>

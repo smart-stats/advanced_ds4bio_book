@@ -3,11 +3,30 @@ title: "Causal DAGs"
 format: html
 ---
 
+
+```{python}
+#| echo: false
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+import sklearn as skl
+```
+
+
 ## Associational models versus causal models
 
 Causal models differ from associational models in that they codify causal directions not just associations.  In our program, you might have learned of the use of propensity scores, counterfactuals or randomization to study causality. There, typically the goal is to make causal statements with as few assumptions as possible or at least understanding the assumptions. Typically the object of study is the estimation of an effect avergated over covarites.
 
-Causal graphs take a different approach, even if they wind up at a similar same place. Here, the goal is to postulate hyptothetical causal relationships and use those hypothetical relationships to estimate causal effects. In that sense, they use more assumptions. But, on the other hand, the very act of postulating causal relationships has a benefit unto itself. Moreover, causal graphs intersect with understanding causal theory more generally.
+Causal graphs take a different approach, even if they wind up at a similar same place. Here, the goal is to postulate hyptothetical causal relationships and use those hypothetical relationships to estimate causal effects. In that sense, they use more assumptions. But, on the other hand, the very act of postulating causal relationships has a benefit unto itself. 
+Moreover, causal graphs intersect with understanding causal theory more generally.
+
+### Graphs and graphical models
+A graph, $G$ is a collection of nodes, say $V=\{1,\ldots, p\}$ and a set edges between the nodes, i.e. a set of elements $(i,j)$. The graph is directed if $(i,j)$ is considered different then $(j,i)$. 
+
+
+Node $i$ is a parent of node $j$ if $(i,j) \in E$ and $(j,i)\notin E$. Similarly,  node $i$ is a **child** of node $j$ if $(j,i) \in E$ and $(i,j)\notin E$. A node 
+is a **descendant** of another if it is a child, or a child of a child and so on.
 
 
 ### Structural causal models
@@ -16,18 +35,33 @@ A structural causal model (SCM) over a collection of variables, $X=(X_1, \ldots,
 $$
 X_j = f(P_j, \epsilon_j)
 $$
-where $P_j$ are the antecedent causes of $X_j$, called the parents of $X_j$, and $\epsilon_j$ is an accumulation of variables treated as mutally independent. This defines a directed graph, $G$ say, where a graph is collection of vertices corresponding to our variables, $V=\{1,\ldots, p\}$, corresponding to the $X_i$, and edges, $E$, which is a set of ordered pairs of nodes. Node $i$ is a parent of node $j$ if $(i,j) \in E$ and $(j,i)\notin E$. Similarly,  node $i$ is a **child** of node $j$ if $(j,i) \in E$ and $(i,j)\notin E$. A node 
-is a **descendant** of another if it is a child, or a child of a child and so on.
+where $P_j$ are the antecedent causes of $X_j$, called the parents of $X_j$, and $\epsilon_j$ is an accumulation of variables treated as mutally independent. This defines a directed graph, $G$ say, where a graph is collection of vertices corresponding to our variables, $V=\{1,\ldots, p\}$, corresponding to the $X_i$, and edges, $E$, which is a set of ordered pairs of nodes. 
 
-```{dot}
-//| label: three-node
-//| fig-width: 3
-//| fig-cap: A simple causal diagram.
-digraph G {
-  X1 -> {X2, X3};
-  {rank=same; X2 -> X3};
+```{python}
+#| echo: false
+plt.figure(figsize=[3, 3])
+G = nx.DiGraph()
+G.add_node("X1",  pos = (0.5,   1) )
+G.add_node("X2",  pos = (0  ,   0) )
+G.add_node("X3",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["X1", "X2"],
+  ["X1", "X3"],
+  ["X2", "X3"],
+] )
 
-}
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+plt.show()
 ```
 
 In this case, $P_1 = \{\}$, $P_2 = \{1\}$ and $P_3 = \{1,2\}$. SCMs define a unique probability distribution over $X$.
@@ -44,7 +78,7 @@ That is, the impact on the response if we were to set the exposure to $e_0$.
 
 ### Blocking and d-separation
 
-Return to diagram @three-node.
+Return to our previous diagram.
 
 + $X1$ is a *confounder* betweend $X2$ and $X3$ 
 + $X2$ is a *mediator* between $X1$ and $X3$ 
@@ -52,12 +86,31 @@ Return to diagram @three-node.
 
 Consider an example. $X1$ is having a BMI > 35, $X2$ is sleep disordered breathing and $X3$ is hypertension. 
 
-```{dot}
-//| fig-width: 3
-digraph G {
-  BMI35 -> {SDB, HTN};
-  {rank = same; SDB -> HTN}
-}
+```{python}
+#| echo: false
+plt.figure(figsize=[3, 3])
+G = nx.DiGraph()
+G.add_node("BMI35",  pos = (0.5,   1) )
+G.add_node("SDB",  pos = (0  ,   0) )
+G.add_node("HTN",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["BMI35", "SDB"],
+  ["BMI35", "HTN"],
+  ["SDB", "HTN"],
+] )
+
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 4000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+plt.show()
 ```
 
 Here if we're studying whether SDB causes HTN, BMI35 confounds the relationship as a possible common cause of both. 
@@ -100,16 +153,7 @@ Consider the following graph.
 
 ```{python}
 #| echo: false
-
-import networkx as nx
-import matplotlib.pyplot as plt
-import numpy as np
-import sklearn as skl
-```
-
-```{python}
-#| echo: false
-#plt.figure(figsize=[2, 2])
+plt.figure(figsize=[3, 3])
 G = nx.DiGraph()
 G.add_node("X",  pos = (0,   0) )
 G.add_node("Y",  pos = (2,   0) )
@@ -149,22 +193,23 @@ Here are the minimal valid D-separating paths between $X$ and $Y$:
 
 Here are some **invalid** D-separating sets.
 
-1. $S$ equal to any single node. Example, $S=\{X_3\}$. This does not block the path $X\leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y$.
+1. $S$ equal to any single node. 
+   1. $S=\{X_3\}$ does not block the path $X\leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y$.
+   2. $S=\{X_4\}$ or $S=\{X_2\}$ does not block the path $X \leftarrow X_3 \leftarrow X_5 \rightarrow Y$.
+   3. $S=\{X_5\}$ does not block the path $X \leftarrow X_3 \leftarrow X_4 \rightarrow Y$.
 2. $S=\{X_3, X_4\}$ does not block the path
 $X \leftarrow X_2 \rightarrow X_3 \leftarrow X_5 \rightarrow Y$.
-3. $S=\{X_2, X_4\}$. does not block the path $X\leftarrow X_3 \leftarrow X_5 \rightarrow Y$.
+3. $S=\{X_2, X_4\}$ does not block the path $X\leftarrow X_3 \leftarrow X_5 \rightarrow Y$.
 
-Importantly, if $S$ D-separates $X$ and $Y$ then in the implied distribution from the SCM, $X \perp Y ~|~ S$.
+Importantly, if $S$ D-separates $X$ and $Y$ then in the implied distribution from the SCM $X$ is independent from $Y$ given $S$, written $X \perp Y ~|~ S$. One can, for example, look at the empirical dependence between $X$ and $Y$ given $S$ to investigate consistency with a graphical model.
 
 ## Do calculus and backdoor criterion
 
-Recall that specifying a causal graph model implies a probability distribution. Moreover, the implied independence relationships are given
-by the undirected graph. 
+Recall that specifying a causal graph model implies the independence relationships of a probability distribution under assumptions such as the SCM. 
 
 Consider a theoretical intervention obtained by setting
 $X = a$, which we write as $do(X) = a$. We want to estimate
-$P(Y ~|~ do(X) = a)$, which is fundamentally different than
-$P(Y ~|~ X = a)$. 
+$P(Y ~|~ do(X) = a)$. 
 
 A set $Z$ satisfies the **back door** criterion with respect
 to nodes $X$ and $Y$ if 
@@ -172,19 +217,467 @@ to nodes $X$ and $Y$ if
 1. No descendant of $X$ is in $Z$.
 2. $Z$ blocks every path $X$ and $Y$ that contains an arrow pointing to $Y$.
 
-The magic of the back door adjustment comes from the relationship:
+The back door criteria is similar to D-separation. However, we only focus on arrows pointing into $Y$ and don't allow for descendants of $X$. In the example we worked out above, it's the same, since there are no descendants of $Y$ and the only descendant of $X$ is $Y$.
+
+The magic of the back door adjustment comes from the relationship, the adjustment formula:
 
 $$
-P(Y ~|~ do(X) = x) = \sum_{z} P(y ~ | x, z) p(z)
+P(Y ~|~ do(X) = x) = \sum_{z\in S} P(y ~ | x, z) p(z)
 $$
 
-where $z$ are the collection of variables in $S$. If the $z$ are all observed variables, then the RHS of this equation is estimable. Note the interesting statement that not all variables need to be observed, just
-$y$, $x$ and $z$.
+where $S$ satisfies the back door criterion. If the $z$ are all observed variables, then the RHS of this equation is estimable. Note the interesting statement that not all variables need to be observed, just $y$, $x$ and $z$. So, in our previous example, adjusting for $S = \{X_2, X_3\}$ allows us to estimate the causal effect of $X$ on $Y$, even if $X_4$ and $X_5$ are not measured.
+
+It's important to emphasize, that every aspect of the adjustment formula is theoretically estimable if $Y$, $X$ and the nodes in $S$ are observed.  
+
+### Example graphs
+
+In all the following, we're interested in the causal effect of $X$ and $Y$. $Z$ variables are observed and $U$ variables
+are unobserved. Every variable is binary to make the discussion easier. 
+
+#### Randomization
+
+If $X$ is randomized **and everyone takes the treatment assigned to them** then $X$ has no parents other than the randomization mechanism,$R$.  We're omitting any descendants of $X$ since we don't have to worray about them. Then, regardless of the complexity of  the relationship between the collection of observed, unobserved, known and unknown variables, $Z, U$, and $Y$
+we can estimate the causal effect simply without conditioning on anything.
+
+In contrast, if some people ignore their randomized treatment status and elect to choose a different treatment one may have opened a backdoor path. For example, if the treatment can't be blinded and those randomized to the control with the worst baseline symptoms elect to obtain the treatment elsewhere.
+
+```{python}
+#| echo: false
+plt.figure(figsize=[6, 3])
+
+plt.subplot(1, 2, 1)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("R",  pos = (0  ,   1) )
+G.add_node("U,Z",  pos = (1,   1) )
+G.add_node("Y",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["R", "X"],
+  ["X", "Y"],
+  ["U,Z", "Y"],
+  ["Y", "U,Z"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
 
 
+
+
+plt.subplot(1, 2, 2)
+
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("R",  pos = (0  ,   1) )
+G.add_node("U,Z",  pos = (1,   1) )
+G.add_node("Y",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["R", "X"],
+  ["X", "Y"],
+  ["U,Z", "Y"],
+  ["U,Z", "X"],
+  ["Y", "U,Z"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+
+
+plt.show()
+```
+
+
+#### Simple confounding
+
+The diagram below shows classic confounding. Conditioning in $Z$ allows for the estimation of the causal effect.
+
+```{python}
+#| echo: false
+plt.figure(figsize=[3, 3])
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("Z",  pos = (0.5,   1) )
+G.add_node("Y",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["Z", "X"],
+  ["Z", "Y"],
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+plt.show()
+```
+
+Now the estimate of the adjusted effect (under our assumptions) is
+
+$$
+P(Y ~|~ do(X) = x) = P(Y ~|~ X=x, z = 0)P(z = 0) + P(Y ~|~ X=x, Z=1)P(Z=1)
+$$
+
+
+In the following two examples, the unmeasured confounder $U$ can be controlled for by conditioning on $Z$ and exactly the same estimate can be used as in the simple confounding model.
+
+```{python}
+#| echo: false
+
+
+plt.figure(figsize=[6, 3])
+
+plt.subplot(1, 2, 1)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0,   0) )
+G.add_node("Z",  pos = (0,   1) )
+G.add_node("U",  pos = (1,   1) )
+
+G.add_node("Y",  pos = (1 ,   0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["U", "Z"],
+  ["Z", "X"],
+  ["U", "Y"],
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+
+plt.subplot(1, 2, 2)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("U",  pos = (0,   1) )
+G.add_node("Z",  pos = (1,   1) )
+G.add_node("Y",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["U", "X"],
+  ["U", "Z"],
+  ["Z", "Y"],
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+```
+
+#### Mediation
+
+In mediation, all or part of the effect of $X$ on $Y$ flows through yet another variable $Z$. 
+
+```{python}
+#| echo: false
+plt.figure(figsize=[3, 3])
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("Z",  pos = (0.5,   1) )
+G.add_node("Y",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["X", "Z"],
+  ["Z", "Y"],
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+plt.show()
+```
+
+The backdoor criteria does not apply here, since $Z$ is a descendant of $X$. To answer the question "What is the causal effect of $X$ on $Y$?" one need not adjust. However, mediation is typically studied in a different way. Instead, one asks questions such as "How much of the effect of $X$ on $Y$ flows or doesn't flow through $Z$?". To answer this question, one usually conditions on $Z$ for a different goal than the backdoor adjustment is accomplishing.
+
+@cinelli2021crash shows an interesting example of mediation where one would want to adjust for $Z$ (left plot below).
+
+```{python}
+#| echo: false
+plt.figure(figsize=[10, 3])
+
+plt.subplot(1, 2, 1)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("U",  pos = (0  ,   1) )
+G.add_node("Z",  pos = (1,   1) )
+G.add_node("M",  pos =  (1 ,   0) )
+G.add_node("Y",  pos =  (2 ,   0) )
+
+G.add_edges_from([  
+  ["U", "X"],
+  ["U", "Z"],
+  ["X", "M"],
+  ["Z", "M"],
+  ["M", "Y"]
+] )
+
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 2.3])
+ax.set_ylim([-.3, 1.3])
+
+plt.subplot(1, 2, 2)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("Z",  pos = (1,   1) )
+G.add_node("M",  pos =  (1 ,   0) )
+G.add_node("Y",  pos =  (2 ,   0) )
+
+G.add_edges_from([  
+  ["Z", "X"],
+  ["X", "M"],
+  ["Z", "M"],
+  ["M", "Y"]
+] )
+
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 2.3])
+ax.set_ylim([-.3, 1.3])
+#plt.show()
+```
+
+In this case, $M$ still mediates the relationship between $X$ and $Y$. However, $Z$ is in a backdoor path to $M$. So, some of the variation in $M$ that impacts $Y$ could be due to $Z$ rather than $X$. The right plot is similar and makes the point more explicit. $Z$ confounds the relationship between $X$ and $Y$ through $M$. Without adjusting for $Z$, the path $X\leftarrow Z \rightarrow M \rightarrow Y$ remains unblocked.
+
+#### Bad controls
+
+
+
+The following are all unhelpful for conditioning on $Z$ using the backdoor criteria.
+
+Upper left. Adjusting for colliders is the standard bad control. Below adjusting for $Z$ open ups a backdoor path that was closed. From a common sense perspective, why would you want to adjust for a consequence of $X$ and $Y$ when exploring their relationship? 
+
+In the upper right diagram below, $Z$ is a so-called **instrumental** variable. A good example is $Z$ being the randomization indicator and $X$ being the treatment the person actually took. It is important in this example to emphasize that use of the instrumental variable is often a very fruitful method of analysis. However, it's not a useful backdoor adjustment and conditioning on $Z$ simply removes most of the relevant variation in $X$. If one wants to use $Z$ as an instrumental variable in this setting, then specific methods taylored to instrumental variable use need to be employed.
+
+In the lower left plot, $Z$ is a descendant of $X$. Conditioning on $Z$ removes relevant pathway information regarding the relationship between $X$ and $Y$>
+
+The lower right plot is similar. Conditioning on $Z$ removes variation in $M$ which hinders our
+ability to study the relationship between $X$ and $Y$ through $M$.
+
+```{python}
+#| echo: false
+plt.figure(figsize=[6, 6])
+
+
+#| echo: false
+plt.subplot(2, 2, 1)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0  ,   0) )
+G.add_node("Z",  pos = (0.5,   1) )
+G.add_node("Y",  pos =  (1 ,   0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["X", "Z"],
+  ["Y", "Z"],
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+plt.subplot(2, 2, 2)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0, 0) )
+G.add_node("Z",  pos = (0, 1) )
+G.add_node("U",  pos = (1, 1) )
+G.add_node("Y",  pos = (1, 0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["U", "X"],
+  ["U", "Y"],
+  ["Z", "X"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+
+
+plt.subplot(2, 2, 3)
+G = nx.DiGraph()
+G.add_node("Z",  pos = (0, 0) )
+G.add_node("X",  pos = (0, 1) )
+G.add_node("Y",  pos = (1, 0) )
+G.add_edges_from([  
+  ["X", "Z"],
+  ["Z", "Y"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+plt.subplot(2, 2, 4)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0, 1) )
+G.add_node("M",  pos = (0, 0) )
+G.add_node("Z",  pos = (1, 1) )
+G.add_node("Y",  pos = (1, 0) )
+G.add_edges_from([  
+  ["X", "M"],
+  ["M", "Z"],
+  ["M", "Y"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+
+plt.show()
+```
+
+#### Conditioning may help
+
+In the upper left plot, adjusting for $Z$ may reduce variability in $Y$ to help focus on the relationship between $X$ and $Y$.
+
+In the upper left plot, adjusting for $Z$ may reduce variation in the mediator unrelated to the relationship between $X$ and $Y$.
+
+
+```{python}
+#| echo: false
+
+plt.figure(figsize=[6, 3])
+
+plt.subplot(1, 2, 1)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0, 0) )
+G.add_node("Z",  pos = (1, 1) )
+G.add_node("Y",  pos = (1, 0) )
+G.add_edges_from([  
+  ["X", "Y"],
+  ["Z", "Y"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+
+plt.subplot(1, 2, 2)
+G = nx.DiGraph()
+G.add_node("X",  pos = (0, 1) )
+G.add_node("M",  pos = (0, 0) )
+G.add_node("Z",  pos = (1, 1) )
+G.add_node("Y",  pos = (1, 0) )
+G.add_edges_from([  
+  ["X", "M"],
+  ["Z", "M"],
+  ["M", "Y"]
+] )
+nx.draw(G, 
+        nx.get_node_attributes(G, 'pos'), 
+        with_labels=True, 
+        font_weight='bold', 
+        node_size = 2000,
+        node_color = "lightblue",
+        linewidths = 3)
+ax= plt.gca()
+ax.collections[0].set_edgecolor("#000000")
+ax.set_xlim([-.3, 1.3])
+ax.set_ylim([-.3, 1.3])
+
+
+```
 
 ## Reading:
-+ I got most of this stuff from @peters2017elements, which you can read [here](https://library.oapen.org/bitstream/id/056a11be-ce3a-44b9-8987-a6c68fce8d9b/11283.pdf)
+
++ The definitive causal reference is @pearl2009causality. 
++ I got a lot of this stuff from @peters2017elements, which you can read [here](https://library.oapen.org/bitstream/id/056a11be-ce3a-44b9-8987-a6c68fce8d9b/11283.pdf)
 + Also read @hardt2021patterns, which you can read [here](https://mlstory.org/index.html)
 + [A crash course in good and bad controls](https://ftp.cs.ucla.edu/pub/stat_ser/r493.pdf), or [here](http://causality.cs.ucla.edu/blog/index.php/category/back-door-criterion/)
 + [dagitty](http://dagitty.net/.html#)
