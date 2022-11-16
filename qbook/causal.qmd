@@ -805,7 +805,8 @@ The wikipedia page on Simpson's paradox gives this data concerning two treatment
 
 Estimate the treatment effect difference:
 $$
-P(Success ~|~ Do(Treatment) = x)
+P(Success ~|~ Do(Treatment) = B)
+- P(Success ~|~ Do(Treatment) = A)
 $$
 under the following graphical models where $X$ is treatment, $Y$ is success and $Z$ is stone size:
 

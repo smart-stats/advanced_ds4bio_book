@@ -559,7 +559,8 @@ P(Y ~|~ do(X) = x) = P(Y ~|~ X=x, z = 0)P(z = 0) + P(Y ~|~ X=x, Z=1)P(Z=1)
 </tbody>
 </table>
 <p>Estimate the treatment effect difference: <span class="math display">\[
-P(Success ~|~ Do(Treatment) = x)
+P(Success ~|~ Do(Treatment) = B)
+- P(Success ~|~ Do(Treatment) = A)
 \]</span> under the following graphical models where <span class="math inline">\(X\)</span> is treatment, <span class="math inline">\(Y\)</span> is success and <span class="math inline">\(Z\)</span> is stone size:</p>
 <div class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
