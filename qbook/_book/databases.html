@@ -349,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>[mean1, mean2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>[-0.004707482011070242, 0.02597874768738295]</code></pre>
+<pre><code>[0.08582305912818042, 0.02493976034401036]</code></pre>
 </div>
 </div>
 <p>Let’s now center our time series.</p>
@@ -368,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    v2 <span class="op">+=</span> np.<span class="bu">sum</span>(s2[block_indices] <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (n <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>[v1, v2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>[1.000799527252137, 1.0516175030507937]</code></pre>
+<pre><code>[0.9293382867196516, 0.965503657187144]</code></pre>
 </div>
 </div>
 <p>Now let’s scale our vectors as</p>
@@ -388,7 +388,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    cor <span class="op">+=</span> np.<span class="bu">sum</span>(s1[block_indices] <span class="op">*</span> s2[block_indices]) <span class="op">/</span> (n<span class="op">-</span><span class="dv">1</span>) </span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>cor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>-0.02051175073471629</code></pre>
+<pre><code>-0.0005039673614569847</code></pre>
 </div>
 </div>
 <p>Finally, we want to “regress out” s2 from s1. Since we normalized our series, the correlation is slope coefficient from linear regression (regardless of the outcome and dependent variable) and the intercept is zero (since we centered). Thus, the residual we want is <span class="math inline">\(e_{12} = s_1 - \rho s_2\)</span> where <span class="math inline">\(\rho\)</span> is the correlation.</p>
