@@ -564,10 +564,10 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <pre><code>==&gt; Evaluating ...</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>train  auc: 0.889  acc:0.717</code></pre>
+<pre><code>train  auc: 0.882  acc:0.722</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>test  auc: 0.878  acc:0.708</code></pre>
+<pre><code>test  auc: 0.871  acc:0.707</code></pre>
 </div>
 </div>
 <p>Let’s look into the levels. First let’s grab a batch and run it through the model. Then we’ll look at the predictions for a batch. Recall there are 7 tumor types, so we plot our predictions as an image (in little bars since it’s too long otherwise).</p>
@@ -613,7 +613,7 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"P="</span><span class="op">+</span><span class="bu">str</span>(target_prob[i])<span class="op">+</span><span class="st">",Yhat="</span><span class="op">+</span><span class="bu">str</span>(target_pred[i])<span class="op">+</span><span class="st">",Y="</span><span class="op">+</span> <span class="bu">str</span>(actual[i]))</span>
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    plt.imshow(img)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="convnet_example_files/figure-html/cell-11-output-1.png" width="768" height="783"></p>
+<p><img src="convnet_example_files/figure-html/cell-11-output-1.png" width="772" height="783"></p>
 </div>
 </div>
 <p>Let’s look at a cross tabulation of the model prediction versus the actual value.</p>
@@ -633,16 +633,16 @@ P(Y_i = j) = \frac{\exp(\eta_j)}{\sum_{j'=1}^J \exp(\eta_{j'})}
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>confusion.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>y  yhat
-5  5       1269
-4  5        173
-2  2        106
-   5        102
-5  2         53
-1  5         39
-   2         33
-0  2         33
-4  2         32
-1  1         29
+5  5       1280
+4  5        160
+2  5        107
+   2         87
+1  5         42
+4  2         40
+5  2         36
+1  1         30
+   2         28
+0  2         25
 dtype: int64</code></pre>
 </div>
 </div>

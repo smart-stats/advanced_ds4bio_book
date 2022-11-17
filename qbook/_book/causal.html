@@ -245,9 +245,12 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#example-graphs" id="toc-example-graphs" class="nav-link" data-scroll-target="#example-graphs"><span class="toc-section-number">18.2.1</span>  Example graphs</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">18.3</span>  Exercises</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="toc-section-number">18.4</span>  Exercise</a></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="toc-section-number">18.5</span>  Reading</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">18.3</span>  Exercises</a>
+  <ul class="collapse">
+  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="toc-section-number">18.3.1</span>  Graphs</a></li>
+  <li><a href="#data-exercise" id="toc-data-exercise" class="nav-link" data-scroll-target="#data-exercise"><span class="toc-section-number">18.3.2</span>  Data exercise</a></li>
+  </ul></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="toc-section-number">18.4</span>  Reading</a></li>
   </ul>
 </nav>
     </div>
@@ -357,9 +360,9 @@ P(X_3 ~|~ do(X_2) = x_2)
 <p>A set <span class="math inline">\(Z\)</span> satisfies the <strong>back door</strong> criterion with respect to nodes <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> if</p>
 <ol type="1">
 <li>No descendant of <span class="math inline">\(X\)</span> is in <span class="math inline">\(Z\)</span>.</li>
-<li><span class="math inline">\(Z\)</span> blocks every path <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that contains an arrow pointing to <span class="math inline">\(Y\)</span>.</li>
+<li><span class="math inline">\(Z\)</span> blocks every path <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that contains an arrow pointing to <span class="math inline">\(X\)</span>.</li>
 </ol>
-<p>The back door criteria is similar to d-separation. However, we only focus on arrows pointing into <span class="math inline">\(Y\)</span> and don’t allow for descendants of <span class="math inline">\(X\)</span>. In the example we worked out above, it’s the same, since there are no descendants of <span class="math inline">\(Y\)</span> and the only descendant of <span class="math inline">\(X\)</span> is <span class="math inline">\(Y\)</span>.</p>
+<p>The back door criteria is similar to d-separation. However, we only focus on arrows pointing into <span class="math inline">\(X\)</span> and don’t allow for descendants of <span class="math inline">\(X\)</span>.</p>
 <p>The magic of the back door adjustment comes from the relationship, the adjustment formula:</p>
 <p><span class="math display">\[
 P(Y ~|~ do(X) = x) = \sum_{z\in S} P(y ~ | x, z) p(z)
@@ -475,6 +478,8 @@ P(Y ~|~ do(X) = x) = P(Y ~|~ X=x, z = 0)P(z = 0) + P(Y ~|~ X=x, Z=1)P(Z=1)
 </section>
 <section id="exercises" class="level2" data-number="18.3">
 <h2 data-number="18.3" class="anchored" data-anchor-id="exercises"><span class="header-section-number">18.3</span> Exercises</h2>
+<section id="graphs" class="level3" data-number="18.3.1">
+<h3 data-number="18.3.1" class="anchored" data-anchor-id="graphs"><span class="header-section-number">18.3.1</span> Graphs</h3>
 <p>Consider the following graph where we want to answer the question: what is <span class="math inline">\(P(Y ~|~ do(X) = x)\)</span> where every variable is binary.</p>
 <div class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
@@ -500,8 +505,8 @@ P(Y ~|~ do(X) = x) = P(Y ~|~ X=x, z = 0)P(z = 0) + P(Y ~|~ X=x, Z=1)P(Z=1)
 <li>Given a cross sectional sample, give a formula for the estimation of <span class="math inline">\(P(Y ~|~ do(X) = x)\)</span> that only requires observed variables.</li>
 </ol>
 </section>
-<section id="exercise" class="level2" data-number="18.4">
-<h2 data-number="18.4" class="anchored" data-anchor-id="exercise"><span class="header-section-number">18.4</span> Exercise</h2>
+<section id="data-exercise" class="level3" data-number="18.3.2">
+<h3 data-number="18.3.2" class="anchored" data-anchor-id="data-exercise"><span class="header-section-number">18.3.2</span> Data exercise</h3>
 <p>The wikipedia page on Simpson’s paradox gives this data concerning two treatments of kidney stones, the percentage of succcessful procedures and the size of the stone. Note, among both large stones and small stones A is better than B. However, among all B is preferable to A.</p>
 <table class="table">
 <thead>
@@ -570,8 +575,9 @@ P(Success ~|~ Do(Treatment) = B)
 <p>Comment on how reasonable each of these models are given the setting. Here’s a reference: <span class="citation" data-cites="julious1994confounding">Julious and Mullee (<a href="references.html#ref-julious1994confounding" role="doc-biblioref">1994</a>)</span>.</p>
 <p>Give any other DAGs, perhaps including unmeasured variables, that you think are relevant.</p>
 </section>
-<section id="reading" class="level2" data-number="18.5">
-<h2 data-number="18.5" class="anchored" data-anchor-id="reading"><span class="header-section-number">18.5</span> Reading</h2>
+</section>
+<section id="reading" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">18.4</span> Reading</h2>
 <ul>
 <li>The definitive causal reference is <span class="citation" data-cites="pearl2009causality">Pearl (<a href="references.html#ref-pearl2009causality" role="doc-biblioref">2009</a>)</span>.</li>
 <li>I got a lot of this stuff from <span class="citation" data-cites="peters2017elements">Peters, Janzing, and Schölkopf (<a href="references.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>, which you can read <a href="https://library.oapen.org/bitstream/id/056a11be-ce3a-44b9-8987-a6c68fce8d9b/11283.pdf">here</a></li>

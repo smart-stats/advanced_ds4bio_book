@@ -1,5 +1,5 @@
 ---
-title: "Example convnet"
+title: "Convolutional AI"
 format: html
 ---
 

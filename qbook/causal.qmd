@@ -203,9 +203,9 @@ A set $Z$ satisfies the **back door** criterion with respect
 to nodes $X$ and $Y$ if 
 
 1. No descendant of $X$ is in $Z$.
-2. $Z$ blocks every path $X$ and $Y$ that contains an arrow pointing to $Y$.
+2. $Z$ blocks every path $X$ and $Y$ that contains an arrow pointing to $X$.
 
-The back door criteria is similar to d-separation. However, we only focus on arrows pointing into $Y$ and don't allow for descendants of $X$. In the example we worked out above, it's the same, since there are no descendants of $Y$ and the only descendant of $X$ is $Y$.
+The back door criteria is similar to d-separation. However, we only focus on arrows pointing into $X$ and don't allow for descendants of $X$. 
 
 The magic of the back door adjustment comes from the relationship, the adjustment formula:
 
@@ -720,6 +720,7 @@ ax.set_ylim([-.3, 1.3])
 
 ## Exercises
 
+### Graphs
 Consider the following graph where we want to answer the question: what is $P(Y ~|~ do(X) = x)$ where
 every variable is binary.
 
@@ -790,7 +791,7 @@ ax.set_ylim([-.3, 1.3]);
 1. What are the minimal set of adjustment variables for the backdoor criteria?
 2. Given a cross sectional sample, give a formula for the estimation of $P(Y ~|~ do(X) = x)$ that only requires observed variables.
 
-## Exercise
+### Data exercise
 
 The wikipedia page on Simpson's paradox gives this data concerning two treatments of kidney stones, the percentage of succcessful procedures and the size of the stone. Note, among both large stones and small stones A is better than B. However, among all B is preferable to A.
 

@@ -3,4 +3,161 @@ title: "Machine learning validation"
 format: html
 ---
 
+# Basics
+
+Consider the following definitions for the results of a diagnostic test $X\in \{0,1\}$, where the
+actual disease state is $Y\in \{0,1\}$. Assume 1 represents having/testing for the disease.
+
+1. **Sensitivity** $P(X=1 ~|~ Y=1)$, probability that the test is positive given the disease is present, also called the true positive rate. $P(X=0 ~|~ Y=1)$ (one minus the sensitivity) is the false negative rate.
+2. **Specificity** $P(X=0 ~|~ Y=0)$, probability that the test is negative given the disease is absent, also called the true negative rate. $P(X=1~|~ Y=0)$ (one minus the specificity) is the false negative rate.
+3. **PPV**, positive predictive value $P(Y=1 ~|~ X=1)$.
+4. **NPV**, negative predictive value $P(Y=0 ~|~ X=0)$. 
+5. **DLR+**, diagnostic likelihood ratio of a positive test $P(X=1 ~|~ Y=1) / P(X=1 ~|~ Y= 0)$ is also the sensitivity over one minus the specificity, i.e. the true positive rate divided by the false positive rate.
+6. **DLR-**, diagnostic likelihood ratio of a negative test $P(X=0) ~|~ Y=1) / P(X=0 ~|~ Y=0)$ is one minus the sensitivity divided by the specificity or the false negative rate divided by the true negative rate. 
+7. The **disease prevalence** is $P(Y=1)$.
+
+In a frequency setting with a positive test, one might argue that the $P(Y=1)$ is one or zero depending on whether or not a subject has the disease thus the PPV is either one or zero respectively. However, this is not how these tests are used. Instead, think of the PPV not as the probability that *this* subject has the disease, but rather as the probability that subjects like this subject have the disease.  For Bayesian interpretations, saying the probability that a subject has the disease is just fine. Either way, it's fine to use these conditional probabilities (i.e. being Bayesian is more than just the use of Bayes' rule, its using Bayesian interpretations).
+
+If you have a cross-sectional sample, then all of these quatities are directly estimable. If the data were sampled by case / control status ($Y=1$ or $Y=0$), then $Y$ is conditioned on by the design and the sensitivity, specificity and DLR+/- are directly estimable. You can obtain the PPV and NPV using Bayes' rule given a disease prevalance. This is a standard textbook problem. Similarly, in a setting where the design fixes the test result, the NPV and PPV would be directly estimable and one would have to use the prevalance of a positive test and Bayes' rule to obtain the sensitivity and specificity. (This sort of design is less usual.)
+
+
+### Example
+A study comparing the efficacy of HIV tests, reports on an experiment which concluded that HIV antibody tests have a sensitivity of 99.7% and a specificity of 98.5% Suppose that a subject, from a population with a .1% prevalence of HIV, receives a positive test result. What is the positive predictive value?
+
+Mathematically, we want $P(Y=1 | X=1)$ given the sensitivity, $P(X=1 | Y=1) = .997$, the specificity, $P(X=0 | Y=0) =0.985$$ and the prevalence $P(Y=1) =0.001$.
+
+$$
+\begin{align*} 
+P(Y=1 ~|~ X=1) & = \frac{P(X=1 ~|~ Y=1)P(Y=1)}{P(X=1~|~Y=1)P(Y=1) + P(X=1 ~|~ Y=0)P(Y=0)}\\
+               & = \frac{P(X=1|Y=1)P(Y=1)}{P(X=1|Y=1)P(Y=1) + {1-P(X=0 ~|~ Y = 0)}{1 - P(Y=1)}} \\
+               & = \frac{.997\times .001}{.997 \times .001 + .015 \times .999}\ = .062 
+\end{align*} 
+$$
+
+In this population a positive test result suggests a 6% probability that the subject has the disease, (the positive predictive value is 6% for this test). If you were wondering how it could be so low for this test, the low positive predictive value is due to low prevalence of disease and the somewhat modest specificity
+
+Suppose it was known that the subject was an intravenous drug user and routinely had intercourse with an HIV infected partner? Our prevalence would change dramatically, thus increasing the PPV. You might wonder if there's a way to summarize the evidence without appealing to an often unknowable prevalence? Diagnostic likelihood ratios provide this for us.
+
+
+We have:
+$$
+P(Y = 1 ~|~ X = 1) = \frac{P(X=1~|~ Y = 1)P(Y=1)}{P(X=1)} 
+$$
+
+and
+
+$$ P(Y=0 ~|~ X=1) = \frac{P(X=1 ~|~ Y=0)P(Y=0)}{P(X=1)}. $$
+
+Therefore, dividing these two equations we have:
+
+$$ 
+\frac{P(Y = 0 ~|~ X=1)}{P(Y=1 ~|~ X=1)} = \frac{P(X = 1 ~|~ Y=1)}{P(X = 1 ~|~ Y=0)}\times \frac{P(Y=1)}{P(Y=0)} 
+$$
+
+In other words, the post test odds of disease is the pretest odds of disease times the $DLR_+$. Similarly, $DLR_-$ relates the decrease in the odds of the disease after a negative test result to the odds of disease prior to the test. So, the DLRs are the factors by which you multiply your pretest odds to get your post test odds. Thus, if a test has a $DLR_+$ of 6, regardless of the prevalence of disease, the post test odds is six times that of the pretest odds.
+
+HIV example revisited Let's reconsider our HIV antibody test again. Suppose a subject has a positive HIV test, $DLR_+ = .997 / (1 - .985) = 66$. The result of the positive test is that the odds of disease is now 66 times the pretest odds. Or, equivalently, the hypothesis of disease is 66 times more supported by the data than the hypothesis of no disease
+
+Suppose instead that a subject has a negative test result. Then $DLR_- = (1 - .997) / .985 =.003$ Therefore, the post-test odds of disease is now 0.3% of the pretest odds given the negative test. Or, the hypothesis of disease is supported $$.003$ times that of the hypothesis of absence of disease given the negative test result
+
+## ROC curves
+
+Typically, $X$ is not binary, but rather a more continuous value. Consider trying to predict lesion status using FLAIR value using the data below.
+
+
+```{python}
+#| echo: false
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import scipy 
+sns.set()
+from sklearn.metrics import accuracy_score, roc_curve, auc
+dat = pd.read_csv("https://raw.githubusercontent.com/bcaffo/ds4bme_intro/master/data/oasis.csv")
+dat.head(4)
+```
+
+
+```{python}
+x = dat.FLAIR
+y = dat.GOLD_Lesions
+x0 = dat.FLAIR[y == 0]
+x1 = dat.FLAIR[y == 1]
+
+sns.kdeplot(x0, shade = True, label = 'Gold Std = 0')
+sns.kdeplot(x1, shade = True, label = 'Gold Std = 1')
+plt.show()
+```
+
+
+Consider a given FLAIR threshold, say $c$. Then the true positive rate given that threshold is $T(c) = P(X \geq c ~|~ Y=1)$ and the false positive rate is $F(c) = P(X \geq c~|~ Y=0 )$. Provided continuity, these are like conditional survival functions. (The statement provided continuity is needed, since survival functions are usually defined as $>$ not $\geq$ which can differ  otherwise).  Note, given an FPR, $f$, then the associated threshold would be $F^{-1}(f)$ and the associated TPR with that threshold would be $T\{F^{-1}(f)\}$. The ROC curve is a plot of $(f, T\{F^{-1}(f)\})$ and an empirical estimate of the ROC curve requires an estimate of $T$ and $F$. 
+
+The ROC curve satisfies:
+
+1. Starts at the point (0, 0). $F(\infty) = 0$ implies $F^{-1}(0) = \infty$ which implies $T\{F^{-1}(0)\} = 0$.
+2. Ends at the point (1, 1). $F(-\infty) = 1$ imples $F^{-1}(1) = -\infty$ which implies $T\{F^{-1}(1) \}= 1$. 
+3. Is monotonic. $f$ increasing implies $F^{-1}(f)$ is non-increasing which implies $T\{F^{-1}(f)$ is non-decreasing.
+4. The best possible test limits to the a discontinuous function (0, 0), (0, 1), (1, 1). This follows from 3 and that one can generate tests that limit to this.
+5. If $X \sim U[0,1] \perp Y$ the ROC curve is the identity line from (0, 0) to (1, 1). This follows from $T(c) = F(c) = 1-c$ for $c \in [0, 1]$, thus $F^{-1}(f) = 1 - f$ and hence 
+$T\{F^{-1}(f)\} = f$.
+6. Let $Z = g(X)$ for $g$ a strictly monotonic, increasing function, $g$. Let $F_Z$ and $T_Z$ be the associated true and false positive rates. Note then $F_z(c) = P(X \geq g^{-1}(c) ~|~ Y = 0)=F(g^{-1}(c))$, $T_z(c) = T(g^{-1}(c))$ and then $F^{-1}_z(f) = g\{F^{-1}(f)\}$. Then, the ROC function, $T_z\{F^{-1}_Z(f) = T \circ g^{-1} \circ g \circ F^{-1}(f) =  T\{F^{-1}(f)\}$
+Thus the ROC curve is invariant to these sorts of transformations.
+7. Combining 5 and 6, the ROC curve is an identity line whenever $X \perp Y$ since $g(U[0,1])$ covers most distributions.
+8. The ROC curve for $X$ as a test for $\tilde Y = 1 - Y$ flips the ROC curve of $X$ as a test for $Y$ over the identity line. (This simply reverses $T$ and $F$ hence the result.)
+
+
+
+### Estimation
+Thus, a natural (and consistent) estimate of $T$ is the conditional distribution function is
+$$
+\hat T(c) = \frac{\sum_{i=1}^n I(x_i \geq c) * I(y_i = 1)}{\sum_{i=1}^n I(y_i = 1)}
+= \frac{1}{|\Gamma|} \sum_{i \in \Gamma} I(x_i \geq c)
+$$
+where $\Gamma = \{i | Y_i = 1\}$. We can estimate $F$ similarly.
+
+From a data persepctive, the thresholds only jump at observed values of $X$. So, we can construct the plot as follows:
+
+```{python}
+## Add terms at the beginning and the end over the max and under the min
+c = np.concatenate( [[ np.min(x) - 1], np.sort(np.unique(x)) , [np.max(x) + 1]])
+
+tpr = [np.mean( (x1 >= citer) ) for citer in c]
+fpr = [np.mean( (x0 >= citer) ) for citer in c]
+
+plt.plot(fpr, tpr)
+plt.plot([0,1], [0,1])
+```
+
+### Binormal estimation
+
+Suppose $X ~|~ Y=y \sim N(\mu_y, \sigma_y^2)$. Then, note if $\Phi$ is the standard normal
+distribution function then $T(c) = 1 - \phi\{ (c - \mu_1) / \sigma_1 \}$, 
+$F(c) = 1 - \phi\{ (c - \mu_0) / \sigma_0 \}$ and $F^{-1}(f) = \mu_0 + \sigma_0 \phi^{-1}(1-f)$. Thus, the ROC curve is
+$$
+T\{F^{-1}(f)\} = 1 - \phi\left\{  \frac{\mu_0 + \sigma_0 \phi^{-1}(1-f)}{\sigma_1} \right\}
+$$
+where $\mu_y$ and $\sigma_y$ can be estimated from the data.
+
+```{python}
+from scipy.stats import norm
+
+mu0, mu1 = np.mean(x0), np.mean(x1)
+s0, s1 = np.std(x0), np.std(x1)
+c_seq = np.linspace(0, 3, 1000)
+
+fpr_binorm = 1-norm.cdf(c_seq, mu0, s0)
+tpr_binorm = 1-norm.cdf(c_seq, mu1, s1)
+
+plt.plot(fpr, tpr)
+plt.plot(fpr_binorm, tpr_binorm)
+plt.plot([0,1], [0,1])
+```
+
+
+
+## Testing versus training versions
+
+Traditional statistical 
+
 @begg
