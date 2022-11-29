@@ -2,11 +2,12 @@
 
 # Welcome!
 
-This is a book for the Advanced Data Science for Bio/Public Health/medical classes. Since data science isn't super well defined, advanced data science is even less so. My opinion is that we needed the umbrella term data science because there was a lot in the processes of analyzing data that got ignored in traditional disciplines and training programs. (Of course, what gets ignored is different depeneding on which discipline or program.)  I'm mostly going to focus on concepts and implementation that were historically ignored in our (JHU Biostat) program, which is heavily focused on biostatistical inference, probability modeling, public health/bio/medical data analyses and ML.
+This is a book for the Advanced Data Science for Bio/Public Health/medicine classes. Since data science isn't super well defined, advanced data science is even less so. My opinion is that we needed the umbrella term data science because there was a lot in the processes of using and analyzing data that got ignored in traditional disciplines and training programs. Of course, what got ignored is different depeneding on which discipline or program.  I'm mostly going to focus on concepts and implementation that were historically ignored in our (JHU Biostat) program, which is heavily focused on biostatistical inference, probability modeling, public health/bio/medical data analyses and ML. Loosely, there's three main thrusts of the notes: technique, concepts and methods and meta data science. By technique I mean tools, like webscraping. By concepts and methods I mean things like variational Bayes. Meta data science refers to things like the study of data science itself, meta science studies and ethics. However, since the goal is to put things together, these concepts get jumbled up a bit.
+
+Ultimately, if I were forced to come up with a definition of data science, I would give: "Data science is the practice of putting all of the aspects of the productive use of data together." So, statistical theory, computational theory, statistical methods, computational methods, statistical practice, computational practice, ML, AI, deployment, communication, data ethics, ... are all part of data science: provided they're needed to make productive use of data. So, in a sense, everyone who studies any of those topics in isolation is a data scientist. However, in this course the goal is to try to put those things together; that is, to land somewhere in the middle of the simplex rather than on an edge or point.
 
 ## Requirements
-I'm going to assume that you have a lot of basic data science tools down already. If not, [here's some notes](https://smart-stats.github.io/ds4bio_book/book/_build/html/intro.html). For this book you'll need: prior programming experience, calculus, linear algebra, unix, python, R and some basic statistics.
-
+I'm going to assume that you have a lot of basic data science tools down already. If not, [here's some notes](https://smart-stats.github.io/ds4bio_book/book/_build/html/intro.html). For this book you'll need: prior programming experience, calculus, linear algebra, unix, python, R, basic AI, basic ML and basic statistics.
 
 ## Organization
 
@@ -14,7 +15,7 @@ This is a two quarter course. The first quater is devoted to tools and the secon
 
 ## Reading
 
-Read these papers first
+Read these papers
 
 1. @tukey1962future
 2. @donoho201750

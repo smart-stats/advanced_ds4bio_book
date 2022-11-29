@@ -11,11 +11,11 @@ book:
     - intro.qmd
     - interactive.qmd
     - webscraping.qmd
-    - images.qmd
     - databases.qmd
     - pipelines.qmd
     - data_structures.qmd
     - diymlai.qmd
+    - images.qmd
     - convnet_example.qmd
     - unsupervised.qmd
     - variationalAEs.qmd
@@ -40,3 +40,5 @@ format:
 
 
 
+execute:
+  cache: true

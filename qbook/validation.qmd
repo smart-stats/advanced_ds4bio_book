@@ -5,31 +5,51 @@ format: html
 
 # Basics
 
+When comparing our predictions versus our actual values, there are several considerations. One, is the distinction between *agreement* and *association* [@agresti2003categorical]. Agreement implies association but the other direction does not necessarily apply. A Pearson correlation, for example, measures association, since its invariant to any linear transformation of the predictions. In this sense, Pearson correlations do not check to what extent the predictions are calibrated to the response.
+
+In addition, we have several settings worth considering. The outcome could be continuous, multivariate continuous, binary, multi-class (categorical), multi-label, ordinal (ordered categorical) and mixtures of these. The predictions are typically continuous or multivariate continuous.    We'll start by discussing the case where the outcome is binary and the predictions are also binary, for example by binarizing a continuous prediction. However, before we begin, we should discuss testing/training strategies.
+
+## Testing versus training versions
+
+It's important to emphasize that for each component of validation discussed, there's a version applied to training data and held out data. Often data is broken into three components
+
++ **Training data**: data used to train the model.
++ **validation data**: data used to choose hyperparameters, such as layers in a neural network.
++ **testing data**: data used only for final evaluation of the model.
+
+So, in a two class classification problem, there is a training ROC, validation ROC and testing ROC. I would also add testing the model on novel held out datasets, which is a stronger form of validation  focusing on generalizability. In addition, different criteria would need to be applied to time series data, where one might differentiate forecasting error from other sorts. Simply holding out random times in a time series dataset is often not enough, since then you would be using the future to predict the past. 
+
+Here will focus on the most normal settings and consider different ways to probe for model fit. Some of the strategies are widely used in ML/AI, others are just widely used in more traditional statistical settings.
+
+## Binary outcomes (two-class classification)
+Throughout this section, let $Y$ be the outcome in $\{0,1\}$, $X$ be a predictor and $\hat Y = I(X > c)$ be a binary predictor obtained by thresholding $X$.
+
 Consider the following definitions for the results of a diagnostic test $X\in \{0,1\}$, where the
 actual disease state is $Y\in \{0,1\}$. Assume 1 represents having/testing for the disease.
 
-1. **Sensitivity** $P(X=1 ~|~ Y=1)$, probability that the test is positive given the disease is present, also called the true positive rate. $P(X=0 ~|~ Y=1)$ (one minus the sensitivity) is the false negative rate.
-2. **Specificity** $P(X=0 ~|~ Y=0)$, probability that the test is negative given the disease is absent, also called the true negative rate. $P(X=1~|~ Y=0)$ (one minus the specificity) is the false negative rate.
-3. **PPV**, positive predictive value $P(Y=1 ~|~ X=1)$.
-4. **NPV**, negative predictive value $P(Y=0 ~|~ X=0)$. 
-5. **DLR+**, diagnostic likelihood ratio of a positive test $P(X=1 ~|~ Y=1) / P(X=1 ~|~ Y= 0)$ is also the sensitivity over one minus the specificity, i.e. the true positive rate divided by the false positive rate.
-6. **DLR-**, diagnostic likelihood ratio of a negative test $P(X=0) ~|~ Y=1) / P(X=0 ~|~ Y=0)$ is one minus the sensitivity divided by the specificity or the false negative rate divided by the true negative rate. 
-7. The **disease prevalence** is $P(Y=1)$.
+1. **Sensitivity** $P(\hat Y =1 ~|~ Y=1)$, probability that the prediction is positive given the disease is present, also called the true positive rate. $P(\hat Y =0 ~|~ Y=1)$ (one minus the sensitivity) is the false negative rate.
+2. **Specificity** $P(\hat Y=0 ~|~ Y=0)$, probability that the prediction is negative given the disease is absent, also called the true negative rate. $P(\hat Y=1~|~ Y=0)$ (one minus the specificity) is the false negative rate.
+3. **PPV**, positive predictive value $P(Y=1 ~|~ \hat Y=1)$.
+4. **NPV**, negative predictive value $P(Y=0 ~|~ \hat Y =0)$. 
+5. **DLR+**, diagnostic likelihood ratio of a positive prediction $P(\hat Y=1 ~|~ Y=1) / P(\hat Y=1 ~|~ Y= 0)$ is also the sensitivity over one minus the specificity, i.e. the true positive rate divided by the false positive rate.
+6. **DLR-**, diagnostic likelihood ratio of a negative prediction $P(\hat Y=0) ~|~ Y=1) / P(\hat Y=0 ~|~ Y=0)$ is one minus the sensitivity divided by the specificity or the false negative rate divided by the true negative rate. 
+7. The **disease prevalence** is $P(Y=1)$ (and, generally less discussed, the prediction disease prevalance $P(\hat Y =1)$.)
+8. The accuracy is $P(\hat Y = y) = P(\hat Y = 1 ~|~ Y = 1) P(Y = 1) + P(\hat Y = 0 ~|~ Y = 0) P(Y = 0)$, which is the sensitivity times the prevalence plus the specificity times one minus the prevalance.
 
-In a frequency setting with a positive test, one might argue that the $P(Y=1)$ is one or zero depending on whether or not a subject has the disease thus the PPV is either one or zero respectively. However, this is not how these tests are used. Instead, think of the PPV not as the probability that *this* subject has the disease, but rather as the probability that subjects like this subject have the disease.  For Bayesian interpretations, saying the probability that a subject has the disease is just fine. Either way, it's fine to use these conditional probabilities (i.e. being Bayesian is more than just the use of Bayes' rule, its using Bayesian interpretations).
+In a frequency setting with a positive prediction, one might argue that the $P(Y=1)$ is one or zero depending on whether or not a subject has the disease thus the PPV is either one or zero respectively. However, this is not how these predictions are used. Instead, think of the PPV not as the probability that *this* subject has the disease, but rather as the probability that subjects like this subject have the disease.  For Bayesian interpretations, saying the probability that a subject has the disease is just fine. Either way, it's fine to use these conditional probabilities (i.e. being Bayesian is more than just the use of Bayes' rule, its using Bayesian interpretations).
 
-If you have a cross-sectional sample, then all of these quatities are directly estimable. If the data were sampled by case / control status ($Y=1$ or $Y=0$), then $Y$ is conditioned on by the design and the sensitivity, specificity and DLR+/- are directly estimable. You can obtain the PPV and NPV using Bayes' rule given a disease prevalance. This is a standard textbook problem. Similarly, in a setting where the design fixes the test result, the NPV and PPV would be directly estimable and one would have to use the prevalance of a positive test and Bayes' rule to obtain the sensitivity and specificity. (This sort of design is less usual.)
+If you have a cross-sectional sample, then all of these quatities are directly estimable. If the data were sampled by case / control status ($Y=1$ or $Y=0$), then $Y$ is conditioned on by the design and the sensitivity, specificity and DLR+/- are directly estimable. You can obtain the PPV and NPV using Bayes' rule given a disease prevalance. This is a standard textbook problem. Similarly, in a setting where the design fixes the prediction result, the NPV and PPV would be directly estimable and one would have to use the prevalance of a positive prediction and Bayes' rule to obtain the sensitivity and specificity. (This sort of design is less usual.)
 
 
-### Example
+### Basic example
 A study comparing the efficacy of HIV tests, reports on an experiment which concluded that HIV antibody tests have a sensitivity of 99.7% and a specificity of 98.5% Suppose that a subject, from a population with a .1% prevalence of HIV, receives a positive test result. What is the positive predictive value?
 
-Mathematically, we want $P(Y=1 | X=1)$ given the sensitivity, $P(X=1 | Y=1) = .997$, the specificity, $P(X=0 | Y=0) =0.985$$ and the prevalence $P(Y=1) =0.001$.
+Mathematically, we want $P(Y=1 | \hat Y=1)$ given the sensitivity, $P(\hat Y=1 | Y=1) = .997$, the specificity, $P(\hat Y=0 | Y=0) =0.985$$ and the prevalence $P(Y=1) =0.001$.
 
 $$
 \begin{align*} 
-P(Y=1 ~|~ X=1) & = \frac{P(X=1 ~|~ Y=1)P(Y=1)}{P(X=1~|~Y=1)P(Y=1) + P(X=1 ~|~ Y=0)P(Y=0)}\\
-               & = \frac{P(X=1|Y=1)P(Y=1)}{P(X=1|Y=1)P(Y=1) + {1-P(X=0 ~|~ Y = 0)}{1 - P(Y=1)}} \\
+P(Y=1 ~|~ \hat Y =1) & = \frac{P(\hat Y =1 ~|~ Y=1)P(Y=1)}{P(\hat Y=1~|~Y=1)P(Y=1) + P(\hat Y=1 ~|~ Y=0)P(Y=0)}\\
+               & = \frac{P(\hat Y=1|Y=1)P(Y=1)}{P(\hat Y=1|Y=1)P(Y=1) + {1-P(\hat Y=0 ~|~ Y = 0)}{1 - P(Y=1)}} \\
                & = \frac{.997\times .001}{.997 \times .001 + .015 \times .999}\ = .062 
 \end{align*} 
 $$
@@ -41,17 +61,17 @@ Suppose it was known that the subject was an intravenous drug user and routinely
 
 We have:
 $$
-P(Y = 1 ~|~ X = 1) = \frac{P(X=1~|~ Y = 1)P(Y=1)}{P(X=1)} 
+P(Y = 1 ~|~ \hat Y = 1) = \frac{P(\hat Y=1~|~ Y = 1)P(Y=1)}{P(\hat Y=1)} 
 $$
 
 and
 
-$$ P(Y=0 ~|~ X=1) = \frac{P(X=1 ~|~ Y=0)P(Y=0)}{P(X=1)}. $$
+$$ P(Y=0 ~|~ \hat Y=1) = \frac{P(\hat Y=1 ~|~ Y=0)P(Y=0)}{P(\hat Y=1)}. $$
 
 Therefore, dividing these two equations we have:
 
 $$ 
-\frac{P(Y = 0 ~|~ X=1)}{P(Y=1 ~|~ X=1)} = \frac{P(X = 1 ~|~ Y=1)}{P(X = 1 ~|~ Y=0)}\times \frac{P(Y=1)}{P(Y=0)} 
+\frac{P(Y = 0 ~|~ \hat Y=1)}{P(Y=1 ~|~ \hat Y=1)} = \frac{P(X = 1 ~|~ Y=1)}{P(\hat Y = 1 ~|~ Y=0)}\times \frac{P(Y=1)}{P(Y=0)} 
 $$
 
 In other words, the post test odds of disease is the pretest odds of disease times the $DLR_+$. Similarly, $DLR_-$ relates the decrease in the odds of the disease after a negative test result to the odds of disease prior to the test. So, the DLRs are the factors by which you multiply your pretest odds to get your post test odds. Thus, if a test has a $DLR_+$ of 6, regardless of the prevalence of disease, the post test odds is six times that of the pretest odds.
@@ -60,20 +80,32 @@ HIV example revisited Let's reconsider our HIV antibody test again. Suppose a su
 
 Suppose instead that a subject has a negative test result. Then $DLR_- = (1 - .997) / .985 =.003$ Therefore, the post-test odds of disease is now 0.3% of the pretest odds given the negative test. Or, the hypothesis of disease is supported $$.003$ times that of the hypothesis of absence of disease given the negative test result
 
-## ROC curves
+### ROC curves
 
-Typically, $X$ is not binary, but rather a more continuous value. Consider trying to predict lesion status using FLAIR value using the data below.
+By thresholding $X$ we are throwing out information in the predicted values. Consider trying to predict lesion status using FLAIR value using the data below.
 
 
 ```{python}
 #| echo: false
+
+import matplotlib.pyplot as plt
+import medmnist
+from medmnist import INFO, Evaluator
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+import sklearn
 import scipy 
+import seaborn as sns
+from sklearn.metrics import accuracy_score, roc_curve, auc, confusion_matrix
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.utils.data as data
+import torchvision
+import torchvision.transforms as transforms
+from tqdm import tqdm
+
 sns.set()
-from sklearn.metrics import accuracy_score, roc_curve, auc
 dat = pd.read_csv("https://raw.githubusercontent.com/bcaffo/ds4bme_intro/master/data/oasis.csv")
 dat.head(4)
 ```
@@ -90,33 +122,36 @@ sns.kdeplot(x1, shade = True, label = 'Gold Std = 1')
 plt.show()
 ```
 
-
-Consider a given FLAIR threshold, say $c$. Then the true positive rate given that threshold is $T(c) = P(X \geq c ~|~ Y=1)$ and the false positive rate is $F(c) = P(X \geq c~|~ Y=0 )$. Provided continuity, these are like conditional survival functions. (The statement provided continuity is needed, since survival functions are usually defined as $>$ not $\geq$ which can differ  otherwise).  Note, given an FPR, $f$, then the associated threshold would be $F^{-1}(f)$ and the associated TPR with that threshold would be $T\{F^{-1}(f)\}$. The ROC curve is a plot of $(f, T\{F^{-1}(f)\})$ and an empirical estimate of the ROC curve requires an estimate of $T$ and $F$. 
+Consider a given FLAIR threshold, say $c$. Then the true positive rate given that threshold is $T(c) = P(X \geq c ~|~ Y=1)$ and the false positive rate is $F(c) = P(X \geq c~|~ Y=0 )$. Provided continuity, these are like conditional survival functions. (The statement provided continuity is needed, since survival functions are usually defined as $>$ not $\geq$ which can differ  otherwise).  Note, given a specific FPR, $f$, then the associated threshold would be $F^{-1}(f)$ and the associated TPR with that threshold would be $T\{F^{-1}(f)\}$. We say the function $[0,1] \rightarrow [0,1] ; f\rightarrow T\{F^{-1}(f)\}$ is the ROC curve.
+The ROC curve is typically displayed in the plot: $(f, T\{F^{-1}(f)\})$, or equivalently, the plot of $(F(C), T(C))$ for all $c$.  Of course, an empirical estimate of the ROC curve requires empirical estimates of $T$ and $F$. 
 
 The ROC curve satisfies:
 
-1. Starts at the point (0, 0). $F(\infty) = 0$ implies $F^{-1}(0) = \infty$ which implies $T\{F^{-1}(0)\} = 0$.
-2. Ends at the point (1, 1). $F(-\infty) = 1$ imples $F^{-1}(1) = -\infty$ which implies $T\{F^{-1}(1) \}= 1$. 
-3. Is monotonic. $f$ increasing implies $F^{-1}(f)$ is non-increasing which implies $T\{F^{-1}(f)$ is non-decreasing.
-4. The best possible test limits to the a discontinuous function (0, 0), (0, 1), (1, 1). This follows from 3 and that one can generate tests that limit to this.
-5. If $X \sim U[0,1] \perp Y$ the ROC curve is the identity line from (0, 0) to (1, 1). This follows from $T(c) = F(c) = 1-c$ for $c \in [0, 1]$, thus $F^{-1}(f) = 1 - f$ and hence 
+1. Starts at the point (0, 0). This can be seen as $F(\infty) = 0$ implies $F^{-1}(0) = \infty$ which implies $T\{F^{-1}(0)\} = 0$.
+2. Ends at the point (1, 1). This can be seen as $F(-\infty) = 1$ imples $F^{-1}(1) = -\infty$ which implies $T\{F^{-1}(1) \}= 1$. 
+3. Is monotonic. This can be seen as $f$ increasing implies $F^{-1}(f)$ is non-increasing which implies $T\{F^{-1}(f)$ is non-decreasing.
+4. A uniformly better ROC curve lies entirely above a worse ROC curve. This follows from 3 and from the interpretation that higher values in the curve mean higher true positive rates for a fixed false positive rate. (Note two ROC curves can cross so that one may not be uniformly better than the other.)
+5. Is always worse than the discontinuous function (0, 0), (0, 1), (1, 1). This follows from 1-3. 
+6. If $X \sim U[0,1] \perp Y$ the ROC curve is the identity line from (0, 0) to (1, 1). This follows from $T(c) = F(c) = 1-c$ for $c \in [0, 1]$, thus $F^{-1}(f) = 1 - f$ and hence 
 $T\{F^{-1}(f)\} = f$.
-6. Let $Z = g(X)$ for $g$ a strictly monotonic, increasing function, $g$. Let $F_Z$ and $T_Z$ be the associated true and false positive rates. Note then $F_z(c) = P(X \geq g^{-1}(c) ~|~ Y = 0)=F(g^{-1}(c))$, $T_z(c) = T(g^{-1}(c))$ and then $F^{-1}_z(f) = g\{F^{-1}(f)\}$. Then, the ROC function, $T_z\{F^{-1}_Z(f) = T \circ g^{-1} \circ g \circ F^{-1}(f) =  T\{F^{-1}(f)\}$
-Thus the ROC curve is invariant to these sorts of transformations.
-7. Combining 5 and 6, the ROC curve is an identity line whenever $X \perp Y$ since $g(U[0,1])$ covers most distributions.
-8. The ROC curve for $X$ as a test for $\tilde Y = 1 - Y$ flips the ROC curve of $X$ as a test for $Y$ over the identity line. (This simply reverses $T$ and $F$ hence the result.)
+7. The ROC curve is invariant to strictly increasing monotonic transformations. Let $Z = g(X)$ for $g$ a strictly monotonic, strictly increasing function. Let $F_Z$ and $T_Z$ be the associated true and false positive rates. Note then $F_z(c) = P(X \geq g^{-1}(c) ~|~ Y = 0)=F(g^{-1}(c))$, $T_z(c) = T(g^{-1}(c))$ and then $F^{-1}_z(f) = g\{F^{-1}(f)\}$. Then, the ROC function, $T_z\{F^{-1}_Z(f) = T \circ g^{-1} \circ g \circ F^{-1}(f) =  T\{F^{-1}(f)\}$ where $\circ$ is composition.
+8. The ROC curve is an identity line whenever $X \perp Y$ provided $X$ is continuous. This follows from 6 and 7,  since if i$X$ follows distibution $\Phi$ then $X = \Phi^{-1}(U)$ for $U ~ U[0,1]$ by the probability integral transform.
+9. The ROC curve for $X$ as a test for $1 - Y$ flips the ROC curve of $X$ as a test for $Y$ over the identity line. (This simply reverses $T$ and $F$, hence the result.)
 
 
 
-### Estimation
-Thus, a natural (and consistent) estimate of $T$ is the conditional distribution function is
+#### Estimation 
+A natural (and consistent) estimate of $T$ is the conditional distribution function is
 $$
-\hat T(c) = \frac{\sum_{i=1}^n I(x_i \geq c) * I(y_i = 1)}{\sum_{i=1}^n I(y_i = 1)}
+\hat T(c) = \frac{\sum_{i=1}^n I(x_i \geq c) I(y_i = 1)}{\sum_{i=1}^n I(y_i = 1)}
 = \frac{1}{|\Gamma|} \sum_{i \in \Gamma} I(x_i \geq c)
 $$
-where $\Gamma = \{i | Y_i = 1\}$. We can estimate $F$ similarly.
-
-From a data persepctive, the thresholds only jump at observed values of $X$. So, we can construct the plot as follows:
+where $\Gamma = \{i | Y_i = 1\}$. We can estimate $F$ as
+$$
+\hat F(c) = \frac{\sum_{i=1}^n I(x_i \geq c) I(y_i = 0)}{\sum_{i=1}^n I(y_i = o)}
+= \frac{1}{|\{1,\ldots,n\}\setminus \Gamma|} \sum_{i \in \{1,\ldots,n\}\setminus \Gamma} I(x_i \geq c)
+$$
+where $\setminus$ is set minus. From a data persepctive, the thresholds can only jump at observed values of $X$. So, we can construct the plot as follows:
 
 ```{python}
 ## Add terms at the beginning and the end over the max and under the min
@@ -129,15 +164,15 @@ plt.plot(fpr, tpr)
 plt.plot([0,1], [0,1])
 ```
 
-### Binormal estimation
+#### Binormal estimation
 
-Suppose $X ~|~ Y=y \sim N(\mu_y, \sigma_y^2)$. Then, note if $\Phi$ is the standard normal
-distribution function then $T(c) = 1 - \phi\{ (c - \mu_1) / \sigma_1 \}$, 
-$F(c) = 1 - \phi\{ (c - \mu_0) / \sigma_0 \}$ and $F^{-1}(f) = \mu_0 + \sigma_0 \phi^{-1}(1-f)$. Thus, the ROC curve is
+We could also assume distributional forms for $T$ and $F$ [@pepe2003statistical]. For example, suppose $X ~|~ Y=y \sim N(\mu_y, \sigma_y^2)$. Then, note if $\Phi$ is the standard normal
+distribution function then $T(c) = 1 - \Phi\{ (c - \mu_1) / \sigma_1 \}$, 
+$F(c) = 1 - \Phi\{ (c - \mu_0) / \sigma_0 \}$ and $F^{-1}(f) = \mu_0 + \sigma_0 \Phi^{-1}(1-f)$. Thus, the ROC curve is 
 $$
-T\{F^{-1}(f)\} = 1 - \phi\left\{  \frac{\mu_0 + \sigma_0 \phi^{-1}(1-f)}{\sigma_1} \right\}
+T\{F^{-1}(f)\} = 1 - \Phi\left\{  \frac{\mu_0 -\mu_1}{\sigma_1} + \frac{\sigma_0}{{\sigma_1}} \Phi^{-1}(1-f) \right\}
 $$
-where $\mu_y$ and $\sigma_y$ can be estimated from the data.
+where $\mu_y$ and $\sigma_y$ can be estimated from the data. Note if $\mu_0=\mu_1$ and $\sigma_0 = \sigma_1$ we get an identity line.
 
 ```{python}
 from scipy.stats import norm
@@ -154,10 +189,471 @@ plt.plot(fpr_binorm, tpr_binorm)
 plt.plot([0,1], [0,1])
 ```
 
+#### AUC
+The area under the ROC curve is given by
+$$
+AUC = \int_0^1 T\{F^{-1}(f)\}df.
+$$
+From our earlier results we see that the ideal test has AUC = 1, a completely uniformative test has AUC = 0.5 and an informatively bad test has ROC < 0.5.  The AUC has a nice interpretation. Let $X_1 \sim 1-T$ and $X_2 \sim 1-F$ independent (i.e. are indepndent random variables generated from those conditional distributions).  Let $g_0 = -F'$ and $g_1 = -T'$ be the associated density functions. Then we have:
+
+$$
+\begin{align*}
+\int_0^1 T\{F^{-1}(f)\}df & = \int_{-\infty}^{\infty} T(x_0) F'(x_0) dx_0 \\
+& = \int_{\infty}^{-\infty} P(X_1 > x_0 ~|~ Y = 1) F'(x_0) dx_0           \\
+& = \int_{-\infty}^{\infty} \int_{x_0}^\infty g_1(x_1)g_0(x_0)dx_1 dx_0   \\
+& = \int_{-\infty}^{\infty} \int_{-\infty}^\infty I(X_1 > x_0)g_1(x_1)g_0(x_0)dx_1 dx_0   \\
+& = \int_{-\infty}^{\infty} \int_{-\infty}^\infty I(X_1 > x_0)g_1(x_1 | x_0)g_0(x_0)dx_1 dx_0   \\
+& = E[ E[ I(X_1 > X_0) ~|~ X_0] ] = E[I(X_1 > X_0)] \\
+& = P(X_1 > X_0)
+\end{align*}
+$$
+where the first line follows from the transformation $x_0=F^{-1}(f)$ and hence $F'(x_0)dx_0 = df$ and $g_1(x_1|x_0)$ is the conditional distribution which is equal to $g_1(x_1)$ under independence.
+
+Using this interpretation, we can easily calculate the AUC for the binormal model. $X_0 - X_1 \sim N(\mu_0 - \mu_1, \sqrt{\sigma_0^2 + \sigma_1^2})$ and therefore 
+
+$$
+P(X_1 > X_0) = P(X_0 - X_1 < 0) = \Phi \left\{ \frac{\mu_1 - \mu_0}{\sqrt{\sigma_0^2 + \sigma_1^2}}\right\}
+$$ 
+
+It can be shown that the Wilcoxon Rank Sum Test is a test of $AUC=0.5$ [@pepe2003statistical]. However, strong nulls like that typically aren't useful in ML and AI. Instead, it's probably preferable to estimate a confidence interval around the AUC using bootstrapping or asymptotics.
+
+In some cases the full AUC isn't of interest, so a partial AUC can be used.
+$$
+\int_A T\{F^{-1}(f)\}df = P(X_1 > X_2 ~|~ X_2 \in A)
+$$
+where here $A$ is a range of the false positive rates that are relevant in the context.
 
 
-## Testing versus training versions
+### Calibration
+We say that the classification probability, $X \in [0,1]$, is calibrated for outcome, $Y$, if $P(Y = 1 ~|~ X = x) = x$. To make the notation more familiar, let $X=\phi(Z)$ where $Z$ is a collection of predictors and $X$ is the output of the algorithm. I like to discuss this relative to the optimal classification probability.
 
-Traditional statistical 
+Let $O(Z) = E[Y ~|~Z]$ be the optimal classification probability and $\hat Y = I(E[Y~|~Z] > 0.5)$ be the optimal classifier. 
 
-@begg
+One way to look at the optimal classification probability is to consider $Y$ as a treatment and $Z$ as confounders.  Under this notation, $O(Z)=P(Y = 1 ~|~ Z)$ is the propensity score [@rosenbaum1983central]. We can use the propensity score properties to prove interesting things.
+
+1. $O(Z)$ is calibrated.
+2. $Y\perp Z ~|~ O(Z)$. That is, the covariates contain no additional information beyond what is contained in $O(Z)$. 
+3. $Y \perp Z ~|~ \phi(Z)$ for some other classification prediction probability, $\phi$ if and only if it is finer than $O(Z)$. 
+4. A classification probability, $\phi(Z)$,is calibrated iff $E[O(Z) ~|~ \phi(Z)]=\phi(Z)$
+
+Here we say $a(z)$ is finer than $b(z)$ and $b(z)$ is coarser than $a(z)$ if $b(z) = f\circ b(z)$ for some $f$. The word finer is used since $f$ may not be a bijection. That is, there may exist $z_1, z_2$ such that $a(z_1) \neq a(z_2)$ but $b(z_1)=b(z_2)$. For example, $z$ could be a scaler, $a(z) = z$ and $b(z) = z^2$, the latter of which loses the sign information. It should be clear that if $a(z)$ is finer than $b(z)$ then $P(Y ~|~ a(Z), b(Z)) = P\{Y ~|~ a(z)\}$, since $b(Z)$ contains no new information that isn't already present in $a(z)$.  Furthermore $E[b(Z) ~|~ a(Z)]=b(Z)$ since $a$ conditions out all of the randomness in $b$. We can now demonstrate our properties.
+
+For 1. $P\{Y ~|~ Z, O(Z)\} = O(Z)$ since $O(Z)$ is coarser than $Z$.
+
+For 3. The conditional independence, $Y \perp Z ~|~ \phi(Z)$, is defined as:
+$$
+P\{Y = 1 ~|~ Z, \phi(Z)\} = P\{Y = 1 ~|~ \phi(Z)\}
+$$
+or equivalently
+$$
+E[Y ~|~ Z, \phi(Z)] = E[Y ~|~ \phi(Z)]
+$$
+But, since $E[Y ~|~ Z, \phi(Z)] = E[Y  ~|~ Z] = O(Z)$ since $Z$ is finer than $O(Z)$, we have that the conditional independence holds is equivalent to
+$$
+O(Z) = E[Y ~|~ \phi(Z)].
+$$
+    + Why predict neurosurery versus neurosurgical outcome?
+reement is threhsolding whether the optimal classification probability is greater than 0.5. That is, the optimal classifier is 
+$$
+\hat Y = I\{P(Y=1~|~Z) \geq 0.5\} = I\{O(Z) \geq 0.5\}.
+$$
+
+Let $\hat Y$  be any function that binarizes $Z$. Consider expected agreement, $E[I(\hat Y = Y)]$, i.e. the probability that the two values agree. 
+$$
+\begin{align*}
+     & E[I(\hat Y = Y)] \\
+=    & E[ I(Y=0)I(\hat Y = 0) + I(Y=1)I(\hat Y = 1)] \\
+=    & E\{E[I(Y=0)I(\hat Y = 0) + I(Y=1)I(\hat Y = 1) ~|~ Z]\} \\
+=    & E[\{1 - O(Z)\}I(\hat Y = 0) + O(Z)I(\hat Y = 1)] \\
+\leq & E[\{1 - O(Z)\}I\{1-O(z) \geq O(z)\} + O(Z)I\{O(z) \geq 1-O(z)\}] \\
+= & E[\{1 - O(Z)\}I\{O(Z) \leq 0.5\} + O(Z)I\{O(z) \geq 0.5\}] \\
+\end{align*}
+$$
+Thus, if we set $\hat Y = I\{O(Z) \geq 0.5\}$ we maximize agreement (or equivalently minimize disagreement).
+
+Strong agreement suggests agreement suggests $Y$ and $\hat Y$ are equal. Strong agreement implies a weaker marginal agreement that $E[Y] = E[\hat Y]$. This is the idea of marginal homogeneity. Marginal homomgeneity is weaker than strong agreement, since strong agreement would imply marginal homogeneity but not vice versa. 
+
+#### Marginal homogeneity
+
+One question that one could reasonably ask is how well does the fitted data marginals mirror the actual marginals? That is, does $\pi_{\hat Y} \equiv E[\hat Y] = P(\hat Y = 1)$ equal $\pi_{Y} \equiv = E[Y] = P(Y = 1)$. This is asking whether the algorithm produces a marginal prevalance of disease equivalent to the observed prevalence of disease. 
+
+Consider comparing the two.  Let  $n_{jk} = \sum_i I(Y_i = j) I(\hat Y_i = k)$ for $j,k \in \{0,1\}$. Then, the observed marginal pevalences are $\hat \pi_y = (n_{10} + n_{11}) / n$ and $\hat \pi_{\hat Y} = (n_{01} + n_{11}) / n$. It follows [see @agresti2003categorical]  to see that an estimated standard error for $\hat \pi_y - \hat \pi_{\hat Y}$ is the square root of: 
+$$
+\hat{Var}(\hat \pi_y - \hat \pi_{\hat Y}) = \hat \pi_y(1-\hat\pi_y) + \hat\pi_{\hat Y}(1-\hat\pi_{\hat Y}) - 2 (n_{00} n_{11} - n_{01}n_{10})/n.
+$$
+The resulting standard error can be used to estimate how close the marginal proportions of disease match up accounting for the matched dependence using asymptotic normality to create confidence intervals. Note that the estimator $\hat \pi_y - \hat \pi_{\hat Y} = (n_{01} - n_{10}) / n$ only depends on the count of false positives and false negatives. Thus, this estimator can be summarized as asking whether the rate of false positives is equal to the rate of false negatives.
+
+#### Conditional logistic regression
+
+An alternative to marginal agreement is from subject-specific models. The idea here would be  to create a model 
+
+$$
+\mathrm{logit}\{P(Y_i = 1)\} = \alpha_i ~~~
+\mathrm{logit}\{P(\hat Y_i = 1)\} = \alpha_i + \beta
+$$
+
+Here, this suggests that there is a person-specific effect, $\alpha_i$, and a common calibration error, $\beta$. Since the space of $\alpha_i$ grows with the sample size, there is estimation issues from the well known Neyman/Scott phenomena [@neyman1948consistent] whereby maximum likelihood estimates can be inconsistent when the parameter space grows with the sample size. Conditional logistic regression avoids this and results in the closed form estimate [@agresti2003categorical] and standard error:
+
+$$
+\hat \beta = \log( n_{01} / n_{10}) ~~~\mbox{and}~~~
+\hat \sigma_{\hat \beta} = \sqrt{1/n_{01} + 1 / n_{10} }
+$$
+
+Thus, conditional logistic regression  simply estimates $\beta$ as the logarithm of the ratio of the number of false negatives to false positives. 
+
+
+## Multi-label and multi-class
+
+Multi-label prediction validation typically follows from two class classification. For example, when trying to ascertain whether there is a dog and a tractor in a pictures, it is reasonable to evaluate the performance of predicting the presence of a dog while separately evaluating predicting the presence of a tractor. The fact that records can have duplicate labels. 
+
+Multi-class problems are more direct generalizations of our two class classification problem.  Of the two class definitions, the accuracy remains obvioiusly well defined and can be used without modification. One could evaluate the sensitivity and specificity, etc, associated with each class versus not each class.  We'll also show some more model based approaches for evaluating multi-class performance that more completely characterize the agreement, association and performance.
+
+The standard summary of a multi-class output is a **confusion matrix**.  Let's look at the confusion matrix from the medmnist algorithm.
+
+```{python}
+#| echo: false
+
+
+## Using the code from https://github.com/MedMNIST/MedMNIST/blob/main/examples/getting_started.ipynb
+#data_flag = 'dermamnist'
+data_flag = 'pathmnist'
+
+## This defines our NN parameters
+NUM_EPOCHS = 10
+BATCH_SIZE = 128
+lr = 0.001
+
+info = INFO[data_flag]
+task = info['task']
+n_channels = info['n_channels']
+n_classes = len(info['label'])
+
+data_transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[.5], std=[.5])
+])
+
+
+DataClass = getattr(medmnist, info['python_class'])
+
+
+# load the data
+train_dataset = DataClass(split = 'train', transform = data_transform, download = True)
+test_dataset  = DataClass(split = 'test' , transform = data_transform, download = True)
+pil_dataset   = DataClass(split = 'train',                             download = True)
+
+train_loader = data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+train_loader_at_eval = data.DataLoader(dataset=train_dataset, batch_size= 2 * BATCH_SIZE,  shuffle=False)
+test_loader = data.DataLoader(dataset=test_dataset, batch_size=2*BATCH_SIZE, shuffle=False)
+
+class Net(nn.Module):
+    def __init__(self, in_channels, num_classes):
+        super(Net, self).__init__()
+
+        self.layer1 = nn.Sequential(
+            nn.Conv2d(in_channels, 16, kernel_size=3),
+            nn.BatchNorm2d(16),
+            nn.ReLU())
+
+        self.layer2 = nn.Sequential(
+            nn.Conv2d(16, 16, kernel_size=3),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+
+        self.layer3 = nn.Sequential(
+            nn.Conv2d(16, 64, kernel_size=3),
+            nn.BatchNorm2d(64),
+            nn.ReLU())
+        
+        self.layer4 = nn.Sequential(
+            nn.Conv2d(64, 64, kernel_size=3),
+            nn.BatchNorm2d(64),
+            nn.ReLU())
+
+        self.layer5 = nn.Sequential(
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+
+        self.fc = nn.Sequential(
+            nn.Linear(64 * 4 * 4, 128),
+            nn.ReLU(),
+            nn.Linear(128, 128),
+            nn.ReLU(),
+            nn.Linear(128, num_classes))
+
+    def forward(self, x):
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+        x = self.layer5(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
+
+model = Net(in_channels=n_channels, num_classes=n_classes)
+    
+criterion = nn.CrossEntropyLoss()
+    
+optimizer = optim.SGD(model.parameters(), lr=lr, momentum=0.9)
+
+for epoch in range(NUM_EPOCHS):
+    train_correct = 0
+    train_total = 0
+    test_correct = 0
+    test_total = 0
+    
+    model.train()
+    for inputs, targets in train_loader:
+        # forward + backward + optimize
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        
+        if task == 'multi-label, binary-class':
+            targets = targets.to(torch.float32)
+            loss = criterion(outputs, targets)
+        else:
+            targets = targets.squeeze().long()
+            loss = criterion(outputs, targets)
+        
+        loss.backward()
+        optimizer.step()
+
+```
+
+
+First, here are example pathology images.
+```{python}
+train_dataset.montage(length=20)
+```
+
+Here are the different class labels.
+```{python}
+info['label']
+```
+
+And here's a general description of the data and problem.
+```{python}
+info['description']
+```
+
+I ran the algorithm from the MEDMNIST site in the background (code in the quarto document). Here is our testing dataset confusion matrix.
+```{python}
+#! cache: true
+targets_pred, targets_actual = [], []
+
+for i,t in test_loader:
+    targets_pred.append(model(i).softmax(dim=-1))
+    targets_actual.append(t)
+
+targets_pred = torch.cat(targets_pred, dim = 0).detach().numpy().argmax(axis = 1)
+targets_actual = torch.cat(targets_actual, dim=0).numpy().squeeze()
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(targets_actual, targets_pred)
+print(cm)
+plt.imshow(cm);
+```
+
+We can calculate accuracy easily as the fraction of times that $\hat Y = Y$. 
+
+```{python}
+print(np.round(np.mean( targets_pred == targets_actual ) * 100, 3))
+print(len(targets_pred))
+print(1 / np.sqrt(len(targets_pred)))
+```
+So, we're getting roughly 80% test set accuracy on 7k cases. Since a 95% binomial confidence interval has margin of error (MOE) roughly $2 \sqrt{p(1-p)/n}$, which is maximized when $p=1/2$, we get that the margin of error is bounded by $1/\sqrt{n}$. We show this above and see that the MOE is roughly 1%.
+
+### Loglinear models 
+Poisson loglinear model are often used for modeling contingency tables like confusion matrices. They have a correspondence with the associated multinomial models since if $X_1,\ldots, X_K \stackrel{indep}{\sim} Poissoin(\{\mu_k\}_k)$ then $X_1, \ldots, X_k ~|~ \sum_k X_k \sim Multinomial(\{\pi_k\})$ where $\pi_k = \mu_k / \sum_{k'} \mu_{k'}$. 
+
+In our case, let $n_{jk} = \sum_{i} I(\hat Y_i = i)(Y_i = j)$ be element $(j,k)$ of the confusion matrix. Let $\pi_{jk}$ be the probabilities from a multinomial model on $n_{jk}$ and $\mu_{jk}$ be the means from the associated Poisson model. 
+
+Independence is the model that $\pi_{jk} = \pi_{j+}\pi_{+k}$ where a subscript $+$ is summing over that index. This implies that $\hat Y$ is independent of $Y$. This model rarely holds since our prediction models typically have some performance. The associated Poisson model sets
+$$
+\log(\mu_{jk}) = \alpha + \beta_j + \delta_k
+$$
+In the event that there's two classes, consider the sensitivity under independence: 
+$$
+\pi_{11} / \pi_{+1} = \pi_{1+} \pi_{+1} / \pi_{+1} = \pi_{1+}
+$$   
+And the false positive rate
+$$
+\pi_{10} / \pi_{+0} = \pi_{1+} \pi_{+0} / \pi_{+0} = \pi_{1+}.
+$$
+Thus, under independence the theoretical point of the ROC curve falls on the identity line. Therefore, we can view the multivariate extension of independence as a multivariate model equivalent to a useless test.
+
+A second less useful log-linear model is symmetry. Symmetry assumes $P(\hat Y = j, Y=k) = P(\hat Y = k, Y=j)$ or $\pi_{jk}=\pi_{kj}$. As a Poisson loglinear model, it could be satisfied with the loglinear model
+$$
+\log(\mu_{jk}) = \log(\mu_{kj}) = \lambda_{jk}
+$$
+for $j\leq k$. 
+
+Note that symmetry implies marginal homogeneity, since 
+$$
+\pi_{+k} = \sum_{j} \pi_{jk} = \sum_{j} \pi_{kj} = \pi_{k+}.
+$$
+Nonetheless, like independence, symmetry usually is too strict of a model to be useful for confusion matrices. 
+
+#### Quasi-independence
+
+A useful deviation from independence is quasi-independence. This model assumes independence in the off-diagonal cells. Specifically, $P(\hat Y = j, Y = k) = P(\hat Y = j) P(Y = k)$ when $j\neq k$. As a log-linear model this is specified with
+$$
+\log(\mu_{jk}) = \alpha + \beta_j + \gamma_k + \delta_j I(j = k)
+$$
+The $\delta_j$ terms imply a perfect fit down the diagonal. 
+
+##### Quasi-symmetry
+
+Quasi-symmetry is a very general model that contains independence, symmetry, quasi-independence and marginal homogeneity as special cases. Quasi-symmetry specifies that
+$$
+\log(\mu_{jk}) = \alpha + \beta_j + \gamma_k + \delta_{jk}
+~~~~
+\log(\mu_{kj}) = \alpha + \beta_k + \gamma_j + \delta_{jk}
+$$
+for $j\leq k$. The symmetry model holds when $\alpha=\beta_j = \gamma_k = 0$, the idependence model hols when $\delta_{jk} = 0$ and quasi-independence holds when $\delta_{jk} = 0$ for $j\neq k$. Interestingly, 
+
+#### Deviance
+
+The deviance statistic is used to measure model fit. The deviance is specified as 
+$$
+D = 2[\log\{P(\mbox{Data} ~|~ \mbox{Sat. model}\} - 
+\log\{P(\mbox{Data} ~|~ \mbox{Model})\}]
+$$
+where Sat. standards for saturated model. In our case, a saturated model is just $\log(\mu_{jk}) = \lambda_{jk}$ so that the fitted confusion matrix is exactly the same as the observed. The difference in deviances between nested models often asympotically follows a chi-squared distribution under the smaller model with degrees of freedom equal to the difference in the number of parameters. (The Poisson log-linear model under the assumption that the counts go to infinity is such a case.)
+
+#### Example
+Let's look at these model fits for our confusion matrix. First, let's get the data into a dataframe. There are 81 cells and value_counts omits zero counts (which we need).
+
+```{python}
+## This is the confusion  matrix data
+valdat = pd.DataFrame({'y' : targets_actual, 'yhat' : targets_pred}).value_counts().reset_index().rename(columns = {0 : 'n'})
+valdat.head(12)
+
+## Merge in the values with nothting
+valdat = valdat.merge(pd.DataFrame(np.array([(x, y) for x in range(n_classes) for y in range(n_classes)]), columns = ['y', 'yhat']),how = "outer")
+
+```
+
+Let's fit each of these models and compare them.
+
+```{python}
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
+indep_formula = 'n ~ C(y) + C(yhat)'
+mod_indep= smf.glm(formula = indep_formula, 
+                   data = valdat, 
+                   family = sm.families.Poisson()
+                  ).fit()
+
+
+## The symmetry term is just the concatenated y and yhat in order
+valdat['symm'] = np.fmin(valdat['y'], valdat['yhat']).astype(str) + np.fmax(valdat['y'], valdat['yhat']).astype(str) 
+
+symm_formula = 'n ~ symm'
+mod_symm= smf.glm(formula = symm_formula, 
+                   data = valdat, 
+                   family = sm.families.Poisson()
+                  ).fit()
+
+## This sets the non-diagonal elements as the lowest value
+## so when the model fits, that's a reference category and 
+## it includes terms for every diagonal element.
+valdat['indep'] = '0'
+diag = valdat['y'] == valdat['yhat']
+valdat.loc[diag, 'indep'] = valdat.symm[diag]
+
+quasi_indep_formula = 'n ~ C(y) + C(yhat) + indep'
+mod_quasi_indep = smf.glm(formula = quasi_indep_formula, 
+                            data = valdat, 
+                          family = sm.families.Poisson()
+                         ).fit()
+
+## define the model
+quasi_symm_formula = 'n ~ C(y) + C(yhat) + symm'
+## this is what we would fit if we could
+qs_design = smf.glm(formula = quasi_symm_formula,  
+     data = valdat, family = sm.families.Poisson())
+## The above doesn't fit for me. So, I grab the design
+## matrix from this formula, drop the redundant columns
+## and fit directly without the formula
+x, d, v = np.linalg.svd(qs_design.exog, 0)
+## the correct DF for a QS model is
+df_qs = int(1 + 2 * (n_classes - 1) + n_classes * (n_classes - 1) / 2)
+x = x[:,0: df_qs]
+y = valdat['n'].to_numpy()
+mod_quasi_symm =  sm.GLM(y, x, family = sm.families.Poisson()).fit()
+
+## Note the model DF typically excludes the intercept
+print(
+pd.DataFrame(
+     {'models' : ['I', 'S', 'QI', 'QS'],
+      'deviance' : [mod_indep.deviance, mod_symm.deviance, mod_quasi_indep.deviance, mod_quasi_symm.deviance], 
+      'model df' : [mod_indep.df_model, mod_symm.df_model, mod_quasi_indep.df_model, mod_quasi_symm.df_model],
+      'resid df': [mod_indep.df_resid, mod_symm.df_resid, mod_quasi_indep.df_resid, mod_quasi_symm.df_resid]     
+      }
+)
+)
+print(
+pd.DataFrame(
+     {'models' : ['S', 'S - QS'],
+      'deviance' : [mod_symm.deviance, mod_symm.deviance - mod_quasi_symm.deviance], 
+      'model df' : [mod_symm.df_model, mod_quasi_symm.df_model - mod_symm.df_model]      
+      }
+)
+)
+```
+It would appear that none of independence, symmetry or QI fit this data well. The quasi-symmetry model does appear to fit substantially better than the others. Moreover, models that incorporate symmetry seem to be preferable to those that focus on independence.
+
+
+
+#### Kappa
+Recall the distinction between agreement and association. In a two class problem, a perfect algorithm, where one acidentally switched the labels would have stil perfect association and no agreement.
+
+Kappa measures agreement. Accuracy in our multinomial model is 
+$\sum_{j} \pi_{jj}$, i.e. the agreement over all of the classes. Contrast this agreement with what one would expect to see under a , $\pi_{jj} = \pi_{j+}\pi_{+j}$. Thus, the deviation from from independence is $\sum_{j} \pi_{jj} -  \sum_{j} \pi_{j+}\pi_{+j}$. Perfect accuracy accurs when $\sum_{j} \pi_{jj} = 1$ and thus the Kappa measure is
+
+$$
+\kappa = \frac{\sum_{j} \pi_{jj} -  \sum_{j} \pi_{j+}\pi_{+j}}{1 - \sum_{j} \pi_{j+}\pi_{+j}}
+$$
+
+with estimator
+
+$$
+\hat kappa = \frac{\sum_{j} n_{jj} -  \sum_{j} n_{j+}n_{+j}/n}{1 - \sum_{j} \n_{j+}\n_{+j}/n}
+$$
+
+Here is the kappa score for our pathology example.
+
+```{python}
+sklearn.metrics.cohen_kappa_score(targets_actual, targets_pred)
+```
+
+A standard error for kappa can be obtained using asymptotic normality from the multinomial [see @agresti2003categorical Section 10.5.4]. In addition, one could simply use a bootstrap.
+
+
+
+
+## Prediction
+
+The standard metrics of prediction are mean squared error, correlation and 
+
+
+It's interesting to note that simply by the calculation of the variance, the theoretical MSE satisfies:
+
+$$
+E[(\hat Y - Y)^2] = \mbox{Var}(\hat Y - Y) + (E[\hat Y] - E[Y])^2 
+$$
+
+Thus, we have that our MSE breaks down into residual variability and bias. 
+
+The correlation is a measure of association between $Y$ and $\hat Y$. 
+
+A useful plot in this scenario is the mean/difference plot where the mean, $(\hat Y + Y)/2$ is plotted versus the difference $(Y - \hat Y)$. 
+
+One could test marginal equality of distributions using any statistic, including Wasserstein, Kolmogorov Smirnov, ... and swapping prediction / actual labels. Moreover, one could use a rank based statistic in the same way.
+
