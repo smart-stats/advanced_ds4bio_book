@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.245">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Advanced Data Science for Public Health - 19&nbsp; Machine learning validation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ethics.html" rel="next">
+<link href="./causal.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Advanced Data Science for Public Health</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/smart-stats/advanced_ds4bio_book" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./interactive.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Interactive graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./webscraping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Advanced web scrapping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Databases</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pipelines</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_structures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diymlai.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">DIY ML/AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./images.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Working with images</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./convnet_example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Convolutional AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./variationalAEs.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Variational autoencoders</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nlp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">NLP</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./measurement.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Measurement</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_analysis_theory.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Data science, conceptually</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./stat_language.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Statistics and language</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_science_as_a_science.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data science as an applied science</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Theory of graphical display</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./causal.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./validation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ethics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#basics" id="toc-basics" class="nav-link active" data-scroll-target="#basics"><span class="toc-section-number">20</span>  Basics</a>
+  <ul class="collapse">
+  <li><a href="#testing-versus-training-versions" id="toc-testing-versus-training-versions" class="nav-link" data-scroll-target="#testing-versus-training-versions"><span class="toc-section-number">20.1</span>  Testing versus training versions</a></li>
+  <li><a href="#binary-outcomes-two-class-classification" id="toc-binary-outcomes-two-class-classification" class="nav-link" data-scroll-target="#binary-outcomes-two-class-classification"><span class="toc-section-number">20.2</span>  Binary outcomes (two-class classification)</a>
+  <ul class="collapse">
+  <li><a href="#basic-example" id="toc-basic-example" class="nav-link" data-scroll-target="#basic-example"><span class="toc-section-number">20.2.1</span>  Basic example</a></li>
+  <li><a href="#roc-curves" id="toc-roc-curves" class="nav-link" data-scroll-target="#roc-curves"><span class="toc-section-number">20.2.2</span>  ROC curves</a></li>
+  <li><a href="#calibration" id="toc-calibration" class="nav-link" data-scroll-target="#calibration"><span class="toc-section-number">20.2.3</span>  Calibration</a></li>
+  </ul></li>
+  <li><a href="#multi-label-and-multi-class" id="toc-multi-label-and-multi-class" class="nav-link" data-scroll-target="#multi-label-and-multi-class"><span class="toc-section-number">20.3</span>  Multi-label and multi-class</a>
+  <ul class="collapse">
+  <li><a href="#loglinear-models" id="toc-loglinear-models" class="nav-link" data-scroll-target="#loglinear-models"><span class="toc-section-number">20.3.1</span>  Loglinear models</a></li>
+  </ul></li>
+  <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction"><span class="toc-section-number">20.4</span>  Prediction</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Machine learning validation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="basics" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> Basics</h1>
+<p>When comparing our predictions versus our actual values, there are several considerations. One, is the distinction between <em>agreement</em> and <em>association</em> <span class="citation" data-cites="agresti2003categorical">(<a href="references.html#ref-agresti2003categorical" role="doc-biblioref">Agresti 2003</a>)</span>. Agreement implies association but the other direction does not necessarily apply. A Pearson correlation, for example, measures association, since its invariant to any linear transformation of the predictions. In this sense, Pearson correlations do not check to what extent the predictions are calibrated to the response.</p>
+<p>In addition, we have several settings worth considering. The outcome could be continuous, multivariate continuous, binary, multi-class (categorical), multi-label, ordinal (ordered categorical) and mixtures of these. The predictions are typically continuous or multivariate continuous. We’ll start by discussing the case where the outcome is binary and the predictions are also binary, for example by binarizing a continuous prediction. However, before we begin, we should discuss testing/training strategies.</p>
+<section id="testing-versus-training-versions" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="testing-versus-training-versions"><span class="header-section-number">20.1</span> Testing versus training versions</h2>
+<p>It’s important to emphasize that for each component of validation discussed, there’s a version applied to training data and held out data. Often data is broken into three components</p>
+<ul>
+<li><strong>Training data</strong>: data used to train the model.</li>
+<li><strong>validation data</strong>: data used to choose hyperparameters, such as layers in a neural network.</li>
+<li><strong>testing data</strong>: data used only for final evaluation of the model.</li>
+</ul>
+<p>So, in a two class classification problem, there is a training ROC, validation ROC and testing ROC. I would also add testing the model on novel held out datasets, which is a stronger form of validation focusing on generalizability. In addition, different criteria would need to be applied to time series data, where one might differentiate forecasting error from other sorts. Simply holding out random times in a time series dataset is often not enough, since then you would be using the future to predict the past.</p>
+<p>Here will focus on the most normal settings and consider different ways to probe for model fit. Some of the strategies are widely used in ML/AI, others are just widely used in more traditional statistical settings.</p>
+</section>
+<section id="binary-outcomes-two-class-classification" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="binary-outcomes-two-class-classification"><span class="header-section-number">20.2</span> Binary outcomes (two-class classification)</h2>
+<p>Throughout this section, let <span class="math inline">\(Y\)</span> be the outcome in <span class="math inline">\(\{0,1\}\)</span>, <span class="math inline">\(X\)</span> be a predictor and <span class="math inline">\(\hat Y = I(X &gt; c)\)</span> be a binary predictor obtained by thresholding <span class="math inline">\(X\)</span>.</p>
+<p>Consider the following definitions for the results of a diagnostic test <span class="math inline">\(X\in \{0,1\}\)</span>, where the actual disease state is <span class="math inline">\(Y\in \{0,1\}\)</span>. Assume 1 represents having/testing for the disease.</p>
+<ol type="1">
+<li><strong>Sensitivity</strong> <span class="math inline">\(P(\hat Y =1 ~|~ Y=1)\)</span>, probability that the prediction is positive given the disease is present, also called the true positive rate. <span class="math inline">\(P(\hat Y =0 ~|~ Y=1)\)</span> (one minus the sensitivity) is the false negative rate.</li>
+<li><strong>Specificity</strong> <span class="math inline">\(P(\hat Y=0 ~|~ Y=0)\)</span>, probability that the prediction is negative given the disease is absent, also called the true negative rate. <span class="math inline">\(P(\hat Y=1~|~ Y=0)\)</span> (one minus the specificity) is the false negative rate.</li>
+<li><strong>PPV</strong>, positive predictive value <span class="math inline">\(P(Y=1 ~|~ \hat Y=1)\)</span>.</li>
+<li><strong>NPV</strong>, negative predictive value <span class="math inline">\(P(Y=0 ~|~ \hat Y =0)\)</span>.</li>
+<li><strong>DLR+</strong>, diagnostic likelihood ratio of a positive prediction <span class="math inline">\(P(\hat Y=1 ~|~ Y=1) / P(\hat Y=1 ~|~ Y= 0)\)</span> is also the sensitivity over one minus the specificity, i.e.&nbsp;the true positive rate divided by the false positive rate.</li>
+<li><strong>DLR-</strong>, diagnostic likelihood ratio of a negative prediction <span class="math inline">\(P(\hat Y=0) ~|~ Y=1) / P(\hat Y=0 ~|~ Y=0)\)</span> is one minus the sensitivity divided by the specificity or the false negative rate divided by the true negative rate.</li>
+<li>The <strong>disease prevalence</strong> is <span class="math inline">\(P(Y=1)\)</span> (and, generally less discussed, the prediction disease prevalance <span class="math inline">\(P(\hat Y =1)\)</span>.)</li>
+<li>The accuracy is <span class="math inline">\(P(\hat Y = y) = P(\hat Y = 1 ~|~ Y = 1) P(Y = 1) + P(\hat Y = 0 ~|~ Y = 0) P(Y = 0)\)</span>, which is the sensitivity times the prevalence plus the specificity times one minus the prevalance.</li>
+</ol>
+<p>In a frequency setting with a positive prediction, one might argue that the <span class="math inline">\(P(Y=1)\)</span> is one or zero depending on whether or not a subject has the disease thus the PPV is either one or zero respectively. However, this is not how these predictions are used. Instead, think of the PPV not as the probability that <em>this</em> subject has the disease, but rather as the probability that subjects like this subject have the disease. For Bayesian interpretations, saying the probability that a subject has the disease is just fine. Either way, it’s fine to use these conditional probabilities (i.e.&nbsp;being Bayesian is more than just the use of Bayes’ rule, its using Bayesian interpretations).</p>
+<p>If you have a cross-sectional sample, then all of these quatities are directly estimable. If the data were sampled by case / control status (<span class="math inline">\(Y=1\)</span> or <span class="math inline">\(Y=0\)</span>), then <span class="math inline">\(Y\)</span> is conditioned on by the design and the sensitivity, specificity and DLR+/- are directly estimable. You can obtain the PPV and NPV using Bayes’ rule given a disease prevalance. This is a standard textbook problem. Similarly, in a setting where the design fixes the prediction result, the NPV and PPV would be directly estimable and one would have to use the prevalance of a positive prediction and Bayes’ rule to obtain the sensitivity and specificity. (This sort of design is less usual.)</p>
+<section id="basic-example" class="level3" data-number="20.2.1">
+<h3 data-number="20.2.1" class="anchored" data-anchor-id="basic-example"><span class="header-section-number">20.2.1</span> Basic example</h3>
+<p>A study comparing the efficacy of HIV tests, reports on an experiment which concluded that HIV antibody tests have a sensitivity of 99.7% and a specificity of 98.5% Suppose that a subject, from a population with a .1% prevalence of HIV, receives a positive test result. What is the positive predictive value?</p>
+<p>Mathematically, we want <span class="math inline">\(P(Y=1 | \hat Y=1)\)</span> given the sensitivity, <span class="math inline">\(P(\hat Y=1 | Y=1) = .997\)</span>, the specificity, <span class="math inline">\(P(\hat Y=0 | Y=0) =0.985\)</span>$ and the prevalence <span class="math inline">\(P(Y=1) =0.001\)</span>.</p>
+<p><span class="math display">\[
+\begin{align*}
+P(Y=1 ~|~ \hat Y =1) &amp; = \frac{P(\hat Y =1 ~|~ Y=1)P(Y=1)}{P(\hat Y=1~|~Y=1)P(Y=1) + P(\hat Y=1 ~|~ Y=0)P(Y=0)}\\
+               &amp; = \frac{P(\hat Y=1|Y=1)P(Y=1)}{P(\hat Y=1|Y=1)P(Y=1) + {1-P(\hat Y=0 ~|~ Y = 0)}{1 - P(Y=1)}} \\
+               &amp; = \frac{.997\times .001}{.997 \times .001 + .015 \times .999}\ = .062
+\end{align*}
+\]</span></p>
+<p>In this population a positive test result suggests a 6% probability that the subject has the disease, (the positive predictive value is 6% for this test). If you were wondering how it could be so low for this test, the low positive predictive value is due to low prevalence of disease and the somewhat modest specificity</p>
+<p>Suppose it was known that the subject was an intravenous drug user and routinely had intercourse with an HIV infected partner? Our prevalence would change dramatically, thus increasing the PPV. You might wonder if there’s a way to summarize the evidence without appealing to an often unknowable prevalence? Diagnostic likelihood ratios provide this for us.</p>
+<p>We have: <span class="math display">\[
+P(Y = 1 ~|~ \hat Y = 1) = \frac{P(\hat Y=1~|~ Y = 1)P(Y=1)}{P(\hat Y=1)}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[ P(Y=0 ~|~ \hat Y=1) = \frac{P(\hat Y=1 ~|~ Y=0)P(Y=0)}{P(\hat Y=1)}. \]</span></p>
+<p>Therefore, dividing these two equations we have:</p>
+<p><span class="math display">\[
+\frac{P(Y = 0 ~|~ \hat Y=1)}{P(Y=1 ~|~ \hat Y=1)} = \frac{P(X = 1 ~|~ Y=1)}{P(\hat Y = 1 ~|~ Y=0)}\times \frac{P(Y=1)}{P(Y=0)}
+\]</span></p>
+<p>In other words, the post test odds of disease is the pretest odds of disease times the <span class="math inline">\(DLR_+\)</span>. Similarly, <span class="math inline">\(DLR_-\)</span> relates the decrease in the odds of the disease after a negative test result to the odds of disease prior to the test. So, the DLRs are the factors by which you multiply your pretest odds to get your post test odds. Thus, if a test has a <span class="math inline">\(DLR_+\)</span> of 6, regardless of the prevalence of disease, the post test odds is six times that of the pretest odds.</p>
+<p>HIV example revisited Let’s reconsider our HIV antibody test again. Suppose a subject has a positive HIV test, <span class="math inline">\(DLR_+ = .997 / (1 - .985) = 66\)</span>. The result of the positive test is that the odds of disease is now 66 times the pretest odds. Or, equivalently, the hypothesis of disease is 66 times more supported by the data than the hypothesis of no disease</p>
+<p>Suppose instead that a subject has a negative test result. Then <span class="math inline">\(DLR_- = (1 - .997) / .985 =.003\)</span> Therefore, the post-test odds of disease is now 0.3% of the pretest odds given the negative test. Or, the hypothesis of disease is supported $<span class="math inline">\(.003\)</span> times that of the hypothesis of absence of disease given the negative test result</p>
+</section>
+<section id="roc-curves" class="level3" data-number="20.2.2">
+<h3 data-number="20.2.2" class="anchored" data-anchor-id="roc-curves"><span class="header-section-number">20.2.2</span> ROC curves</h3>
+<p>By thresholding <span class="math inline">\(X\)</span> we are throwing out information in the predicted values. Consider trying to predict lesion status using FLAIR value using the data below.</p>
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>FLAIR</th>
+      <th>PD</th>
+      <th>T1</th>
+      <th>T2</th>
+      <th>FLAIR_10</th>
+      <th>PD_10</th>
+      <th>T1_10</th>
+      <th>T2_10</th>
+      <th>FLAIR_20</th>
+      <th>PD_20</th>
+      <th>T1_20</th>
+      <th>T2_20</th>
+      <th>GOLD_Lesions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.143692</td>
+      <td>1.586219</td>
+      <td>-0.799859</td>
+      <td>1.634467</td>
+      <td>0.437568</td>
+      <td>0.823800</td>
+      <td>-0.002059</td>
+      <td>0.573663</td>
+      <td>0.279832</td>
+      <td>0.548341</td>
+      <td>0.219136</td>
+      <td>0.298662</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.652552</td>
+      <td>1.766672</td>
+      <td>-1.250992</td>
+      <td>0.921230</td>
+      <td>0.663037</td>
+      <td>0.880250</td>
+      <td>-0.422060</td>
+      <td>0.542597</td>
+      <td>0.422182</td>
+      <td>0.549711</td>
+      <td>0.061573</td>
+      <td>0.280972</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.036099</td>
+      <td>0.262042</td>
+      <td>-0.858565</td>
+      <td>-0.058211</td>
+      <td>-0.044280</td>
+      <td>-0.308569</td>
+      <td>0.014766</td>
+      <td>-0.256075</td>
+      <td>-0.136532</td>
+      <td>-0.350905</td>
+      <td>0.020673</td>
+      <td>-0.259914</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.037692</td>
+      <td>0.011104</td>
+      <td>-1.228796</td>
+      <td>-0.470222</td>
+      <td>-0.013971</td>
+      <td>-0.000498</td>
+      <td>-0.395575</td>
+      <td>-0.221900</td>
+      <td>0.000807</td>
+      <td>-0.003085</td>
+      <td>-0.193249</td>
+      <td>-0.139284</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> dat.FLAIR</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> dat.GOLD_Lesions</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> dat.FLAIR[y <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> dat.FLAIR[y <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(x0, shade <span class="op">=</span> <span class="va">True</span>, label <span class="op">=</span> <span class="st">'Gold Std = 0'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(x1, shade <span class="op">=</span> <span class="va">True</span>, label <span class="op">=</span> <span class="st">'Gold Std = 1'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="validation_files/figure-html/cell-3-output-1.png" width="597" height="437"></p>
+</div>
+</div>
+<p>Consider a given FLAIR threshold, say <span class="math inline">\(c\)</span>. Then the true positive rate given that threshold is <span class="math inline">\(T(c) = P(X \geq c ~|~ Y=1)\)</span> and the false positive rate is <span class="math inline">\(F(c) = P(X \geq c~|~ Y=0 )\)</span>. Provided continuity, these are like conditional survival functions. (The statement provided continuity is needed, since survival functions are usually defined as <span class="math inline">\(&gt;\)</span> not <span class="math inline">\(\geq\)</span> which can differ otherwise). Note, given a specific FPR, <span class="math inline">\(f\)</span>, then the associated threshold would be <span class="math inline">\(F^{-1}(f)\)</span> and the associated TPR with that threshold would be <span class="math inline">\(T\{F^{-1}(f)\}\)</span>. We say the function <span class="math inline">\([0,1] \rightarrow [0,1] ; f\rightarrow T\{F^{-1}(f)\}\)</span> is the ROC curve. The ROC curve is typically displayed in the plot: <span class="math inline">\((f, T\{F^{-1}(f)\})\)</span>, or equivalently, the plot of <span class="math inline">\((F(C), T(C))\)</span> for all <span class="math inline">\(c\)</span>. Of course, an empirical estimate of the ROC curve requires empirical estimates of <span class="math inline">\(T\)</span> and <span class="math inline">\(F\)</span>.</p>
+<p>The ROC curve satisfies:</p>
+<ol type="1">
+<li>Starts at the point (0, 0). This can be seen as <span class="math inline">\(F(\infty) = 0\)</span> implies <span class="math inline">\(F^{-1}(0) = \infty\)</span> which implies <span class="math inline">\(T\{F^{-1}(0)\} = 0\)</span>.</li>
+<li>Ends at the point (1, 1). This can be seen as <span class="math inline">\(F(-\infty) = 1\)</span> imples <span class="math inline">\(F^{-1}(1) = -\infty\)</span> which implies <span class="math inline">\(T\{F^{-1}(1) \}= 1\)</span>.</li>
+<li>Is monotonic. This can be seen as <span class="math inline">\(f\)</span> increasing implies <span class="math inline">\(F^{-1}(f)\)</span> is non-increasing which implies <span class="math inline">\(T\{F^{-1}(f)\)</span> is non-decreasing.</li>
+<li>A uniformly better ROC curve lies entirely above a worse ROC curve. This follows from 3 and from the interpretation that higher values in the curve mean higher true positive rates for a fixed false positive rate. (Note two ROC curves can cross so that one may not be uniformly better than the other.)</li>
+<li>Is always worse than the discontinuous function (0, 0), (0, 1), (1, 1). This follows from 1-3.</li>
+<li>If <span class="math inline">\(X \sim U[0,1] \perp Y\)</span> the ROC curve is the identity line from (0, 0) to (1, 1). This follows from <span class="math inline">\(T(c) = F(c) = 1-c\)</span> for <span class="math inline">\(c \in [0, 1]\)</span>, thus <span class="math inline">\(F^{-1}(f) = 1 - f\)</span> and hence <span class="math inline">\(T\{F^{-1}(f)\} = f\)</span>.</li>
+<li>The ROC curve is invariant to strictly increasing monotonic transformations. Let <span class="math inline">\(Z = g(X)\)</span> for <span class="math inline">\(g\)</span> a strictly monotonic, strictly increasing function. Let <span class="math inline">\(F_Z\)</span> and <span class="math inline">\(T_Z\)</span> be the associated true and false positive rates. Note then <span class="math inline">\(F_z(c) = P(X \geq g^{-1}(c) ~|~ Y = 0)=F(g^{-1}(c))\)</span>, <span class="math inline">\(T_z(c) = T(g^{-1}(c))\)</span> and then <span class="math inline">\(F^{-1}_z(f) = g\{F^{-1}(f)\}\)</span>. Then, the ROC function, <span class="math inline">\(T_z\{F^{-1}_Z(f) = T \circ g^{-1} \circ g \circ F^{-1}(f) = T\{F^{-1}(f)\}\)</span> where <span class="math inline">\(\circ\)</span> is composition.</li>
+<li>The ROC curve is an identity line whenever <span class="math inline">\(X \perp Y\)</span> provided <span class="math inline">\(X\)</span> is continuous. This follows from 6 and 7, since if i<span class="math inline">\(X\)</span> follows distibution <span class="math inline">\(\Phi\)</span> then <span class="math inline">\(X = \Phi^{-1}(U)\)</span> for <span class="math inline">\(U ~ U[0,1]\)</span> by the probability integral transform.</li>
+<li>The ROC curve for <span class="math inline">\(X\)</span> as a test for <span class="math inline">\(1 - Y\)</span> flips the ROC curve of <span class="math inline">\(X\)</span> as a test for <span class="math inline">\(Y\)</span> over the identity line. (This simply reverses <span class="math inline">\(T\)</span> and <span class="math inline">\(F\)</span>, hence the result.)</li>
+</ol>
+<section id="estimation" class="level4" data-number="20.2.2.1">
+<h4 data-number="20.2.2.1" class="anchored" data-anchor-id="estimation"><span class="header-section-number">20.2.2.1</span> Estimation</h4>
+<p>A natural (and consistent) estimate of <span class="math inline">\(T\)</span> is the conditional distribution function is <span class="math display">\[
+\hat T(c) = \frac{\sum_{i=1}^n I(x_i \geq c) I(y_i = 1)}{\sum_{i=1}^n I(y_i = 1)}
+= \frac{1}{|\Gamma|} \sum_{i \in \Gamma} I(x_i \geq c)
+\]</span> where <span class="math inline">\(\Gamma = \{i | Y_i = 1\}\)</span>. We can estimate <span class="math inline">\(F\)</span> as <span class="math display">\[
+\hat F(c) = \frac{\sum_{i=1}^n I(x_i \geq c) I(y_i = 0)}{\sum_{i=1}^n I(y_i = o)}
+= \frac{1}{|\{1,\ldots,n\}\setminus \Gamma|} \sum_{i \in \{1,\ldots,n\}\setminus \Gamma} I(x_i \geq c)
+\]</span> where <span class="math inline">\(\setminus\)</span> is set minus. From a data persepctive, the thresholds can only jump at observed values of <span class="math inline">\(X\)</span>. So, we can construct the plot as follows:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Add terms at the beginning and the end over the max and under the min</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> np.concatenate( [[ np.<span class="bu">min</span>(x) <span class="op">-</span> <span class="dv">1</span>], np.sort(np.unique(x)) , [np.<span class="bu">max</span>(x) <span class="op">+</span> <span class="dv">1</span>]])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>tpr <span class="op">=</span> [np.mean( (x1 <span class="op">&gt;=</span> citer) ) <span class="cf">for</span> citer <span class="kw">in</span> c]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fpr <span class="op">=</span> [np.mean( (x0 <span class="op">&gt;=</span> citer) ) <span class="cf">for</span> citer <span class="kw">in</span> c]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.plot(fpr, tpr)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>,<span class="dv">1</span>], [<span class="dv">0</span>,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="validation_files/figure-html/cell-4-output-1.png" width="576" height="416"></p>
+</div>
+</div>
+</section>
+<section id="binormal-estimation" class="level4" data-number="20.2.2.2">
+<h4 data-number="20.2.2.2" class="anchored" data-anchor-id="binormal-estimation"><span class="header-section-number">20.2.2.2</span> Binormal estimation</h4>
+<p>We could also assume distributional forms for <span class="math inline">\(T\)</span> and <span class="math inline">\(F\)</span> <span class="citation" data-cites="pepe2003statistical">(<a href="references.html#ref-pepe2003statistical" role="doc-biblioref">Pepe 2003</a>)</span>. For example, suppose <span class="math inline">\(X ~|~ Y=y \sim N(\mu_y, \sigma_y^2)\)</span>. Then, note if <span class="math inline">\(\Phi\)</span> is the standard normal distribution function then <span class="math inline">\(T(c) = 1 - \Phi\{ (c - \mu_1) / \sigma_1 \}\)</span>, <span class="math inline">\(F(c) = 1 - \Phi\{ (c - \mu_0) / \sigma_0 \}\)</span> and <span class="math inline">\(F^{-1}(f) = \mu_0 + \sigma_0 \Phi^{-1}(1-f)\)</span>. Thus, the ROC curve is <span class="math display">\[
+T\{F^{-1}(f)\} = 1 - \Phi\left\{  \frac{\mu_0 -\mu_1}{\sigma_1} + \frac{\sigma_0}{{\sigma_1}} \Phi^{-1}(1-f) \right\}
+\]</span> where <span class="math inline">\(\mu_y\)</span> and <span class="math inline">\(\sigma_y\)</span> can be estimated from the data. Note if <span class="math inline">\(\mu_0=\mu_1\)</span> and <span class="math inline">\(\sigma_0 = \sigma_1\)</span> we get an identity line.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>mu0, mu1 <span class="op">=</span> np.mean(x0), np.mean(x1)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>s0, s1 <span class="op">=</span> np.std(x0), np.std(x1)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>c_seq <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">1000</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fpr_binorm <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>norm.cdf(c_seq, mu0, s0)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>tpr_binorm <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>norm.cdf(c_seq, mu1, s1)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.plot(fpr, tpr)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.plot(fpr_binorm, tpr_binorm)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">0</span>,<span class="dv">1</span>], [<span class="dv">0</span>,<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="validation_files/figure-html/cell-5-output-1.png" width="576" height="416"></p>
+</div>
+</div>
+</section>
+<section id="auc" class="level4" data-number="20.2.2.3">
+<h4 data-number="20.2.2.3" class="anchored" data-anchor-id="auc"><span class="header-section-number">20.2.2.3</span> AUC</h4>
+<p>The area under the ROC curve is given by <span class="math display">\[
+AUC = \int_0^1 T\{F^{-1}(f)\}df.
+\]</span> From our earlier results we see that the ideal test has AUC = 1, a completely uniformative test has AUC = 0.5 and an informatively bad test has ROC &lt; 0.5. The AUC has a nice interpretation. Let <span class="math inline">\(X_1 \sim 1-T\)</span> and <span class="math inline">\(X_2 \sim 1-F\)</span> independent (i.e.&nbsp;are indepndent random variables generated from those conditional distributions). Let <span class="math inline">\(g_0 = -F'\)</span> and <span class="math inline">\(g_1 = -T'\)</span> be the associated density functions. Then we have:</p>
+<p><span class="math display">\[
+\begin{align*}
+\int_0^1 T\{F^{-1}(f)\}df &amp; = \int_{-\infty}^{\infty} T(x_0) F'(x_0) dx_0 \\
+&amp; = \int_{\infty}^{-\infty} P(X_1 &gt; x_0 ~|~ Y = 1) F'(x_0) dx_0           \\
+&amp; = \int_{-\infty}^{\infty} \int_{x_0}^\infty g_1(x_1)g_0(x_0)dx_1 dx_0   \\
+&amp; = \int_{-\infty}^{\infty} \int_{-\infty}^\infty I(X_1 &gt; x_0)g_1(x_1)g_0(x_0)dx_1 dx_0   \\
+&amp; = \int_{-\infty}^{\infty} \int_{-\infty}^\infty I(X_1 &gt; x_0)g_1(x_1 | x_0)g_0(x_0)dx_1 dx_0   \\
+&amp; = E[ E[ I(X_1 &gt; X_0) ~|~ X_0] ] = E[I(X_1 &gt; X_0)] \\
+&amp; = P(X_1 &gt; X_0)
+\end{align*}
+\]</span> where the first line follows from the transformation <span class="math inline">\(x_0=F^{-1}(f)\)</span> and hence <span class="math inline">\(F'(x_0)dx_0 = df\)</span> and <span class="math inline">\(g_1(x_1|x_0)\)</span> is the conditional distribution which is equal to <span class="math inline">\(g_1(x_1)\)</span> under independence.</p>
+<p>Using this interpretation, we can easily calculate the AUC for the binormal model. <span class="math inline">\(X_0 - X_1 \sim N(\mu_0 - \mu_1, \sqrt{\sigma_0^2 + \sigma_1^2})\)</span> and therefore</p>
+<p><span class="math display">\[
+P(X_1 &gt; X_0) = P(X_0 - X_1 &lt; 0) = \Phi \left\{ \frac{\mu_1 - \mu_0}{\sqrt{\sigma_0^2 + \sigma_1^2}}\right\}
+\]</span></p>
+<p>It can be shown that the Wilcoxon Rank Sum Test is a test of <span class="math inline">\(AUC=0.5\)</span> <span class="citation" data-cites="pepe2003statistical">(<a href="references.html#ref-pepe2003statistical" role="doc-biblioref">Pepe 2003</a>)</span>. However, strong nulls like that typically aren’t useful in ML and AI. Instead, it’s probably preferable to estimate a confidence interval around the AUC using bootstrapping or asymptotics.</p>
+<p>In some cases the full AUC isn’t of interest, so a partial AUC can be used. <span class="math display">\[
+\int_A T\{F^{-1}(f)\}df = P(X_1 &gt; X_2 ~|~ X_2 \in A)
+\]</span> where here <span class="math inline">\(A\)</span> is a range of the false positive rates that are relevant in the context.</p>
+</section>
+</section>
+<section id="calibration" class="level3" data-number="20.2.3">
+<h3 data-number="20.2.3" class="anchored" data-anchor-id="calibration"><span class="header-section-number">20.2.3</span> Calibration</h3>
+<p>We say that the classification probability, <span class="math inline">\(X \in [0,1]\)</span>, is calibrated for outcome, <span class="math inline">\(Y\)</span>, if <span class="math inline">\(P(Y = 1 ~|~ X = x) = x\)</span>. To make the notation more familiar, let <span class="math inline">\(X=\phi(Z)\)</span> where <span class="math inline">\(Z\)</span> is a collection of predictors and <span class="math inline">\(X\)</span> is the output of the algorithm. I like to discuss this relative to the optimal classification probability.</p>
+<p>Let <span class="math inline">\(O(Z) = E[Y ~|~Z]\)</span> be the optimal classification probability and <span class="math inline">\(\hat Y = I(E[Y~|~Z] &gt; 0.5)\)</span> be the optimal classifier.</p>
+<p>One way to look at the optimal classification probability is to consider <span class="math inline">\(Y\)</span> as a treatment and <span class="math inline">\(Z\)</span> as confounders. Under this notation, <span class="math inline">\(O(Z)=P(Y = 1 ~|~ Z)\)</span> is the propensity score <span class="citation" data-cites="rosenbaum1983central">(<a href="references.html#ref-rosenbaum1983central" role="doc-biblioref">Rosenbaum and Rubin 1983</a>)</span>. We can use the propensity score properties to prove interesting things.</p>
+<ol type="1">
+<li><span class="math inline">\(O(Z)\)</span> is calibrated.</li>
+<li><span class="math inline">\(Y\perp Z ~|~ O(Z)\)</span>. That is, the covariates contain no additional information beyond what is contained in <span class="math inline">\(O(Z)\)</span>.</li>
+<li><span class="math inline">\(Y \perp Z ~|~ \phi(Z)\)</span> for some other classification prediction probability, <span class="math inline">\(\phi\)</span> if and only if it is finer than <span class="math inline">\(O(Z)\)</span>.</li>
+<li>A classification probability, <span class="math inline">\(\phi(Z)\)</span>,is calibrated iff <span class="math inline">\(E[O(Z) ~|~ \phi(Z)]=\phi(Z)\)</span></li>
+</ol>
+<p>Here we say <span class="math inline">\(a(z)\)</span> is finer than <span class="math inline">\(b(z)\)</span> and <span class="math inline">\(b(z)\)</span> is coarser than <span class="math inline">\(a(z)\)</span> if <span class="math inline">\(b(z) = f\circ b(z)\)</span> for some <span class="math inline">\(f\)</span>. The word finer is used since <span class="math inline">\(f\)</span> may not be a bijection. That is, there may exist <span class="math inline">\(z_1, z_2\)</span> such that <span class="math inline">\(a(z_1) \neq a(z_2)\)</span> but <span class="math inline">\(b(z_1)=b(z_2)\)</span>. For example, <span class="math inline">\(z\)</span> could be a scaler, <span class="math inline">\(a(z) = z\)</span> and <span class="math inline">\(b(z) = z^2\)</span>, the latter of which loses the sign information. It should be clear that if <span class="math inline">\(a(z)\)</span> is finer than <span class="math inline">\(b(z)\)</span> then <span class="math inline">\(P(Y ~|~ a(Z), b(Z)) = P\{Y ~|~ a(z)\}\)</span>, since <span class="math inline">\(b(Z)\)</span> contains no new information that isn’t already present in <span class="math inline">\(a(z)\)</span>. Furthermore <span class="math inline">\(E[b(Z) ~|~ a(Z)]=b(Z)\)</span> since <span class="math inline">\(a\)</span> conditions out all of the randomness in <span class="math inline">\(b\)</span>. We can now demonstrate our properties.</p>
+<p>For 1. <span class="math inline">\(P\{Y ~|~ Z, O(Z)\} = O(Z)\)</span> since <span class="math inline">\(O(Z)\)</span> is coarser than <span class="math inline">\(Z\)</span>.</p>
+<p>For 3. The conditional independence, <span class="math inline">\(Y \perp Z ~|~ \phi(Z)\)</span>, is defined as: <span class="math display">\[
+P\{Y = 1 ~|~ Z, \phi(Z)\} = P\{Y = 1 ~|~ \phi(Z)\}
+\]</span> or equivalently <span class="math display">\[
+E[Y ~|~ Z, \phi(Z)] = E[Y ~|~ \phi(Z)]
+\]</span> But, since <span class="math inline">\(E[Y ~|~ Z, \phi(Z)] = E[Y ~|~ Z] = O(Z)\)</span> since <span class="math inline">\(Z\)</span> is finer than <span class="math inline">\(O(Z)\)</span>, we have that the conditional independence holds is equivalent to <span class="math display">\[
+O(Z) = E[Y ~|~ \phi(Z)].
+\]</span> + Why predict neurosurery versus neurosurgical outcome? reement is threhsolding whether the optimal classification probability is greater than 0.5. That is, the optimal classifier is <span class="math display">\[
+\hat Y = I\{P(Y=1~|~Z) \geq 0.5\} = I\{O(Z) \geq 0.5\}.
+\]</span></p>
+<p>Let <span class="math inline">\(\hat Y\)</span> be any function that binarizes <span class="math inline">\(Z\)</span>. Consider expected agreement, <span class="math inline">\(E[I(\hat Y = Y)]\)</span>, i.e.&nbsp;the probability that the two values agree. <span class="math display">\[
+\begin{align*}
+     &amp; E[I(\hat Y = Y)] \\
+=    &amp; E[ I(Y=0)I(\hat Y = 0) + I(Y=1)I(\hat Y = 1)] \\
+=    &amp; E\{E[I(Y=0)I(\hat Y = 0) + I(Y=1)I(\hat Y = 1) ~|~ Z]\} \\
+=    &amp; E[\{1 - O(Z)\}I(\hat Y = 0) + O(Z)I(\hat Y = 1)] \\
+\leq &amp; E[\{1 - O(Z)\}I\{1-O(z) \geq O(z)\} + O(Z)I\{O(z) \geq 1-O(z)\}] \\
+= &amp; E[\{1 - O(Z)\}I\{O(Z) \leq 0.5\} + O(Z)I\{O(z) \geq 0.5\}] \\
+\end{align*}
+\]</span> Thus, if we set <span class="math inline">\(\hat Y = I\{O(Z) \geq 0.5\}\)</span> we maximize agreement (or equivalently minimize disagreement).</p>
+<p>Strong agreement suggests agreement suggests <span class="math inline">\(Y\)</span> and <span class="math inline">\(\hat Y\)</span> are equal. Strong agreement implies a weaker marginal agreement that <span class="math inline">\(E[Y] = E[\hat Y]\)</span>. This is the idea of marginal homogeneity. Marginal homomgeneity is weaker than strong agreement, since strong agreement would imply marginal homogeneity but not vice versa.</p>
+<section id="marginal-homogeneity" class="level4" data-number="20.2.3.1">
+<h4 data-number="20.2.3.1" class="anchored" data-anchor-id="marginal-homogeneity"><span class="header-section-number">20.2.3.1</span> Marginal homogeneity</h4>
+<p>One question that one could reasonably ask is how well does the fitted data marginals mirror the actual marginals? That is, does <span class="math inline">\(\pi_{\hat Y} \equiv E[\hat Y] = P(\hat Y = 1)\)</span> equal <span class="math inline">\(\pi_{Y} \equiv = E[Y] = P(Y = 1)\)</span>. This is asking whether the algorithm produces a marginal prevalance of disease equivalent to the observed prevalence of disease.</p>
+<p>Consider comparing the two. Let <span class="math inline">\(n_{jk} = \sum_i I(Y_i = j) I(\hat Y_i = k)\)</span> for <span class="math inline">\(j,k \in \{0,1\}\)</span>. Then, the observed marginal pevalences are <span class="math inline">\(\hat \pi_y = (n_{10} + n_{11}) / n\)</span> and <span class="math inline">\(\hat \pi_{\hat Y} = (n_{01} + n_{11}) / n\)</span>. It follows <span class="citation" data-cites="agresti2003categorical">(see <a href="references.html#ref-agresti2003categorical" role="doc-biblioref">Agresti 2003</a>)</span> to see that an estimated standard error for <span class="math inline">\(\hat \pi_y - \hat \pi_{\hat Y}\)</span> is the square root of: <span class="math display">\[
+\hat{Var}(\hat \pi_y - \hat \pi_{\hat Y}) = \hat \pi_y(1-\hat\pi_y) + \hat\pi_{\hat Y}(1-\hat\pi_{\hat Y}) - 2 (n_{00} n_{11} - n_{01}n_{10})/n.
+\]</span> The resulting standard error can be used to estimate how close the marginal proportions of disease match up accounting for the matched dependence using asymptotic normality to create confidence intervals. Note that the estimator <span class="math inline">\(\hat \pi_y - \hat \pi_{\hat Y} = (n_{01} - n_{10}) / n\)</span> only depends on the count of false positives and false negatives. Thus, this estimator can be summarized as asking whether the rate of false positives is equal to the rate of false negatives.</p>
+</section>
+<section id="conditional-logistic-regression" class="level4" data-number="20.2.3.2">
+<h4 data-number="20.2.3.2" class="anchored" data-anchor-id="conditional-logistic-regression"><span class="header-section-number">20.2.3.2</span> Conditional logistic regression</h4>
+<p>An alternative to marginal agreement is from subject-specific models. The idea here would be to create a model</p>
+<p><span class="math display">\[
+\mathrm{logit}\{P(Y_i = 1)\} = \alpha_i ~~~
+\mathrm{logit}\{P(\hat Y_i = 1)\} = \alpha_i + \beta
+\]</span></p>
+<p>Here, this suggests that there is a person-specific effect, <span class="math inline">\(\alpha_i\)</span>, and a common calibration error, <span class="math inline">\(\beta\)</span>. Since the space of <span class="math inline">\(\alpha_i\)</span> grows with the sample size, there is estimation issues from the well known Neyman/Scott phenomena <span class="citation" data-cites="neyman1948consistent">(<a href="references.html#ref-neyman1948consistent" role="doc-biblioref">Neyman and Scott 1948</a>)</span> whereby maximum likelihood estimates can be inconsistent when the parameter space grows with the sample size. Conditional logistic regression avoids this and results in the closed form estimate <span class="citation" data-cites="agresti2003categorical">(<a href="references.html#ref-agresti2003categorical" role="doc-biblioref">Agresti 2003</a>)</span> and standard error:</p>
+<p><span class="math display">\[
+\hat \beta = \log( n_{01} / n_{10}) ~~~\mbox{and}~~~
+\hat \sigma_{\hat \beta} = \sqrt{1/n_{01} + 1 / n_{10} }
+\]</span></p>
+<p>Thus, conditional logistic regression simply estimates <span class="math inline">\(\beta\)</span> as the logarithm of the ratio of the number of false negatives to false positives.</p>
+</section>
+</section>
+</section>
+<section id="multi-label-and-multi-class" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="multi-label-and-multi-class"><span class="header-section-number">20.3</span> Multi-label and multi-class</h2>
+<p>Multi-label prediction validation typically follows from two class classification. For example, when trying to ascertain whether there is a dog and a tractor in a pictures, it is reasonable to evaluate the performance of predicting the presence of a dog while separately evaluating predicting the presence of a tractor. The fact that records can have duplicate labels.</p>
+<p>Multi-class problems are more direct generalizations of our two class classification problem. Of the two class definitions, the accuracy remains obvioiusly well defined and can be used without modification. One could evaluate the sensitivity and specificity, etc, associated with each class versus not each class. We’ll also show some more model based approaches for evaluating multi-class performance that more completely characterize the agreement, association and performance.</p>
+<p>The standard summary of a multi-class output is a <strong>confusion matrix</strong>. Let’s look at the confusion matrix from the medmnist algorithm.</p>
+<div class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>Using downloaded and verified file: /home/bcaffo/.medmnist/pathmnist.npz</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Using downloaded and verified file: /home/bcaffo/.medmnist/pathmnist.npz</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Using downloaded and verified file: /home/bcaffo/.medmnist/pathmnist.npz</code></pre>
+</div>
+</div>
+<p>First, here are example pathology images.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train_dataset.montage(length<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/bcaffo/miniconda3/envs/ds4bio/lib/python3.10/site-packages/medmnist/utils.py:25: FutureWarning:
+
+`multichannel` is a deprecated argument name for `montage`. It will be removed in version 1.0. Please use `channel_axis` instead.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<p><img src="validation_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Here are the different class labels.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>info[<span class="st">'label'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>{'0': 'adipose',
+ '1': 'background',
+ '2': 'debris',
+ '3': 'lymphocytes',
+ '4': 'mucus',
+ '5': 'smooth muscle',
+ '6': 'normal colon mucosa',
+ '7': 'cancer-associated stroma',
+ '8': 'colorectal adenocarcinoma epithelium'}</code></pre>
+</div>
+</div>
+<p>And here’s a general description of the data and problem.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>info[<span class="st">'description'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>'The PathMNIST is based on a prior study for predicting survival from colorectal cancer histology slides, providing a dataset (NCT-CRC-HE-100K) of 100,000 non-overlapping image patches from hematoxylin &amp; eosin stained histological images, and a test dataset (CRC-VAL-HE-7K) of 7,180 image patches from a different clinical center. The dataset is comprised of 9 types of tissues, resulting in a multi-class classification task. We resize the source images of 3×224×224 into 3×28×28, and split NCT-CRC-HE-100K into training and validation set with a ratio of 9:1. The CRC-VAL-HE-7K is treated as the test set.'</code></pre>
+</div>
+</div>
+<p>I ran the algorithm from the MEDMNIST site in the background (code in the quarto document). Here is our testing dataset confusion matrix.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#! cache: true</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>targets_pred, targets_actual <span class="op">=</span> [], []</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i,t <span class="kw">in</span> test_loader:</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    targets_pred.append(model(i).softmax(dim<span class="op">=-</span><span class="dv">1</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    targets_actual.append(t)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>targets_pred <span class="op">=</span> torch.cat(targets_pred, dim <span class="op">=</span> <span class="dv">0</span>).detach().numpy().argmax(axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>targets_actual <span class="op">=</span> torch.cat(targets_actual, dim<span class="op">=</span><span class="dv">0</span>).numpy().squeeze()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(targets_actual, targets_pred)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cm)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>plt.imshow(cm)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1229    1    2    0   35   58   11    2    0]
+ [   0  846    0    0    1    0    0    0    0]
+ [   0    0  241    0    0   78    0   20    0]
+ [   0    0   39  584    0    0    6    1    4]
+ [  24   63   13    0  792    3    4   97   39]
+ [   0    0   47    0    0  480    0   63    2]
+ [   0    0   45   38   10    2  476   23  147]
+ [   0    0  135    0    0   64    1  181   40]
+ [   0    0   78   12   11    2   23    7 1100]]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="validation_files/figure-html/cell-10-output-2.png" width="411" height="416"></p>
+</div>
+</div>
+<p>We can calculate accuracy easily as the fraction of times that <span class="math inline">\(\hat Y = Y\)</span>.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(np.mean( targets_pred <span class="op">==</span> targets_actual ) <span class="op">*</span> <span class="dv">100</span>, <span class="dv">3</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(targets_pred))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">1</span> <span class="op">/</span> np.sqrt(<span class="bu">len</span>(targets_pred)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>82.577
+7180
+0.011801515411874575</code></pre>
+</div>
+</div>
+<p>So, we’re getting roughly 80% test set accuracy on 7k cases. Since a 95% binomial confidence interval has margin of error (MOE) roughly <span class="math inline">\(2 \sqrt{p(1-p)/n}\)</span>, which is maximized when <span class="math inline">\(p=1/2\)</span>, we get that the margin of error is bounded by <span class="math inline">\(1/\sqrt{n}\)</span>. We show this above and see that the MOE is roughly 1%.</p>
+<section id="loglinear-models" class="level3" data-number="20.3.1">
+<h3 data-number="20.3.1" class="anchored" data-anchor-id="loglinear-models"><span class="header-section-number">20.3.1</span> Loglinear models</h3>
+<p>Poisson loglinear model are often used for modeling contingency tables like confusion matrices. They have a correspondence with the associated multinomial models since if <span class="math inline">\(X_1,\ldots, X_K \stackrel{indep}{\sim} Poissoin(\{\mu_k\}_k)\)</span> then <span class="math inline">\(X_1, \ldots, X_k ~|~ \sum_k X_k \sim Multinomial(\{\pi_k\})\)</span> where <span class="math inline">\(\pi_k = \mu_k / \sum_{k'} \mu_{k'}\)</span>.</p>
+<p>In our case, let <span class="math inline">\(n_{jk} = \sum_{i} I(\hat Y_i = i)(Y_i = j)\)</span> be element <span class="math inline">\((j,k)\)</span> of the confusion matrix. Let <span class="math inline">\(\pi_{jk}\)</span> be the probabilities from a multinomial model on <span class="math inline">\(n_{jk}\)</span> and <span class="math inline">\(\mu_{jk}\)</span> be the means from the associated Poisson model.</p>
+<p>Independence is the model that <span class="math inline">\(\pi_{jk} = \pi_{j+}\pi_{+k}\)</span> where a subscript <span class="math inline">\(+\)</span> is summing over that index. This implies that <span class="math inline">\(\hat Y\)</span> is independent of <span class="math inline">\(Y\)</span>. This model rarely holds since our prediction models typically have some performance. The associated Poisson model sets <span class="math display">\[
+\log(\mu_{jk}) = \alpha + \beta_j + \delta_k
+\]</span> In the event that there’s two classes, consider the sensitivity under independence: <span class="math display">\[
+\pi_{11} / \pi_{+1} = \pi_{1+} \pi_{+1} / \pi_{+1} = \pi_{1+}
+\]</span><br>
+And the false positive rate <span class="math display">\[
+\pi_{10} / \pi_{+0} = \pi_{1+} \pi_{+0} / \pi_{+0} = \pi_{1+}.
+\]</span> Thus, under independence the theoretical point of the ROC curve falls on the identity line. Therefore, we can view the multivariate extension of independence as a multivariate model equivalent to a useless test.</p>
+<p>A second less useful log-linear model is symmetry. Symmetry assumes <span class="math inline">\(P(\hat Y = j, Y=k) = P(\hat Y = k, Y=j)\)</span> or <span class="math inline">\(\pi_{jk}=\pi_{kj}\)</span>. As a Poisson loglinear model, it could be satisfied with the loglinear model <span class="math display">\[
+\log(\mu_{jk}) = \log(\mu_{kj}) = \lambda_{jk}
+\]</span> for <span class="math inline">\(j\leq k\)</span>.</p>
+<p>Note that symmetry implies marginal homogeneity, since <span class="math display">\[
+\pi_{+k} = \sum_{j} \pi_{jk} = \sum_{j} \pi_{kj} = \pi_{k+}.
+\]</span> Nonetheless, like independence, symmetry usually is too strict of a model to be useful for confusion matrices.</p>
+<section id="quasi-independence" class="level4" data-number="20.3.1.1">
+<h4 data-number="20.3.1.1" class="anchored" data-anchor-id="quasi-independence"><span class="header-section-number">20.3.1.1</span> Quasi-independence</h4>
+<p>A useful deviation from independence is quasi-independence. This model assumes independence in the off-diagonal cells. Specifically, <span class="math inline">\(P(\hat Y = j, Y = k) = P(\hat Y = j) P(Y = k)\)</span> when <span class="math inline">\(j\neq k\)</span>. As a log-linear model this is specified with <span class="math display">\[
+\log(\mu_{jk}) = \alpha + \beta_j + \gamma_k + \delta_j I(j = k)
+\]</span> The <span class="math inline">\(\delta_j\)</span> terms imply a perfect fit down the diagonal.</p>
+<section id="quasi-symmetry" class="level5" data-number="20.3.1.1.1">
+<h5 data-number="20.3.1.1.1" class="anchored" data-anchor-id="quasi-symmetry"><span class="header-section-number">20.3.1.1.1</span> Quasi-symmetry</h5>
+<p>Quasi-symmetry is a very general model that contains independence, symmetry, quasi-independence and marginal homogeneity as special cases. Quasi-symmetry specifies that <span class="math display">\[
+\log(\mu_{jk}) = \alpha + \beta_j + \gamma_k + \delta_{jk}
+~~~~
+\log(\mu_{kj}) = \alpha + \beta_k + \gamma_j + \delta_{jk}
+\]</span> for <span class="math inline">\(j\leq k\)</span>. The symmetry model holds when <span class="math inline">\(\alpha=\beta_j = \gamma_k = 0\)</span>, the idependence model hols when <span class="math inline">\(\delta_{jk} = 0\)</span> and quasi-independence holds when <span class="math inline">\(\delta_{jk} = 0\)</span> for <span class="math inline">\(j\neq k\)</span>. Interestingly,</p>
+</section>
+</section>
+<section id="deviance" class="level4" data-number="20.3.1.2">
+<h4 data-number="20.3.1.2" class="anchored" data-anchor-id="deviance"><span class="header-section-number">20.3.1.2</span> Deviance</h4>
+<p>The deviance statistic is used to measure model fit. The deviance is specified as <span class="math display">\[
+D = 2[\log\{P(\mbox{Data} ~|~ \mbox{Sat. model}\} -
+\log\{P(\mbox{Data} ~|~ \mbox{Model})\}]
+\]</span> where Sat. standards for saturated model. In our case, a saturated model is just <span class="math inline">\(\log(\mu_{jk}) = \lambda_{jk}\)</span> so that the fitted confusion matrix is exactly the same as the observed. The difference in deviances between nested models often asympotically follows a chi-squared distribution under the smaller model with degrees of freedom equal to the difference in the number of parameters. (The Poisson log-linear model under the assumption that the counts go to infinity is such a case.)</p>
+</section>
+<section id="example" class="level4" data-number="20.3.1.3">
+<h4 data-number="20.3.1.3" class="anchored" data-anchor-id="example"><span class="header-section-number">20.3.1.3</span> Example</h4>
+<p>Let’s look at these model fits for our confusion matrix. First, let’s get the data into a dataframe. There are 81 cells and value_counts omits zero counts (which we need).</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">## This is the confusion  matrix data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>valdat <span class="op">=</span> pd.DataFrame({<span class="st">'y'</span> : targets_actual, <span class="st">'yhat'</span> : targets_pred}).value_counts().reset_index().rename(columns <span class="op">=</span> {<span class="dv">0</span> : <span class="st">'n'</span>})</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>valdat.head(<span class="dv">12</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">## There are a ton of values with nothing</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">## so create a matrix with all of the values</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">## then we can merge that in and set the missing values to 0</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> np.array([(x, y) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(n_classes) <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(n_classes)])</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> pd.DataFrame(grid , columns <span class="op">=</span> [<span class="st">'y'</span>, <span class="st">'yhat'</span>])</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">## Merge in the values with nothting</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>valdat <span class="op">=</span> valdat.merge(grid,how <span class="op">=</span> <span class="st">"outer"</span>).fillna(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s fit each of these models and compare them.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>indep_formula <span class="op">=</span> <span class="st">'n ~ C(y) + C(yhat)'</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>mod_indep<span class="op">=</span> smf.glm(formula <span class="op">=</span> indep_formula, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                   data <span class="op">=</span> valdat, </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                   family <span class="op">=</span> sm.families.Poisson()</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                  ).fit()</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">## The symmetry term is just the concatenated y and yhat in order</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>valdat[<span class="st">'symm'</span>] <span class="op">=</span> np.fmin(valdat[<span class="st">'y'</span>], valdat[<span class="st">'yhat'</span>]).astype(<span class="bu">str</span>) <span class="op">+</span> np.fmax(valdat[<span class="st">'y'</span>], valdat[<span class="st">'yhat'</span>]).astype(<span class="bu">str</span>) </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>symm_formula <span class="op">=</span> <span class="st">'n ~ symm'</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>mod_symm<span class="op">=</span> smf.glm(formula <span class="op">=</span> symm_formula, </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                   data <span class="op">=</span> valdat, </span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>                   family <span class="op">=</span> sm.families.Poisson()</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>                  ).fit()</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">## This sets the non-diagonal elements as the lowest value</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">## so when the model fits, that's a reference category and </span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">## it includes terms for every diagonal element.</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>valdat[<span class="st">'indep'</span>] <span class="op">=</span> <span class="st">'0'</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>diag <span class="op">=</span> valdat[<span class="st">'y'</span>] <span class="op">==</span> valdat[<span class="st">'yhat'</span>]</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>valdat.loc[diag, <span class="st">'indep'</span>] <span class="op">=</span> valdat.symm[diag]</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>quasi_indep_formula <span class="op">=</span> <span class="st">'n ~ C(y) + C(yhat) + indep'</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>mod_quasi_indep <span class="op">=</span> smf.glm(formula <span class="op">=</span> quasi_indep_formula, </span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>                            data <span class="op">=</span> valdat, </span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>                          family <span class="op">=</span> sm.families.Poisson()</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>                         ).fit()</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">## define the model</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>quasi_symm_formula <span class="op">=</span> <span class="st">'n ~ C(y) + C(yhat) + symm'</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">## this is what we would fit if we could</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>qs_design <span class="op">=</span> smf.glm(formula <span class="op">=</span> quasi_symm_formula,  </span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>     data <span class="op">=</span> valdat, family <span class="op">=</span> sm.families.Poisson())</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">## The above doesn't fit for me. So, I grab the design</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">## matrix from this formula, drop the redundant columns</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co">## and fit directly without the formula</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>x, d, v <span class="op">=</span> np.linalg.svd(qs_design.exog, <span class="dv">0</span>)</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a><span class="co">## the correct DF for a QS model is</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>df_qs <span class="op">=</span> <span class="bu">int</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> (n_classes <span class="op">-</span> <span class="dv">1</span>) <span class="op">+</span> n_classes <span class="op">*</span> (n_classes <span class="op">-</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x[:, <span class="dv">0</span> : df_qs]</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> valdat[<span class="st">'n'</span>].to_numpy()</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>mod_quasi_symm <span class="op">=</span>  sm.GLM(y, x, family <span class="op">=</span> sm.families.Poisson()).fit()</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="co">## Note the model DF typically excludes the intercept</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>     {<span class="st">'models'</span> : [<span class="st">'I'</span>, <span class="st">'S'</span>, <span class="st">'QI'</span>, <span class="st">'QS'</span>],</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>      <span class="st">'deviance'</span> : [mod_indep.deviance, mod_symm.deviance, mod_quasi_indep.deviance, mod_quasi_symm.deviance], </span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">'model df'</span> : [mod_indep.df_model, mod_symm.df_model, mod_quasi_indep.df_model, mod_quasi_symm.df_model],</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>      <span class="st">'resid df'</span>: [mod_indep.df_resid, mod_symm.df_resid, mod_quasi_indep.df_resid, mod_quasi_symm.df_resid]     </span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>     {<span class="st">'models'</span> : [<span class="st">'S'</span>, <span class="st">'S - QS'</span>],</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>      <span class="st">'deviance'</span> : [mod_symm.deviance, mod_symm.deviance <span class="op">-</span> mod_quasi_symm.deviance], </span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>      <span class="st">'model df'</span> : [mod_symm.df_model, mod_quasi_symm.df_model <span class="op">-</span> mod_symm.df_model]      </span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  models      deviance  model df  resid df
+0      I  22116.791157        16        64
+1      S    872.786466        44        36
+2     QI   1598.985609        25        55
+3     QS    180.896249        52        28
+   models    deviance  model df
+0       S  872.786466        44
+1  S - QS  691.890216         8</code></pre>
+</div>
+</div>
+<p>It would appear that none of independence, symmetry or QI fit this data well. The quasi-symmetry model does appear to fit substantially better than the others. Moreover, models that incorporate symmetry seem to be preferable to those that focus on independence.</p>
+</section>
+<section id="kappa" class="level4" data-number="20.3.1.4">
+<h4 data-number="20.3.1.4" class="anchored" data-anchor-id="kappa"><span class="header-section-number">20.3.1.4</span> Kappa</h4>
+<p>Recall the distinction between agreement and association. In a two class problem, a perfect algorithm, where one acidentally switched the labels would have stil perfect association and no agreement.</p>
+<p>Kappa measures agreement. Accuracy in our multinomial model is <span class="math inline">\(\sum_{j} \pi_{jj}\)</span>, i.e.&nbsp;the agreement over all of the classes. Contrast this agreement with what one would expect to see under a , <span class="math inline">\(\pi_{jj} = \pi_{j+}\pi_{+j}\)</span>. Thus, the deviation from from independence is <span class="math inline">\(\sum_{j} \pi_{jj} - \sum_{j} \pi_{j+}\pi_{+j}\)</span>. Perfect accuracy accurs when <span class="math inline">\(\sum_{j} \pi_{jj} = 1\)</span> and thus the Kappa measure is</p>
+<p><span class="math display">\[
+\kappa = \frac{\sum_{j} \pi_{jj} -  \sum_{j} \pi_{j+}\pi_{+j}}{1 - \sum_{j} \pi_{j+}\pi_{+j}}
+\]</span></p>
+<p>with estimator</p>
+<p><span class="math display">\[
+\hat kappa = \frac{\sum_{j} n_{jj} -  \sum_{j} n_{j+}n_{+j}/n}{1 - \sum_{j} \n_{j+}\n_{+j}/n}
+\]</span></p>
+<p>Here is the kappa score for our pathology example.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sklearn.metrics.cohen_kappa_score(targets_actual, targets_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.8004848950634218</code></pre>
+</div>
+</div>
+<p>A standard error for kappa can be obtained using asymptotic normality from the multinomial <span class="citation" data-cites="agresti2003categorical">(see <a href="references.html#ref-agresti2003categorical" role="doc-biblioref">Agresti 2003, sec. 10.5.4</a>)</span>. In addition, one could simply use a bootstrap.</p>
+</section>
+</section>
+</section>
+<section id="prediction" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="prediction"><span class="header-section-number">20.4</span> Prediction</h2>
+<p>The standard metrics of prediction are mean squared error, correlation and</p>
+<p>It’s interesting to note that simply by the calculation of the variance, the theoretical MSE satisfies:</p>
+<p><span class="math display">\[
+E[(\hat Y - Y)^2] = \mbox{Var}(\hat Y - Y) + (E[\hat Y] - E[Y])^2
+\]</span></p>
+<p>Thus, we have that our MSE breaks down into residual variability and bias.</p>
+<p>The correlation is a measure of association between <span class="math inline">\(Y\)</span> and <span class="math inline">\(\hat Y\)</span>.</p>
+<p>A useful plot in this scenario is the mean/difference plot where the mean, <span class="math inline">\((\hat Y + Y)/2\)</span> is plotted versus the difference <span class="math inline">\((Y - \hat Y)\)</span>.</p>
+<p>One could test marginal equality of distributions using any statistic, including Wasserstein, Kolmogorov Smirnov, … and swapping prediction / actual labels. Moreover, one could use a rank based statistic in the same way.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-agresti2003categorical" class="csl-entry" role="doc-biblioentry">
+Agresti, Alan. 2003. <em>Categorical Data Analysis</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-neyman1948consistent" class="csl-entry" role="doc-biblioentry">
+Neyman, Jerzy, and Elizabeth L Scott. 1948. <span>“Consistent Estimates Based on Partially Consistent Observations.”</span> <em>Econometrica: Journal of the Econometric Society</em>, 1–32.
+</div>
+<div id="ref-pepe2003statistical" class="csl-entry" role="doc-biblioentry">
+Pepe, Margaret Sullivan. 2003. <em>The Statistical Evaluation of Medical Tests for Classification and Prediction</em>. Oxford University Press, USA.
+</div>
+<div id="ref-rosenbaum1983central" class="csl-entry" role="doc-biblioentry">
+Rosenbaum, Paul R, and Donald B Rubin. 1983. <span>“The Central Role of the Propensity Score in Observational Studies for Causal Effects.”</span> <em>Biometrika</em> 70 (1): 41–55.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./causal.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Causal DAGs</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ethics.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ethics</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

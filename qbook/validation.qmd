@@ -533,9 +533,14 @@ Let's look at these model fits for our confusion matrix. First, let's get the da
 valdat = pd.DataFrame({'y' : targets_actual, 'yhat' : targets_pred}).value_counts().reset_index().rename(columns = {0 : 'n'})
 valdat.head(12)
 
-## Merge in the values with nothting
-valdat = valdat.merge(pd.DataFrame(np.array([(x, y) for x in range(n_classes) for y in range(n_classes)]), columns = ['y', 'yhat']),how = "outer")
+## There are a ton of values with nothing
+## so create a matrix with all of the values
+## then we can merge that in and set the missing values to 0
+grid = np.array([(x, y) for x in range(n_classes) for y in range(n_classes)])
+grid = pd.DataFrame(grid , columns = ['y', 'yhat'])
 
+## Merge in the values with nothting
+valdat = valdat.merge(grid,how = "outer").fillna(0)
 ```
 
 Let's fit each of these models and compare them.
@@ -584,7 +589,7 @@ qs_design = smf.glm(formula = quasi_symm_formula,
 x, d, v = np.linalg.svd(qs_design.exog, 0)
 ## the correct DF for a QS model is
 df_qs = int(1 + 2 * (n_classes - 1) + n_classes * (n_classes - 1) / 2)
-x = x[:,0: df_qs]
+x = x[:, 0 : df_qs]
 y = valdat['n'].to_numpy()
 mod_quasi_symm =  sm.GLM(y, x, family = sm.families.Poisson()).fit()
 
