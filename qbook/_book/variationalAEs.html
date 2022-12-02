@@ -395,7 +395,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 <section id="example-using-chest-x-rays" class="level3" data-number="11.2.3">
 <h3 data-number="11.2.3" class="anchored" data-anchor-id="example-using-chest-x-rays"><span class="header-section-number">11.2.3</span> Example using chest x-rays</h3>
 <p>We’re omitting our imports and gettng the data. See the <a href="https://github.com/smart-stats/advanced_ds4bio_book/blob/main/qbook/variationalAEs.qmd">qmd file</a> for the full list. Here we have epochs as 10 and batch size as 128.</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>Using downloaded and verified file: /home/bcaffo/.medmnist/chestmnist.npz</code></pre>
 </div>
@@ -404,7 +404,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </div>
 </div>
 <p>Here’s a montage of the training data.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/bcaffo/miniconda3/envs/ds4bio/lib/python3.10/site-packages/medmnist/utils.py:25: FutureWarning:
 
@@ -416,7 +416,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </div>
 </div>
 <p>Here’s the shape of the dataset. Note, <span class="math inline">\(28^2=784\)</span> is the vectorized size. Also, as these images are gray scale so that there’s only one color channel. We’re not going to use any convolutional layers or anything like that. We’ll just flatten everything.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>temp, _ <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(train_dataset))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> temp.numpy()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>[temp.shape, temp.<span class="bu">max</span>(), temp.<span class="bu">min</span>()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -425,7 +425,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </div>
 </div>
 <p>Let’s use Jackson Kang’s wonderful VAE tutorial from <a href="https://github.com/Jackson-Kang/Pytorch-VAE-tutorial/blob/master/01_Variational_AutoEncoder.ipynb">here</a>.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x_dim  <span class="op">=</span> <span class="dv">784</span> <span class="co">## This is 28**2, the length of the vectorized images</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hidden_dim <span class="op">=</span> <span class="dv">400</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>latent_dim <span class="op">=</span> <span class="dv">200</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -433,7 +433,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 <section id="defining-the-encoder" class="level4" data-number="11.2.3.1">
 <h4 data-number="11.2.3.1" class="anchored" data-anchor-id="defining-the-encoder"><span class="header-section-number">11.2.3.1</span> Defining the encoder</h4>
 <p>First we define the encoder. Remember, the encoder is <span class="math inline">\(q_\phi(z | x)\)</span>, which we are assuming is multivariate independent normals with means and variances depending on <span class="math inline">\(x\)</span>. Notice this takes in the input, <span class="math inline">\(x\)</span> and uses a NN to estimate <span class="math inline">\(\mu_\phi(x)\)</span> and <span class="math inline">\(\log(\sigma^2_\phi(x))\)</span>.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Encoder(nn.Module):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, hidden_dim, latent_dim):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Encoder, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
@@ -455,7 +455,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 <section id="defining-the-decoder" class="level4" data-number="11.2.3.2">
 <h4 data-number="11.2.3.2" class="anchored" data-anchor-id="defining-the-decoder"><span class="header-section-number">11.2.3.2</span> Defining the decoder</h4>
 <p>Next we define our decoder. Remember our decoder is <span class="math inline">\(p_\theta(x | z)\)</span>. However, the distribution will be fully defined in the loss function. Instead, we’re just taking in <span class="math inline">\(z\)</span> and giving out <span class="math inline">\(\hat x = \theta_1(z)\)</span>.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Decoder(nn.Module):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, latent_dim, hidden_dim, output_dim):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Decoder, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
@@ -473,7 +473,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 <section id="defining-the-full-model-autoencoder-decoder" class="level4" data-number="11.2.3.3">
 <h4 data-number="11.2.3.3" class="anchored" data-anchor-id="defining-the-full-model-autoencoder-decoder"><span class="header-section-number">11.2.3.3</span> Defining the full model = autoencoder / decoder</h4>
 <p>To run a datapoint, <span class="math inline">\(x\)</span> through the model. First the encoder generates <span class="math inline">\(\mu_phi(x)\)</span> and <span class="math inline">\(\sigma_\phi(x)\)</span>. Next, it generates <span class="math inline">\(z\)</span> from <span class="math inline">\(q_\phi(z|x)\)</span> using a reparameterization, then passes <span class="math inline">\(z\)</span> through the decoder, <span class="math inline">\(p_\theta(x | z)\)</span>.</p>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Model(nn.Module):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, Encoder, Decoder):</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
@@ -487,7 +487,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        x_hat <span class="op">=</span> <span class="va">self</span>.Decoder(z)</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x_hat, mean, log_var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> Encoder(input_dim<span class="op">=</span>x_dim, hidden_dim<span class="op">=</span>hidden_dim, latent_dim<span class="op">=</span>latent_dim)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>decoder <span class="op">=</span> Decoder(latent_dim<span class="op">=</span>latent_dim, hidden_dim <span class="op">=</span> hidden_dim, output_dim <span class="op">=</span> x_dim)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model(Encoder<span class="op">=</span>encoder, Decoder<span class="op">=</span>decoder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -496,7 +496,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 <section id="defining-the-elbo" class="level4" data-number="11.2.3.4">
 <h4 data-number="11.2.3.4" class="anchored" data-anchor-id="defining-the-elbo"><span class="header-section-number">11.2.3.4</span> Defining the ELBO</h4>
 <p>The ELBO is the sum of the reproduction loss and the KL divergence.</p>
-<div class="cell" data-execution_count="10">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> loss_function(x, x_hat, mean, log_var):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    reproduction_loss <span class="op">=</span> nn.functional.mse_loss(x_hat, x, reduction<span class="op">=</span><span class="st">'sum'</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    KLD      <span class="op">=</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> torch.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">+</span> log_var <span class="op">-</span> mean.<span class="bu">pow</span>(<span class="dv">2</span>) <span class="op">-</span> log_var.exp())</span>
@@ -507,7 +507,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </section>
 <section id="training-the-neural-network" class="level4" data-number="11.2.3.5">
 <h4 data-number="11.2.3.5" class="anchored" data-anchor-id="training-the-neural-network"><span class="header-section-number">11.2.3.5</span> Training the neural network</h4>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model.train()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(NUM_EPOCHS):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch_idx, (x, _) <span class="kw">in</span> <span class="bu">enumerate</span>(train_loader):</span>
@@ -523,7 +523,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </section>
 <section id="show-an-image-passed-through-the-vae" class="level4" data-number="11.2.3.6">
 <h4 data-number="11.2.3.6" class="anchored" data-anchor-id="show-an-image-passed-through-the-vae"><span class="header-section-number">11.2.3.6</span> Show an image passed through the VAE</h4>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#with torch.no_grad():</span></span>
@@ -559,7 +559,7 @@ D_{KL}\left\{ q_\phi(Z | x) || p_\theta(Z)\right\} = \frac{1}{2}\sum_{j=1}^J \le
 </section>
 <section id="generate-a-random-images-from-a-vae." class="level4" data-number="11.2.3.7">
 <h4 data-number="11.2.3.7" class="anchored" data-anchor-id="generate-a-random-images-from-a-vae."><span class="header-section-number">11.2.3.7</span> Generate a random images from a VAE.</h4>
-<div class="cell" data-execution_count="13">
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>no_im <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> torch.randn(no_im <span class="op">**</span> <span class="dv">2</span>, latent_dim)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>generated_images <span class="op">=</span> decoder(noise)</span>

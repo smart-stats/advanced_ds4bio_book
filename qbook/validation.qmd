@@ -194,7 +194,7 @@ The area under the ROC curve is given by
 $$
 AUC = \int_0^1 T\{F^{-1}(f)\}df.
 $$
-From our earlier results we see that the ideal test has AUC = 1, a completely uniformative test has AUC = 0.5 and an informatively bad test has ROC < 0.5.  The AUC has a nice interpretation. Let $X_1 \sim 1-T$ and $X_2 \sim 1-F$ independent (i.e. are indepndent random variables generated from those conditional distributions).  Let $g_0 = -F'$ and $g_1 = -T'$ be the associated density functions. Then we have:
+From our earlier results we see that the ideal test has AUC = 1, a completely uniformative test has AUC = 0.5 and an informatively bad test has ROC < 0.5.  The AUC has a nice interpretation. Let $X_1 \sim 1-T$ and $X_0 \sim 1-F$ independent (i.e. are indepndent random variables generated from those conditional distributions).  Let $g_0 = -F'$ and $g_1 = -T'$ be the associated density functions. Then we have:
 
 $$
 \begin{align*}
@@ -219,7 +219,7 @@ It can be shown that the Wilcoxon Rank Sum Test is a test of $AUC=0.5$ [@pepe200
 
 In some cases the full AUC isn't of interest, so a partial AUC can be used.
 $$
-\int_A T\{F^{-1}(f)\}df = P(X_1 > X_2 ~|~ X_2 \in A)
+\int_A T\{F^{-1}(f)\}df = P(X_1 > X_0 , X_0 \in A)
 $$
 where here $A$ is a range of the false positive rates that are relevant in the context.
 
@@ -238,7 +238,15 @@ One way to look at the optimal classification probability is to consider $Y$ as 
 
 Here we say $a(z)$ is finer than $b(z)$ and $b(z)$ is coarser than $a(z)$ if $b(z) = f\circ b(z)$ for some $f$. The word finer is used since $f$ may not be a bijection. That is, there may exist $z_1, z_2$ such that $a(z_1) \neq a(z_2)$ but $b(z_1)=b(z_2)$. For example, $z$ could be a scaler, $a(z) = z$ and $b(z) = z^2$, the latter of which loses the sign information. It should be clear that if $a(z)$ is finer than $b(z)$ then $P(Y ~|~ a(Z), b(Z)) = P\{Y ~|~ a(z)\}$, since $b(Z)$ contains no new information that isn't already present in $a(z)$.  Furthermore $E[b(Z) ~|~ a(Z)]=b(Z)$ since $a$ conditions out all of the randomness in $b$. We can now demonstrate our properties.
 
-For 1. $P\{Y ~|~ Z, O(Z)\} = O(Z)$ since $O(Z)$ is coarser than $Z$.
+For 1. 
+$$
+\begin{align*}
+E[Y ~|~ O(Z)] & = E[E[Y ~|~ Z, O(Z)] ~|~ Z] \\
+              & = E[E[Y ~|~ Z] ~|~Z] \\
+              & = E[O(Z) ~|~ Z] = O(Z)
+\end{align*}
+$$
+where, recall $E[Y ~|~ Z, O(Z)] = O(Z)$ and $E[O(Z)~|~Z] = O(Z)$ since $O(Z)$ is coarser than $Z$.
 
 For 3. The conditional independence, $Y \perp Z ~|~ \phi(Z)$, is defined as:
 $$
@@ -248,12 +256,24 @@ or equivalently
 $$
 E[Y ~|~ Z, \phi(Z)] = E[Y ~|~ \phi(Z)]
 $$
-But, since $E[Y ~|~ Z, \phi(Z)] = E[Y  ~|~ Z] = O(Z)$ since $Z$ is finer than $O(Z)$, we have that the conditional independence holds is equivalent to
+Consider a classifier that is finer. Then, $E[Y ~|~ Z, \phi(Z)] = E[Y  ~|~ Z] = O(Z)$ since $Z$ is finer than $O(Z)$, we have that the conditional independence holds is equivalent to
 $$
 O(Z) = E[Y ~|~ \phi(Z)].
 $$
-    + Why predict neurosurery versus neurosurgical outcome?
-reement is threhsolding whether the optimal classification probability is greater than 0.5. That is, the optimal classifier is 
+
+Then it follows that $E[Y ~|~ \phi(Z)] = E[ E[Y ~|~ Z, \phi(Z)] ~|~ \phi(Z)]$ which is $E[ E[Y ~|~ Z] ~|~ \phi(Z)] = E[O(Z) ~|~ \phi(Z)] = O(Z)$.
+
+
+Consider a classifier that is coarser. So there exists a $z_1$ and $z_2$ such that $O(z_1) \neq O(z_2)$ but $\phi(z_1) = \phi(z_2)$. Thus, $O(z_1) = E[Y~|~ Z= z_1] \neq O(z_2) = E[Y ~|~ Z = z_2]$. Recall, $E[Y ~|~ Z, \phi(Z)]= O(Z)$. Thus $E[Y ~|~ Z=z_1, \phi(Z) = \phi(z_2)]$ cannot equal $E[Y ~|~ Z=z_2, \phi(Z) = \phi(Z_2)]$, implying $Y$  is not conditionally independent of $Z$ given $\phi(Z)$.
+
+For 4. $\phi$ is calibrated iff $\phi(Z) = E[Y~|~\phi(Z)]$. But
+$$
+E[Y~|~\phi(Z)] = E[E[Y~|~Z, \phi(Z)] ~|~ \phi(Z)]
+= E[O(Z) ~|~ \phi(Z)].
+$$
+
+### Agreement
+Expected agreement is optimized when threhsolding whether the optimal classification probability is greater than 0.5. That is, the optimal classifier is 
 $$
 \hat Y = I\{P(Y=1~|~Z) \geq 0.5\} = I\{O(Z) \geq 0.5\}.
 $$
@@ -629,7 +649,7 @@ $$
 with estimator
 
 $$
-\hat kappa = \frac{\sum_{j} n_{jj} -  \sum_{j} n_{j+}n_{+j}/n}{1 - \sum_{j} \n_{j+}\n_{+j}/n}
+\hat \kappa = \frac{\sum_{j} n_{jj} -  \sum_{j} n_{j+}n_{+j}/n}{1 - \sum_{j} n_{j+}n_{+j}/n}
 $$
 
 Here is the kappa score for our pathology example.
@@ -658,7 +678,18 @@ Thus, we have that our MSE breaks down into residual variability and bias.
 
 The correlation is a measure of association between $Y$ and $\hat Y$. 
 
-A useful plot in this scenario is the mean/difference plot where the mean, $(\hat Y + Y)/2$ is plotted versus the difference $(Y - \hat Y)$. 
+A useful plot in this scenario is the mean/difference plot where the mean, $(\hat Y + Y)/2$ or the fitted value, $\hat Y$, is plotted versus the difference, i.e. the residual $e = (Y - \hat Y)$. Here's an example using a simple linear regression model of T2 to predict FLAIR.
+
+```{python}
+fit = smf.ols('FLAIR ~ T2', data = dat).fit()
+yhat = fit.predict()
+e = fit.resid
+
+fig, ax = plt.subplots()
+ax.axhline(y = 0, color = "orange");
+plt.scatter(yhat,  e );
+```
+
 
 One could test marginal equality of distributions using any statistic, including Wasserstein, Kolmogorov Smirnov, ... and swapping prediction / actual labels. Moreover, one could use a rank based statistic in the same way.
 
