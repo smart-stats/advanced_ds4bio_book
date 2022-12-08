@@ -13,7 +13,6 @@ book:
     - webscraping.qmd
     - databases.qmd
     - pipelines.qmd
-    - data_structures.qmd
     - diymlai.qmd
     - images.qmd
     - convnet_example.qmd
