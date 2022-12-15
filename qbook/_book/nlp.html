@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -124,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -277,6 +297,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#regular-expressions" id="toc-regular-expressions" class="nav-link" data-scroll-target="#regular-expressions"><span class="toc-section-number">11.2</span>  Regular expressions</a></li>
   <li><a href="#natural-language-tool-kit" id="toc-natural-language-tool-kit" class="nav-link" data-scroll-target="#natural-language-tool-kit"><span class="toc-section-number">11.3</span>  Natural language tool kit</a></li>
   <li><a href="#sentiment" id="toc-sentiment" class="nav-link" data-scroll-target="#sentiment"><span class="toc-section-number">11.4</span>  Sentiment</a></li>
+  <li><a href="#rnns" id="toc-rnns" class="nav-link" data-scroll-target="#rnns"><span class="toc-section-number">11.5</span>  RNNs</a>
+  <ul class="collapse">
+  <li><a href="#linear-time-sieres-models" id="toc-linear-time-sieres-models" class="nav-link" data-scroll-target="#linear-time-sieres-models"><span class="toc-section-number">11.5.1</span>  Linear time sieres models</a></li>
+  <li><a href="#rnns-1" id="toc-rnns-1" class="nav-link" data-scroll-target="#rnns-1"><span class="toc-section-number">11.5.2</span>  RNNS</a></li>
+  <li><a href="#example-character-prediction" id="toc-example-character-prediction" class="nav-link" data-scroll-target="#example-character-prediction"><span class="toc-section-number">11.5.3</span>  Example character prediction</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -390,50 +416,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'[hcb]a'</span>, <span class="st">'phat'</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'[hcb]a'</span>, <span class="st">'rat'</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">## Gives an error</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('ha', 'hat')
 ('ha', 'phat')
 None</code></pre>
 </div>
 </div>
-<p>We can match any letter with “.”.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'.a'</span>, <span class="st">'rat'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'.a'</span>, <span class="st">'phat'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.findall(<span class="st">'[hcb]a'</span>, <span class="st">'hatcathat'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['ha', 'ca', 'ha']</code></pre>
+</div>
+</div>
+<p>We can match any letter with “.”.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'.a'</span>, <span class="st">'rat'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'.a'</span>, <span class="st">'phat'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('ra', 'rat')
 ('ha', 'phat')</code></pre>
 </div>
 </div>
 <p>We can search for things like any number using a dash.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject[0-9].txt'</span>, <span class="st">'subject3.txt'</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject[0-9][0-9][0-9].txt'</span>, <span class="st">'subject015.txt'</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject[0-9].txt'</span>, <span class="st">'subject3.txt'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject[0-9][0-9][0-9].txt'</span>, <span class="st">'subject015.txt'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('subject3.txt', 'subject3.txt')
 ('subject015.txt', 'subject015.txt')</code></pre>
 </div>
 </div>
 <p>’CHARACTER*’ will match any number of the character, inncluding 0, whereas <code>CHAR+</code> matches one or more times.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0*.txt'</span>, <span class="st">'subject.txt'</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0*.txt'</span>, <span class="st">'subject000.txt'</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0*.txt'</span>, <span class="st">'subject123.txt'</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0+.txt'</span>, <span class="st">'subject.txt'</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0+.txt'</span>, <span class="st">'subject000.txt'</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0+.txt'</span>, <span class="st">'subject123.txt'</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0*.txt'</span>, <span class="st">'subject.txt'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0*.txt'</span>, <span class="st">'subject000.txt'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0*.txt'</span>, <span class="st">'subject123.txt'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0+.txt'</span>, <span class="st">'subject.txt'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0+.txt'</span>, <span class="st">'subject000.txt'</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0+.txt'</span>, <span class="st">'subject123.txt'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('subject.txt', 'subject.txt')
 ('subject000.txt', 'subject000.txt')
@@ -444,13 +476,13 @@ None</code></pre>
 </div>
 </div>
 <p><code>CHARACTER?</code> matches one or zero times.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0?.txt'</span>, <span class="st">'subject.txt'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0?.txt'</span>, <span class="st">'subject0.txt'</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0?.txt'</span>, <span class="st">'subject00.txt'</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0?.txt'</span>, <span class="st">'subject.txt'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0?.txt'</span>, <span class="st">'subject0.txt'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'subject0?.txt'</span>, <span class="st">'subject00.txt'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('subject.txt', 'subject.txt')
 ('subject0.txt', 'subject0.txt')
@@ -458,9 +490,9 @@ None</code></pre>
 </div>
 </div>
 <p>You can string together regexes to obtain more complex searches. For example, the following searches for <code>subject[GREATER THAN ONE NUMBER].txt</code></p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'[0-9]+.txt'</span>, <span class="st">'subject501.txt'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> re.search(<span class="st">'[0-9]+.txt'</span>, <span class="st">'subject501.txt'</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( (out.group(<span class="dv">0</span>), out.string) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>('501.txt', 'subject501.txt')</code></pre>
 </div>
@@ -471,20 +503,20 @@ None</code></pre>
 <section id="natural-language-tool-kit" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="natural-language-tool-kit"><span class="header-section-number">11.3</span> Natural language tool kit</h2>
 <p>nltk is probably the most widely used natural language toolkit. To install nltk, just use conda or pip. However, I also had to run <code>nltk.download()</code> to download the extra stuff required for the package to run. I found <a href="https://realpython.com/nltk-nlp-python/">this</a> tutorial helpful.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tokenizing words and sentences. Consider this history and physical exam note from <a href="https://www.med.unc.edu/medclerk/education/grading/history-and-physical-examination-h-p-examples/">here</a>.</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>note <span class="op">=</span> <span class="st">"""HPI is a 76 yo man with h/o HTN, DM, and sleep apnea who presented to the ED complaining of chest pain. He states that the pain began the day before and consisted of a sharp pain that lasted around 30 seconds, followed by a dull pain that would last around 2 minutes. The pain was located over his left chest area somewhat near his shoulder. The onset of pain came while the patient was walking in his home. He did not sit and rest during the pain, but continued to do household chores. Later on in the afternoon he went to the gym where he walked 1 mile on the treadmill, rode the bike for 5 minutes, and swam in the pool. After returning from the gym he did some work out in the yard, cutting back some vines. He did not have any reoccurrences of chest pain while at the gym or later in the evening. The following morning (of his presentation to the ED) he noticed the pain as he was getting out of bed. Once again it was a dull pain, preceded by a short interval of a sharp pain. The patient did experience some tingling in his right arm after the pain ceased. He continued to have several episodes of the pain throughout the morning, so his daughter-in-law decided to take him to the ED around 12:30pm. The painful episodes did not increase in intensity or severity during this time. At the ED the patient was given nitroglycerin, which he claims helped alleviate the pain somewhat. HPI has not experienced any shortness of breath, nausea, or diaphoresis during these episodes of pain. He has never had chest pain in the past. He has been told “years ago” that he has a right bundle branch block and premature heart beats."""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>note <span class="op">=</span> <span class="st">"""HPI is a 76 yo man with h/o HTN, DM, and sleep apnea who presented to the ED complaining of chest pain. He states that the pain began the day before and consisted of a sharp pain that lasted around 30 seconds, followed by a dull pain that would last around 2 minutes. The pain was located over his left chest area somewhat near his shoulder. The onset of pain came while the patient was walking in his home. He did not sit and rest during the pain, but continued to do household chores. Later on in the afternoon he went to the gym where he walked 1 mile on the treadmill, rode the bike for 5 minutes, and swam in the pool. After returning from the gym he did some work out in the yard, cutting back some vines. He did not have any reoccurrences of chest pain while at the gym or later in the evening. The following morning (of his presentation to the ED) he noticed the pain as he was getting out of bed. Once again it was a dull pain, preceded by a short interval of a sharp pain. The patient did experience some tingling in his right arm after the pain ceased. He continued to have several episodes of the pain throughout the morning, so his daughter-in-law decided to take him to the ED around 12:30pm. The painful episodes did not increase in intensity or severity during this time. At the ED the patient was given nitroglycerin, which he claims helped alleviate the pain somewhat. HPI has not experienced any shortness of breath, nausea, or diaphoresis during these episodes of pain. He has never had chest pain in the past. He has been told “years ago” that he has a right bundle branch block and premature heart beats."""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s tokenize this note by sentence and word.</p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sentences <span class="op">=</span> nltk.tokenize.sent_tokenize(note)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> nltk.tokenize.word_tokenize(note)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(sentences[i])</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sentences <span class="op">=</span> nltk.tokenize.sent_tokenize(note)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> nltk.tokenize.word_tokenize(note)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(sentences[i])</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>HPI is a 76 yo man with h/o HTN, DM, and sleep apnea who presented to the ED complaining of chest pain.
 He states that the pain began the day before and consisted of a sharp pain that lasted around 30 seconds, followed by a dull pain that would last around 2 minutes.
@@ -493,20 +525,20 @@ The pain was located over his left chest area somewhat near his shoulder.
 </div>
 </div>
 <p>Let’s filter out some common English filler words.</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>filter_words <span class="op">=</span> <span class="bu">set</span>(nltk.corpus.stopwords.words(<span class="st">"english"</span>))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> [w <span class="cf">for</span> w <span class="kw">in</span> words <span class="cf">if</span> w <span class="kw">in</span> filter_words]</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered[<span class="dv">0</span> : <span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>filter_words <span class="op">=</span> <span class="bu">set</span>(nltk.corpus.stopwords.words(<span class="st">"english"</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> [w <span class="cf">for</span> w <span class="kw">in</span> words <span class="cf">if</span> w <span class="kw">in</span> filter_words]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(filtered[<span class="dv">0</span> : <span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['is', 'a', 'with', 'and', 'who', 'to', 'the', 'of', 'that', 'the']</code></pre>
 </div>
 </div>
 <p>We can also reduce words to their stems, i.e.&nbsp;grammatical root form.</p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>stemmer <span class="op">=</span> nltk.stem.PorterStemmer().stem</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stemmer(<span class="st">"Diagnosed"</span>))</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stemmer(<span class="st">"Diagnosing"</span>))</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stemmer(<span class="st">"diagnosed"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>stemmer <span class="op">=</span> nltk.stem.PorterStemmer().stem</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stemmer(<span class="st">"Diagnosed"</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stemmer(<span class="st">"Diagnosing"</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(stemmer(<span class="st">"diagnosed"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>diagnos
 diagnos
@@ -514,14 +546,14 @@ diagnos</code></pre>
 </div>
 </div>
 <p>Lemmatization reduces words to an underlying meaing.</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>lemmatize <span class="op">=</span> WordNetLemmatizer().lemmatize</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">## Here v for verb</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"am"</span>, pos <span class="op">=</span> <span class="st">"v"</span>))</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"are"</span>, pos <span class="op">=</span> <span class="st">"v"</span>))</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"worst"</span>, pos <span class="op">=</span> <span class="st">"n"</span>))</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"worst"</span>, pos <span class="op">=</span> <span class="st">"a"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>lemmatize <span class="op">=</span> WordNetLemmatizer().lemmatize</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">## Here v for verb</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"am"</span>, pos <span class="op">=</span> <span class="st">"v"</span>))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"are"</span>, pos <span class="op">=</span> <span class="st">"v"</span>))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"worst"</span>, pos <span class="op">=</span> <span class="st">"n"</span>))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lemmatize(<span class="st">"worst"</span>, pos <span class="op">=</span> <span class="st">"a"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>be
 be
@@ -533,20 +565,284 @@ bad</code></pre>
 <section id="sentiment" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="sentiment"><span class="header-section-number">11.4</span> Sentiment</h2>
 <p>Sentiment is predicting a score about the tone of a text. The compound value is a numeric sentiment score.</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.sentiment <span class="im">import</span> SentimentIntensityAnalyzer</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sentiment <span class="op">=</span> SentimentIntensityAnalyzer().polarity_scores</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment(note))</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment(<span class="st">"Sentiment analysis is great!"</span>))</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment(<span class="st">"The world is doomed."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.sentiment <span class="im">import</span> SentimentIntensityAnalyzer</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sentiment <span class="op">=</span> SentimentIntensityAnalyzer().polarity_scores</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment(note))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment(<span class="st">"Sentiment analysis is great!"</span>))</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment(<span class="st">"The world is doomed."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{'neg': 0.214, 'neu': 0.786, 'pos': 0.0, 'compound': -0.9971}
 {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
 {'neg': 0.583, 'neu': 0.417, 'pos': 0.0, 'compound': -0.6369}</code></pre>
 </div>
 </div>
+</section>
+<section id="rnns" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="rnns"><span class="header-section-number">11.5</span> RNNs</h2>
+<p>Recurrent neural networks (RNNs) are commonly used for ordered data, such as in time series analysis or text processing.</p>
+<p>It might be worth considering some existing common time series models first.</p>
+<section id="linear-time-sieres-models" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="linear-time-sieres-models"><span class="header-section-number">11.5.1</span> Linear time sieres models</h3>
+<section id="stochastic-time-series-models" class="level4" data-number="11.5.1.1">
+<h4 data-number="11.5.1.1" class="anchored" data-anchor-id="stochastic-time-series-models"><span class="header-section-number">11.5.1.1</span> Stochastic time series models</h4>
+<p>Perhaps the most popular version of stochastic time series models is the autoregressive (AR) models. Here’s an AR(1) model <span class="math display">\[
+Y_t = \beta_0 + Y_{t-1}\rho + \epsilon_t
+\]</span></p>
+<p>Generalizations allow for longer lags, called AR(p) models where p is the number of lags. We could instead have the error terms have dependence in so called moving average (MA) models. Here’s an MA(1)</p>
+<p><span class="math display">\[
+Y_t = \beta_0 + Y_{t-1}\rho + \epsilon_t + \gamma \epsilon_{t-1}
+\]</span> where, again, longer lags can be incorporated. We could combine these models in ARMA models. Here’s an ARMA(1,1) model</p>
+<p><span class="math display">\[
+Y_t = \beta_0 + Y_{t-1}\rho + \epsilon_t + \gamma \epsilon_{t-1}
+\]</span></p>
+<p>RNNs get their name since the hidden layers point to themselves. This is already well explored in time series analyses, where we can have models such as AR models:</p>
+<p>Differencing, i.e.&nbsp;considering <span class="math inline">\(Y_t - Y_{t-1}\)</span> can be thought of as looking at a linear approximation to the derivative of the <span class="math inline">\(Y_t\)</span> process. Second order differencing simply looks at <span class="math inline">\((Y_t - Y_{t-1}) - (Y_{t-1} - Y_{t-2})\)</span> is then approximating the second derivative and so on. ARIMA models look at ARMA models on differenced data. So, an ARIMA model can be specified with three numbers the AR part, the MA part and the differencing part.</p>
+<p>Stochastic models are especially useful in things like finance for modeling asset prices. This is because efficient market theory suggests no explanatory variables are needed so looking at the time series and so modeling the data this way is often useful.</p>
+</section>
+<section id="functional-outcomes" class="level4" data-number="11.5.1.2">
+<h4 data-number="11.5.1.2" class="anchored" data-anchor-id="functional-outcomes"><span class="header-section-number">11.5.1.2</span> Functional outcomes</h4>
+<p>Instead of modeling the outcome time series as a stochastic process, we might be interested in modeling it as a function using a smoother. For example we might model <span class="math display">\[
+Y_t = f(t) + \epsilon = z_t \beta + \epsilon
+\]</span> where <span class="math inline">\(z_t\)</span> is a basis element from a smoother matrix. An example is regression splines.</p>
+</section>
+<section id="explanatory-time-series-models" class="level4" data-number="11.5.1.3">
+<h4 data-number="11.5.1.3" class="anchored" data-anchor-id="explanatory-time-series-models"><span class="header-section-number">11.5.1.3</span> Explanatory time series models</h4>
+<p>Consider regression models for <span class="math inline">\(Y ~|~ X\)</span> where <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are time series. We might consider concordant models</p>
+<p><span class="math display">\[
+Y_t = \beta_0 + \beta_1 X_t + \epsilon_t
+\]</span></p>
+<p>Distributed lag models <span class="math display">\[
+Y_t = \alpha + \beta_0 X_t + \beta_1 X_{t-1} + \ldots + \beta_p X_{t-p} + \epsilon_t
+\]</span></p>
+<p>Markov models model <span class="math inline">\(Y_t ~|~ Y_{t-1}, \mbox{Other covariates}\)</span>. So, we can model <span class="math display">\[
+Y_t = \alpha + \beta_0 Y_{t-1} + \epsilon_t.
+\]</span></p>
+<p>Not unlike the MA models, in all of these cases we can model dependence in the <span class="math inline">\(\epsilon\)</span> terms.</p>
+</section>
+<section id="functional-predictors" class="level4" data-number="11.5.1.4">
+<h4 data-number="11.5.1.4" class="anchored" data-anchor-id="functional-predictors"><span class="header-section-number">11.5.1.4</span> Functional predictors</h4>
+<p>Consider the instance where <span class="math inline">\(Y\)</span> is not a time series, but <span class="math inline">\(X_{i}\)</span> is for each <span class="math inline">\(i\)</span>. Let’s write this as a function, <span class="math inline">\(x_i(t)\)</span>. We then need to relate an entire time series to each <span class="math inline">\(Y\)</span> value. We might consider models of the form <span class="math display">\[
+Y_i = \alpha + \int \beta(t) x_i(t) dt + \epsilon_i
+\]</span></p>
+</section>
+<section id="summarizing-linear-time-series-models" class="level4" data-number="11.5.1.5">
+<h4 data-number="11.5.1.5" class="anchored" data-anchor-id="summarizing-linear-time-series-models"><span class="header-section-number">11.5.1.5</span> Summarizing linear time series models</h4>
+<p>(base) bcaffo@penguin:~/sandboxes/advanced_ds4bio_book$ In summary, there’s quite a few ways to model time series data lineary. And you can combine methods and extend them to generalized linear model settings.</p>
+</section>
+</section>
+<section id="rnns-1" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="rnns-1"><span class="header-section-number">11.5.2</span> RNNS</h3>
+<p>RNNs have many variations, the same as linear time series models. They are called recurrent, since they point to themselves. Let’s look at a simple RNN where we have a time series, <span class="math inline">\(X_{it}\)</span> and we want to predict a concordant time series, <span class="math inline">\(y_t\)</span>. Consider a model <span class="math inline">\(h_t = \mathrm{expit}(w_0 + w_1 h_{t-1} + w_2 x_{t})\)</span> and <span class="math inline">\(\hat Y_t = \mathrm{expit}(w_3 + w_4 h_t)\)</span> <span class="citation" data-cites="elman1990finding">(<a href="references.html#ref-elman1990finding" role="doc-biblioref">Elman 1990</a>)</span>.</p>
+<div class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<p><img src="nlp_files/figure-html/cell-18-output-1.png" width="595" height="595"></p>
+</div>
+</div>
+<p>Notice, the prior hidden nodes point to the subsequent nodes. This builds in the history of the network.</p>
+<p>We can also have networks that point to single outcomes</p>
+<div class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<p><img src="nlp_files/figure-html/cell-19-output-1.png" width="595" height="595"></p>
+</div>
+</div>
+</section>
+<section id="example-character-prediction" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="example-character-prediction"><span class="header-section-number">11.5.3</span> Example character prediction</h3>
+<p>I used <a href="https://edumunozsala.github.io/BlogEms/fastpages/jupyter/rnn/lstm/pytorch/2020/09/03/char-level-text-generator-pytorch.html">this tutorial</a> by <a href="https://edumunozsala.github.io/BlogEms/about/">Eduardo Muñoz</a> and the <a href="https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html">pytorch character prediction tutorial</a> here.</p>
+<p>Let’s predict the last letter of words from Shakespeare’s writing from the previous words. Using this, you should be able to extrapolate how to create a character prediction algorithm and from that a word prediction algorithm.</p>
+<p>I got the training text from <a href="https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt">here</a> with a simple <code>url</code> request.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.autograd <span class="im">import</span> Variable</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib <span class="im">import</span> request</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>urlresponse <span class="op">=</span> request.urlopen(url)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> urlresponse.read().decode(<span class="st">"ascii"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>text_words <span class="op">=</span> nltk.tokenize.word_tokenize(text.lower())</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">##remove all of the non alpha characters like commas, periods ...</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>text_words <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> text_words <span class="cf">if</span> word.isalpha() <span class="kw">and</span> <span class="bu">len</span>(word) <span class="op">&gt;</span> <span class="dv">2</span>]</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">## Test whether all 26 letters are represented</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">#text_letters = set([l.lower() for l in text if l.isalpha()])</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co">#len(text_letters)</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co">## All characters are represented</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">## The lowercase letters as a list</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>letters <span class="op">=</span> string.ascii_lowercase</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>n_letters <span class="op">=</span> <span class="bu">len</span>(letters)</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co">## one hot encode each letter then create a matrix for each word</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> word_encode(word):</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    n_word <span class="op">=</span> <span class="bu">len</span>(word)</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    input_tensor <span class="op">=</span> torch.zeros(<span class="bu">len</span>(word) <span class="op">-</span> <span class="dv">1</span>, <span class="dv">1</span>, n_letters)</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_word <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>        l <span class="op">=</span> word[i]</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>        input_tensor[i, <span class="dv">0</span>, letters.find(l)] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    output_category <span class="op">=</span> letters.find(word[i <span class="op">+</span> <span class="dv">1</span>])</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_tensor, output_category</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>test_word <span class="op">=</span> text_words[<span class="dv">0</span>]</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>test_predictor, test_outcome <span class="op">=</span> word_encode(test_word)</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_word)</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_predictor.shape)</span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_outcome)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>first
+torch.Size([4, 1, 26])
+19</code></pre>
+</div>
+</div>
+<p>Let’s create a list of our predictor tensor and outcome categories.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(text_words)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>predictor_list <span class="op">=</span> []</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>outcome_list <span class="op">=</span> []</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N):</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> text_words[i]</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    p, o <span class="op">=</span> word_encode(w)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    predictor_list.append(p)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    outcome_list.append(o)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>outcome_tensor <span class="op">=</span> torch.tensor(outcome_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s the RNN from their tutorial</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RNN(nn.Module):</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_size, hidden_size, output_size):</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(RNN, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hidden_size <span class="op">=</span> hidden_size</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.i2h <span class="op">=</span> nn.Linear(input_size <span class="op">+</span> hidden_size, hidden_size)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.i2o <span class="op">=</span> nn.Linear(input_size <span class="op">+</span> hidden_size, output_size)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.softmax <span class="op">=</span> nn.LogSoftmax(dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, <span class="bu">input</span>, hidden):</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>        combined <span class="op">=</span> torch.cat( (<span class="bu">input</span>, hidden), <span class="dv">1</span>)</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>        hidden <span class="op">=</span> <span class="va">self</span>.i2h(combined)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> <span class="va">self</span>.i2o(combined)</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> <span class="va">self</span>.softmax(output)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> output, hidden</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> initHidden(<span class="va">self</span>):</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.zeros(<span class="dv">1</span>, <span class="va">self</span>.hidden_size)</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>n_hidden <span class="op">=</span> <span class="dv">128</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>rnn <span class="op">=</span> RNN(n_letters, n_hidden, n_letters)</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>test_hidden <span class="op">=</span> rnn.initHidden()</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>test_input_val <span class="op">=</span> test_predictor[<span class="dv">0</span>]</span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_input_val.shape)</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rnn.forward(test_input_val, test_hidden))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch.Size([1, 26])
+(tensor([[-3.2396, -3.2310, -3.1900, -3.2175, -3.2796, -3.3291, -3.2356, -3.3417,
+         -3.2564, -3.2440, -3.2229, -3.2796, -3.2422, -3.3050, -3.3150, -3.2896,
+         -3.3140, -3.3397, -3.3223, -3.1796, -3.1427, -3.2551, -3.2796, -3.2744,
+         -3.1655, -3.2550]], grad_fn=&lt;LogSoftmaxBackward0&gt;), tensor([[-0.0606, -0.0261, -0.0112,  0.0998, -0.1487,  0.0293, -0.1096,  0.1119,
+         -0.0685, -0.0418,  0.0636,  0.0308, -0.0022,  0.0524, -0.0156,  0.1215,
+         -0.0282, -0.0457, -0.0351, -0.0810,  0.0719,  0.0641,  0.0208,  0.0200,
+         -0.0914,  0.0112,  0.0013, -0.1097,  0.1166, -0.0869, -0.0328,  0.0381,
+          0.0123, -0.0263,  0.0979,  0.0851,  0.0922,  0.0097,  0.0950,  0.0418,
+         -0.0337,  0.0813, -0.1086, -0.0646,  0.0358, -0.0804,  0.0643,  0.0893,
+         -0.0550, -0.0372,  0.0388,  0.1087, -0.1218, -0.0176,  0.0853, -0.0434,
+         -0.0239,  0.0184,  0.0267, -0.0825, -0.0603, -0.0116,  0.1077, -0.0478,
+         -0.1563,  0.0379, -0.0901, -0.0047, -0.0556,  0.0256, -0.1136,  0.0329,
+          0.1249, -0.0193,  0.0819, -0.1105,  0.0831, -0.0491, -0.0450, -0.0062,
+          0.0483,  0.0045,  0.1388,  0.0325,  0.1242,  0.0423, -0.0739, -0.0289,
+          0.0679, -0.1169,  0.1058, -0.0990,  0.0186,  0.0206, -0.0120,  0.0121,
+         -0.0448,  0.0614, -0.1036, -0.0162, -0.0732,  0.0364, -0.0048,  0.0211,
+         -0.0935,  0.0480, -0.0928,  0.0291,  0.1512,  0.0898,  0.0360, -0.0249,
+          0.0115,  0.1005,  0.0258,  0.0342,  0.0235, -0.0829,  0.0276,  0.0710,
+          0.0250,  0.0086, -0.0176, -0.0949,  0.0592,  0.0867,  0.0095, -0.0637]],
+       grad_fn=&lt;AddmmBackward0&gt;))</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.NLLLoss()</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">1e-3</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>epochs <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.SGD(rnn.parameters(), </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    lr <span class="op">=</span> learning_rate, </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co">## This runs the first few characters of a word</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co">## through the RNN</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(input_tensor):</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    prompt_length <span class="op">=</span> input_tensor.size()[<span class="dv">0</span>]</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> rnn.initHidden()</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(prompt_length):</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>        o, h <span class="op">=</span> rnn(input_tensor[j], h)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> o, h</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">## grab a random batch by grabbing random indices</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>    batch_indices <span class="op">=</span> np.random.choice(N, batch_size)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">## initialize the predictions</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> torch.zeros(batch_size, n_letters)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">## run through the batch</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(batch_size):</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> batch_indices[i]</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>        input_tensor <span class="op">=</span> predictor_list[index]</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>        o, h <span class="op">=</span> predict(input_tensor)</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>        output[i,:] <span class="op">=</span> o</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>    rnn.zero_grad()</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> criterion(output, outcome_tensor[batch_indices])</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Try some words:</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">## get the predictor </span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    input_tensor <span class="op">=</span> predictor_list[i]</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> predict(input_tensor)[<span class="dv">0</span>]</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    guess <span class="op">=</span> letters[torch.argmax(output)]</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>( (text_words[i], guess) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>('first', 'e')
+('citizen', 's')
+('before', 'e')
+('proceed', 's')
+('any', 'd')
+('further', 's')
+('hear', 'e')
+('speak', 'e')
+('all', 'e')
+('speak', 'e')</code></pre>
+</div>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-elman1990finding" class="csl-entry" role="doc-biblioentry">
+Elman, Jeffrey L. 1990. <span>“Finding Structure in Time.”</span> <em>Cognitive Science</em> 14 (2): 179–211.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
