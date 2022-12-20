@@ -24,8 +24,8 @@ d = Data(example)
 ```
 
 ```{python}
-visit1 = Data("mricloud/visit1/")
-visit2 = Data("mricloud/visit2/")
+visit1 = Data("mricloud/visit1/").df
+visit2 = Data("mricloud/visit2/").df
 ```
 
 
@@ -34,28 +34,13 @@ import statsmodels.api as sm
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
-sm.graphics.mean_diff_plot(m1, m2, ax = ax)
+csf1 = visit1[(visit1['Type'] == 1) & (visit1['Level'] == 1) & (visit1['Object'] == 'CSF')]['Volume']
+csf2 = visit2[(visit2['Type'] == 1) & (visit2['Level'] == 1) & (visit2['Object'] == 'CSF')]['Volume']
+plt.scatter(csf1, csf2)
 ```
-
-
 
 ```{python}
-import shutil
-
-path = "/home/bcaffo/sandboxes/kirby21.mricloud/inst/"
-visit1 = path+"visit_1/"
-visit2 = path+"visit_2/"
-
-visit1_final_path = "/home/bcaffo/sandboxes/advanced_ds4bio_book/qbook/mricloud/visit1/"
-visit2_final_path = "/home/bcaffo/sandboxes/advanced_ds4bio_book/qbook/mricloud/visit2/"
-
-for subject in os.listdir(visit2):
-
-    if subject != "127" :
-        subject_path = visit2 + subject + "/"
-        subject_file =  "kirby_3_1_ax_283Labels_M2_corrected_stats.txt"
-        shutil.move( subject_path + subject_file, visit2_final_path + subject + "_" + subject_file)
-
+sm.graphics.mean_diff_plot(csf1, csf2)
 ```
+
+
