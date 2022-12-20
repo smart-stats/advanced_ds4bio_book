@@ -3,11 +3,62 @@ title: "Ethics"
 format: html
 ---
 
+Data science and big data present unique challenges to ethics [@raymond2019safeguards]. Here we focus on the ethical components of DS research.
+
 ## DS tools
+
+Webscraping is an obvious place to start. First, many application of tools like Selenium can violate terms of service. For example, (without any apparent hint of irony) Google scholar does not allow automated access to citation information. MOOC or textbook applications of selenium may result in what is effectively a DDOS attack.
+
+Just because you *can* build a prediction model doesn't mean you should. It's entirely possible that your model gets used for purposes other than your intended purpose. A good case study is the unpublished but approved study from Stanford to detect homosexuality using facial photographs [@flaherty2017ai]. This research clearly fails to satisfy the Belmont report standards. To elaborate 1978 Belmont Report [@sims2010brief], which grew out of the ethical consequences of the horrible Tuskegee syphillis study [@reverby2019bill] outlined three ethical principles that should server as a guide for DS research. The three principles are:
+
+1.Respect for Persons.
+2.Beneficence.
+3.Justice.
+
+
 
 ## Protecting user data
 
+Data use is protected via several mechanisms. First the Institutional Review Board (IRB) is an entity created and formally designated to monitor and biomedical research involving human subjects. The IRB has much relevant for DS work. Among others when dealing with human subject data:
 
-## Bias in AI
+1. Anyone working with the data needs to be formally on the IRB protocol.
+2. Any use or sharing of the data has to be part of the approved plan.
+3. Storage and protections of the data is part of the IRB application.
+4. The use of the data has to be covered in the IRB.
+5. Any relaxation of informed consent has to be approved.
+
+Of note, ethical considerations do not stop at the IRB. For example, deceased patients aren't subject to the same IRB scrutiny as live patients, yet some ethical considerations continue.
+
+### HIPAA 
+
+The Health Insurance Portability and Accountability Act of 1996 (HIPAA) 
+
+## Ethics in AI
+
+A meta review of ethics documents in AI [@jobin2019artificial] labeled 11 principles underlying ethical AI. These were:
+
++ transparency
++ justice and fairness
++ non maleficence
++ responsibility
++ privacy
++ beneficience 
++ freedom and autonomy
++ trust
++ sustainability
++ dignity
++ solidarity
+
+## Fairness in AI
+
+The following statements guide fairness in AI
+
++ Whatever biases exist in the data generating process will exist in the algorithm
++ Omitting a protected class from the training of an algorithm doesn't remove its influence
 
 
+### Acronyms
+
+* HIPAA - The Health Insurance Portability and Accountability Act of 1996 (HIPAA)
+* PII - personally identified information
+* PHI - protected health information

@@ -268,6 +268,7 @@ RNNs have many variations, the same as linear time series models. They are calle
 
 ```{python}
 #| echo: false
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
@@ -439,7 +440,6 @@ Here's the RNN from their tutorial
 ```{python}
 import torch.nn as nn
 
-
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(RNN, self).__init__()
@@ -460,7 +460,7 @@ class RNN(nn.Module):
     def initHidden(self):
         return torch.zeros(1, self.hidden_size)
 
-n_hidden = 128
+n_hidden = 256
 rnn = RNN(n_letters, n_hidden, n_letters)
 
 test_hidden = rnn.initHidden()
@@ -474,14 +474,13 @@ print(rnn.forward(test_input_val, test_hidden))
 import torch.optim as optim
 
 criterion = nn.NLLLoss()
+#criterion = nn.CrossEntropyLoss()
 
-learning_rate = 1e-3
-epochs = 1000
+learning_rate = 1e-4
+epochs = 1000 
 batch_size = 100
 
-optimizer = optim.SGD(rnn.parameters(), 
-    lr = learning_rate, 
-    momentum=0.9)
+optimizer = optim.Adam(rnn.parameters(),  lr = learning_rate)
 
 ## This runs the first few characters of a word
 ## through the RNN
@@ -515,11 +514,20 @@ for epoch in range(epochs):
 
 Try some words:
 ```{python}
-for i in range(10):
-    ## get the predictor 
+## The confusion matrix
+cm = np.zeros( (n_letters, n_letters) )
+for i in range(1000):
     input_tensor = predictor_list[i]
     output = predict(input_tensor)[0]
-    guess = letters[torch.argmax(output)]
-    print( (text_words[i], guess) )
+    actual = letters.find(text_words[i][-1])
+    guess = torch.argmax(output)
+    cm[actual, guess] += 1
 
+plt.imshow(cm)
+plt.xticks([])
+plt.yticks([])
+```
+
+```{python}
+np.sum(np.diag(cm)) / np.sum(cm)
 ```
